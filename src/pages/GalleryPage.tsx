@@ -19,7 +19,7 @@ export const GalleryPage: React.FC = () => {
   const [activeImageIdx, setActiveImageIdx] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const categories = ["all", "Hospital", "Infrastructure", "Doctors", "Technology", "Facilities"];
+  const categories = ["all", "Hospital", "Infrastructure", "Doctors", "Technology", "Facilities", "Flyers"];
 
   useEffect(() => {
     const fetchGallery = async () => {

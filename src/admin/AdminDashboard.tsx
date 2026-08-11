@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { 
   LayoutDashboard, Users, Layers, BookOpen, Image as ImageIcon, 
-  Settings, Mail, LogOut, Trash2, Edit, Heart, Calendar
+  Settings, Mail, LogOut, Trash2, Edit, Heart, Calendar, Menu, X
 } from "lucide-react";
 
 export const AdminDashboard: React.FC = () => {
@@ -21,6 +21,12 @@ export const AdminDashboard: React.FC = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("sarvamcare_admin_token");
   const username = localStorage.getItem("sarvamcare_admin_user") || "Admin";
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const selectTab = (tabName: string) => {
+    setActiveTab(tabName);
+    setIsSidebarOpen(false);
+  };
 
   // CRUD Lists
   const [doctorsList, setDoctorsList] = useState<any[]>([]);
@@ -414,79 +420,112 @@ export const AdminDashboard: React.FC = () => {
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
-      <div className="min-h-screen bg-slate-100 flex font-sans">
+      <div className="min-h-screen bg-slate-100 flex flex-col lg:flex-row font-sans relative overflow-x-hidden">
         
+        {/* Mobile Header Bar */}
+        <header className="bg-[#32105F] text-white px-6 py-4 flex items-center justify-between lg:hidden shrink-0 border-b border-indigo-900/50 z-30">
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={() => setIsSidebarOpen(true)}
+              className="p-2 -ml-2 text-indigo-200 hover:text-white rounded-lg transition-colors"
+            >
+              <Menu className="h-6 w-6" />
+            </button>
+            <span className="font-serif font-bold text-sm tracking-wide">SarvamCare CMS</span>
+          </div>
+          <span className="text-[10px] bg-white/10 text-[#F3D98A] border border-white/5 px-2 py-0.5 rounded-full font-bold">
+            Logged: {username}
+          </span>
+        </header>
+
+        {/* Sidebar Overlay Backdrop on Mobile */}
+        {isSidebarOpen && (
+          <div 
+            className="fixed inset-0 bg-black/60 z-40 lg:hidden backdrop-blur-sm transition-opacity duration-300"
+            onClick={() => setIsSidebarOpen(false)}
+          />
+        )}
+
         {/* Sidebar */}
-        <aside className="w-64 bg-[#32105F] text-indigo-100 flex flex-col shrink-0">
-          <div className="p-6 border-b border-indigo-900/50 flex items-center gap-3">
-            <div className="h-8 w-8 rounded-full bg-white flex items-center justify-center font-serif text-[#32105F] font-bold text-xs">
-              SC
+        <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#32105F] text-indigo-100 flex flex-col shrink-0 transition-transform duration-300 transform lg:static lg:translate-x-0 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
+          <div className="p-6 border-b border-indigo-900/50 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="h-8 w-8 rounded-full bg-white flex items-center justify-center font-serif text-[#32105F] font-bold text-xs">
+                SC
+              </div>
+              <div>
+                <h2 className="text-xs font-bold uppercase tracking-wider text-white">SarvamCare CMS</h2>
+                <span className="text-[10px] text-[#F3D98A] font-light">Logged: {username}</span>
+              </div>
             </div>
-            <div>
-              <h2 className="text-xs font-bold uppercase tracking-wider text-white">SarvamCare CMS</h2>
-              <span className="text-[10px] text-[#F3D98A] font-light">Logged: {username}</span>
-            </div>
+            {/* Close button on mobile sidebar */}
+            <button 
+              onClick={() => setIsSidebarOpen(false)}
+              className="p-1 hover:bg-white/10 rounded-lg lg:hidden text-indigo-200 hover:text-white transition-colors"
+            >
+              <X className="h-5 w-5" />
+            </button>
           </div>
 
           <nav className="flex-grow p-4 space-y-1">
             <button 
-              onClick={() => setActiveTab("dashboard")}
+              onClick={() => selectTab("dashboard")}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-semibold tracking-wide transition-colors ${activeTab === "dashboard" ? "bg-white/10 text-white" : "hover:bg-white/5"}`}
             >
               <LayoutDashboard className="h-4 w-4" />
               <span>Dashboard</span>
             </button>
             <button 
-              onClick={() => setActiveTab("doctors")}
+              onClick={() => selectTab("doctors")}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-semibold tracking-wide transition-colors ${activeTab === "doctors" ? "bg-white/10 text-white" : "hover:bg-white/5"}`}
             >
               <Users className="h-4 w-4" />
               <span>Doctors</span>
             </button>
             <button 
-              onClick={() => setActiveTab("departments")}
+              onClick={() => selectTab("departments")}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-semibold tracking-wide transition-colors ${activeTab === "departments" ? "bg-white/10 text-white" : "hover:bg-white/5"}`}
             >
               <Layers className="h-4 w-4" />
               <span>Departments</span>
             </button>
             <button 
-              onClick={() => setActiveTab("packages")}
+              onClick={() => selectTab("packages")}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-semibold tracking-wide transition-colors ${activeTab === "packages" ? "bg-white/10 text-white" : "hover:bg-white/5"}`}
             >
               <Heart className="h-4 w-4" />
               <span>Packages</span>
             </button>
             <button 
-              onClick={() => setActiveTab("blogs")}
+              onClick={() => selectTab("blogs")}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-semibold tracking-wide transition-colors ${activeTab === "blogs" ? "bg-white/10 text-white" : "hover:bg-white/5"}`}
             >
               <BookOpen className="h-4 w-4" />
               <span>Blog CMS</span>
             </button>
             <button 
-              onClick={() => setActiveTab("gallery")}
+              onClick={() => selectTab("gallery")}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-semibold tracking-wide transition-colors ${activeTab === "gallery" ? "bg-white/10 text-white" : "hover:bg-white/5"}`}
             >
               <ImageIcon className="h-4 w-4" />
               <span>Gallery</span>
             </button>
             <button 
-              onClick={() => setActiveTab("appointments")}
+              onClick={() => selectTab("appointments")}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-semibold tracking-wide transition-colors ${activeTab === "appointments" ? "bg-white/10 text-white" : "hover:bg-white/5"}`}
             >
               <Calendar className="h-4 w-4" />
               <span>Appointments</span>
             </button>
             <button 
-              onClick={() => setActiveTab("enquiries")}
+              onClick={() => selectTab("enquiries")}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-semibold tracking-wide transition-colors ${activeTab === "enquiries" ? "bg-white/10 text-white" : "hover:bg-white/5"}`}
             >
               <Mail className="h-4 w-4" />
               <span>Enquiries</span>
             </button>
             <button 
-              onClick={() => setActiveTab("settings")}
+              onClick={() => selectTab("settings")}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-semibold tracking-wide transition-colors ${activeTab === "settings" ? "bg-white/10 text-white" : "hover:bg-white/5"}`}
             >
               <Settings className="h-4 w-4" />
@@ -948,6 +987,7 @@ export const AdminDashboard: React.FC = () => {
                       <option value="Doctors">Doctors</option>
                       <option value="Technology">Technology</option>
                       <option value="Facilities">Facilities</option>
+                      <option value="Flyers">Flyers</option>
                     </select>
                   </div>
                   <div className="space-y-1">

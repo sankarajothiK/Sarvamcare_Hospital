@@ -21,6 +21,14 @@ export const Announcement: React.FC = () => {
             </span>
           </span>
           
+          <Link
+            to="/login"
+            title="Admin Portal"
+            className="p-1.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/15 text-indigo-200 hover:text-white transition-colors duration-200 flex items-center justify-center pointer-events-auto"
+          >
+            <Lock className="h-3.5 w-3.5 text-[#D8B35A]" />
+          </Link>
+          
           <span className="hidden sm:flex items-center gap-1.5 text-xs text-indigo-200/80 font-light">
             <MapPin className="h-3.5 w-3.5 text-brand-purple-light" />
             <span>Salem Bangalore Highway, Mamangam, Salem</span>
@@ -37,13 +45,6 @@ export const Announcement: React.FC = () => {
             <Phone className="h-3 w-3 text-brand-purple animate-pulse" />
             <span>{contactInfo.phone}</span>
           </a>
-          <Link
-            to="/login"
-            title="Admin Portal"
-            className="p-1.5 rounded-full hover:bg-white/15 text-indigo-200 hover:text-white transition-colors duration-200 flex items-center justify-center"
-          >
-            <Lock className="h-3.5 w-3.5 text-[#D8B35A]" />
-          </Link>
         </div>
 
       </div>
