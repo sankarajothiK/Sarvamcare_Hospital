@@ -1,4 +1,5 @@
 import express from "express";
+import fs from "fs";
 import mongoose from "mongoose";
 import cors from "cors";
 import path from "path";
@@ -6,7 +7,7 @@ import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 import bcrypt from "bcryptjs";
 import apiRoutes from "./routes.js";
-import { Admin, Department, Doctor, HealthPackage, BlogPost, GalleryImage } from "./models.js";
+import { Admin, Department, Doctor, HealthPackage, BlogPost, GalleryImage, SEOSettings } from "./models.js";
 
 // Load environment variables
 dotenv.config();
@@ -228,12 +229,42 @@ mongoose
 if (process.env.NODE_ENV === "production" || true) {
   app.use(express.static(path.join(__dirname, "../dist")));
   
-  app.get("*", (req, res, next) => {
+  app.get("*", async (req, res, next) => {
     // Exclude API, robots, and sitemap routes
     if (req.path.startsWith("/api") || req.path === "/sitemap.xml" || req.path === "/robots.txt") {
       return next();
     }
-    res.sendFile(path.join(__dirname, "../dist/index.html"));
+    
+    try {
+      const indexPath = path.join(__dirname, "../dist/index.html");
+      if (fs.existsSync(indexPath)) {
+        let html = fs.readFileSync(indexPath, "utf8");
+        
+        // Fetch SEO settings from database
+        const seo = await SEOSettings.findOne();
+        if (seo) {
+          let metaTags = "";
+          if (seo.googleVerification) {
+            metaTags += `\n    <meta name="google-site-verification" content="${seo.googleVerification}" />`;
+          }
+          if (seo.globalTitle) {
+            html = html.replace(/<title>.*?<\/title>/, `<title>${seo.globalTitle}</title>`);
+          }
+          if (seo.globalDescription) {
+            // Replace description meta tag
+            html = html.replace(/<meta name="description" content=".*?" \/>/, `<meta name="description" content="${seo.globalDescription}" />`);
+          }
+          if (metaTags) {
+            html = html.replace("</head>", `${metaTags}\n  </head>`);
+          }
+        }
+        return res.send(html);
+      }
+      res.sendFile(indexPath);
+    } catch (err) {
+      console.error("SEO Injector error:", err);
+      res.sendFile(path.join(__dirname, "../dist/index.html"));
+    }
   });
 }
 
