@@ -1,6 +1,5 @@
 import React from "react";
-import { Phone, MapPin, ShieldAlert, Lock } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Phone, MapPin, ShieldAlert } from "lucide-react";
 import { contactInfo } from "../data/contact";
 
 export const Announcement: React.FC = () => {
@@ -20,14 +19,6 @@ export const Announcement: React.FC = () => {
               <span>24/7 Trauma & Emergency Active</span>
             </span>
           </span>
-          
-          <Link
-            to="/login"
-            title="Admin Portal"
-            className="p-1.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/15 text-indigo-200 hover:text-white transition-colors duration-200 flex items-center justify-center pointer-events-auto"
-          >
-            <Lock className="h-3.5 w-3.5 text-[#D8B35A]" />
-          </Link>
           
           <span className="hidden sm:flex items-center gap-1.5 text-xs text-indigo-200/80 font-light">
             <MapPin className="h-3.5 w-3.5 text-brand-purple-light" />

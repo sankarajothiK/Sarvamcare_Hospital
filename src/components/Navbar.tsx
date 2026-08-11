@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Menu, X, Calendar } from "lucide-react";
+import { Menu, X, Calendar, Lock } from "lucide-react";
 import { contactInfo } from "../data/contact";
 
 export const Navbar: React.FC = () => {
@@ -68,6 +68,15 @@ export const Navbar: React.FC = () => {
       >
         {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
       </button>
+
+      {/* Floating Admin Lock Button (Top-Left Circular Trigger, Opposite of Menu Toggle) */}
+      <Link
+        to="/login"
+        className="fixed top-6 left-6 z-50 flex items-center justify-center h-12 w-12 rounded-full bg-[#32105F] border-2 border-[#D8B35A] text-[#D8B35A] hover:bg-[#3D176E] shadow-2xl hover:scale-105 active:scale-95 transition-all pointer-events-auto cursor-pointer"
+        title="Admin Portal"
+      >
+        <Lock className="h-5 w-5" />
+      </Link>
 
       {/* Backdrop Overlay when Vertical Dropdown is active */}
       {isMenuOpen && (
