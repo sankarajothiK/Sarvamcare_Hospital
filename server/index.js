@@ -220,6 +220,65 @@ mongoose
       await BlogPost.insertMany(mockBlogs);
       console.log("Health articles seeded!");
     }
+
+    // Seed gallery images if empty
+    const galleryCount = await GalleryImage.countDocuments();
+    if (galleryCount === 0) {
+      console.log("Seeding default gallery images...");
+      const mockGallery = [
+        {
+          title: "Modern Hospital Entrance & Facade",
+          description: "SarvamCare Hospital entrance showing safe drop-off bays and clean architectural layout.",
+          category: "Infrastructure",
+          imageUrl: "/facilities/hospital_exterior.jpg",
+          altText: "SarvamCare Hospital Entrance"
+        },
+        {
+          title: "Advanced Modular Operating Theatre",
+          description: "Neurosurgery-calibrated sterile operating suite featuring positive airflow filtration.",
+          category: "Facilities",
+          imageUrl: "/facilities/operating_theatre.jpg",
+          altText: "Modular Operating Theatre"
+        },
+        {
+          title: "Intensive Care Unit (ICU)",
+          description: "14-bed Hybrid critical care unit with dedicated monitoring workstations.",
+          category: "Facilities",
+          imageUrl: "/facilities/icu_unit.jpg",
+          altText: "Dedicated Critical Care ICU"
+        },
+        {
+          title: "High-Speed 32-Slice CT Scanner",
+          description: "GE Revolution diagnostics for rapid trauma and brain scan procedures.",
+          category: "Technology",
+          imageUrl: "/facilities/diagnostic_imaging.jpg",
+          altText: "Diagnostic CT Scan Machine"
+        },
+        {
+          title: "Automated Clinical Pathology Laboratory",
+          description: "Advanced diagnostic testing analyzers for blood panel assessments.",
+          category: "Technology",
+          imageUrl: "/facilities/modern_laboratory.jpg",
+          altText: "High-Tech Diagnostics Laboratory"
+        },
+        {
+          title: "Premium Patient Recovery Suite",
+          description: "Private single patient room featuring comfortable recovery beds and wooden finishes.",
+          category: "Facilities",
+          imageUrl: "/facilities/patient_room.jpg",
+          altText: "Private Patient Suite"
+        },
+        {
+          title: "Senior Clinical Consultants Panel",
+          description: "Experienced neurosurgeons, orthopaedicians, and critical care specialists during clinical reviews.",
+          category: "Doctors",
+          imageUrl: "/sarvam_logo.jpg",
+          altText: "Senior Consultants Panel"
+        }
+      ];
+      await GalleryImage.insertMany(mockGallery);
+      console.log("Default gallery images seeded!");
+    }
   })
   .catch(err => {
     console.error("MongoDB connection failed:", err);
