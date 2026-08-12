@@ -20,7 +20,7 @@ export const departments: Department[] = [
   },
   {
     id: "psychiatry",
-    name: "Psychiatry",
+    name: "Psychiatry & Clinical Psychology",
     iconName: "Smile",
     description: "Expert diagnosis and support for mental health, behavioral, and cognitive disorders."
   },

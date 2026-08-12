@@ -123,15 +123,15 @@ mongoose
     console.log(`Password: ${adminPassword}`);
     console.log("----------------------------------------");
 
-    // Seed departments if empty
+    // Seed departments if empty or outdated
     const deptCount = await Department.countDocuments();
-    if (deptCount < 14) {
+    if (deptCount < 14 || !(await Department.findOne({ name: "Psychiatry & Clinical Psychology" }))) {
       console.log("Seeding clinical departments...");
       await Department.deleteMany({}); // Reset for full seed
       const mockDepts = [
         { name: "Neurosurgery", tamilName: "நரம்பியல் அறுவை சிகிச்சை", slug: "neurosurgery", description: "Brain and Spine Neurosurgery Center", icon: "Brain", services: ["Microscopic Neurosurgery", "Spine Reconstruction", "Stroke Management", "Tumor Removals"] },
         { name: "Neurology", tamilName: "நரம்பியல்", slug: "neurology", description: "Neurology Center & Stroke Diagnostics", icon: "Activity", services: ["Stroke Management", "EEG", "Epilepsy care"] },
-        { name: "Psychiatry", tamilName: "மனநல மருத்துவம்", slug: "psychiatry", description: "Mind and Behavioral Wellness Center", icon: "Smile", services: ["Clinical Psychology", "Behavior Therapy"] },
+        { name: "Psychiatry & Clinical Psychology", tamilName: "மனநல மருத்துவம்", slug: "psychiatry", description: "Mind and Behavioral Wellness Center", icon: "Smile", services: ["Clinical Psychology", "Behavior Therapy"] },
         { name: "Plastic Surgery", tamilName: "ஒட்டுறுப்பு அறுவைசிகிச்சை", slug: "plastic-surgery", description: "Cleft Care & Reconstructive Surgeries", icon: "Scissors", services: ["Smiling Monk Cleft Project", "Microvascular Reconstruction"] },
         { name: "Orthopaedics", tamilName: "எலும்பு & மூட்டு மருத்துவம்", slug: "orthopaedics", description: "Fracture Clinic & Joint Replacement Center", icon: "Bone", services: ["Polytrauma Fixations", "Joint Replacements"] },
         { name: "Faciomaxillary Surgery", tamilName: "முகசீரமைப்பு அறுவைசிகிச்சை", slug: "faciomaxillary", description: "Advanced Craniofacial Surgery", icon: "Smile", services: ["Jaw Alignment", "Facial Trauma Reconstruction"] },
