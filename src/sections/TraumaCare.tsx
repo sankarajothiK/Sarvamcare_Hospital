@@ -11,7 +11,7 @@ export const TraumaCare: React.FC = () => {
     { title: "Acute Spine & Cord Injury", desc: "Surgical decompression and instrumentation of spinal cord fractures." },
     { title: "Severe Orthopaedic Injuries", desc: "Rapid reconstruction of complex compound, pelvic, and multiple bone fractures." },
     { title: "Thoracic & Chest Trauma", desc: "Emergency interventions for lung, rib cage, and internal airway damage." },
-    { title: "Abdominal Hemorrhage", desc: "Emergency laparotomy for visceral organ trauma and arterial bleeders." }
+    { title: "Abdominal Injuries", desc: "Emergency laparotomy for visceral organ trauma and arterial bleeders." }
   ];
 
   const roles = [
