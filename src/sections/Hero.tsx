@@ -18,7 +18,7 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section className="relative overflow-hidden bg-[#240d47] pt-24 md:pt-40 pb-20 md:pb-40 lg:pb-48 min-h-screen md:min-h-[680px] flex items-center font-sans">
+    <section className="relative overflow-hidden bg-[#240d47] lg:bg-white pt-24 md:pt-40 pb-20 md:pb-40 lg:pb-48 min-h-screen md:min-h-[680px] flex items-center font-sans">
       
       {/* Background Visual Layering */}
       <div className="absolute inset-0 pointer-events-none z-0">
@@ -37,7 +37,7 @@ export const Hero: React.FC = () => {
 
         {/* Desktop screens (1024px and above) */}
         <div 
-          className="absolute inset-x-0 top-0 bottom-[-60px] bg-cover bg-no-repeat lg:bg-center lg:bg-[size:102%] hidden lg:block opacity-100 transition-opacity duration-300"
+          className="absolute inset-0 bg-contain bg-right bg-no-repeat bg-white hidden lg:block opacity-100 transition-opacity duration-300"
           style={{ backgroundImage: "url('/background.png')" }}
         />
 
