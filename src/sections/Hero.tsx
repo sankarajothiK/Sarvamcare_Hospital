@@ -37,7 +37,7 @@ export const Hero: React.FC = () => {
 
         {/* Desktop screens (1024px and above) */}
         <div 
-          className="absolute inset-x-0 top-0 bottom-[-60px] bg-cover bg-no-repeat lg:bg-center lg:bg-[size:103%] hidden lg:block opacity-100 transition-opacity duration-300"
+          className="absolute inset-x-0 top-0 bottom-[-60px] bg-cover bg-no-repeat lg:bg-center lg:bg-[size:112%] hidden lg:block opacity-100 transition-opacity duration-300"
           style={{ backgroundImage: "url('/background.png')" }}
         />
 
