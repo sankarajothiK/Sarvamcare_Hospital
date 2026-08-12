@@ -221,10 +221,21 @@ mongoose
       console.log("Health articles seeded!");
     }
 
-    // Seed gallery images if empty
+    // Seed gallery images if empty or outdated
     const galleryCount = await GalleryImage.countDocuments();
-    if (galleryCount === 0) {
+    if (galleryCount < 10) {
       console.log("Seeding default gallery images...");
+      if (galleryCount > 0) {
+        await GalleryImage.deleteMany({ imageUrl: { $in: [
+          "/facilities/hospital_exterior.jpg",
+          "/facilities/operating_theatre.jpg",
+          "/facilities/icu_unit.jpg",
+          "/facilities/diagnostic_imaging.jpg",
+          "/facilities/modern_laboratory.jpg",
+          "/facilities/patient_room.jpg",
+          "/sarvam_logo.jpg"
+        ] } });
+      }
       const mockGallery = [
         {
           title: "Modern Hospital Entrance & Facade",
@@ -232,6 +243,13 @@ mongoose
           category: "Infrastructure",
           imageUrl: "/facilities/hospital_exterior.jpg",
           altText: "SarvamCare Hospital Entrance"
+        },
+        {
+          title: "Main Hospital Entrance Ramp",
+          description: "Designed for premium accessibility with dedicated wheelchair-friendly ramps and safe patient drop-off zones.",
+          category: "Infrastructure",
+          imageUrl: "/sarvam_building_exterior.png",
+          altText: "Main Hospital Entrance Ramp"
         },
         {
           title: "Advanced Modular Operating Theatre",
@@ -248,6 +266,20 @@ mongoose
           altText: "Dedicated Critical Care ICU"
         },
         {
+          title: "Premium Patient Recovery Suite",
+          description: "Private single patient room featuring comfortable recovery beds and wooden finishes.",
+          category: "Facilities",
+          imageUrl: "/facilities/patient_room.jpg",
+          altText: "Private Patient Suite"
+        },
+        {
+          title: "Emergency Trauma Reception Area",
+          description: "Spacious emergency reception lobby designed for quick patient registration and triage assessment.",
+          category: "Facilities",
+          imageUrl: "/hospital_hero_lobby.jpg",
+          altText: "Emergency Trauma Reception Area"
+        },
+        {
           title: "High-Speed 32-Slice CT Scanner",
           description: "GE Revolution diagnostics for rapid trauma and brain scan procedures.",
           category: "Technology",
@@ -262,11 +294,11 @@ mongoose
           altText: "High-Tech Diagnostics Laboratory"
         },
         {
-          title: "Premium Patient Recovery Suite",
-          description: "Private single patient room featuring comfortable recovery beds and wooden finishes.",
-          category: "Facilities",
-          imageUrl: "/facilities/patient_room.jpg",
-          altText: "Private Patient Suite"
+          title: "Trauma Care & Neuro Center Board",
+          description: "Official signage board highlighting the neurosurgery and trauma care specializations of SarvamCare Hospital.",
+          category: "Technology",
+          imageUrl: "/sarvam_trauma_neuro_board.png",
+          altText: "Trauma Care & Neuro Center Board"
         },
         {
           title: "Senior Clinical Consultants Panel",
@@ -274,6 +306,13 @@ mongoose
           category: "Doctors",
           imageUrl: "/sarvam_logo.jpg",
           altText: "Senior Consultants Panel"
+        },
+        {
+          title: "SarvamCare Hospital Sunset Campus",
+          description: "Exterior view of the state-of-the-art building situated on Salem Bangalore Highway.",
+          category: "Hospital",
+          imageUrl: "/sarvam_hero_bg.jpg",
+          altText: "SarvamCare Hospital Sunset Campus"
         }
       ];
       await GalleryImage.insertMany(mockGallery);

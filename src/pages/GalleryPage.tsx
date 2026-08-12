@@ -45,6 +45,15 @@ export const GalleryPage: React.FC = () => {
           },
           {
             _id: "img2",
+            title: "Main Hospital Entrance Ramp",
+            description: "Designed for premium accessibility with dedicated wheelchair-friendly ramps and safe patient drop-off zones.",
+            category: "Infrastructure",
+            tags: ["Ramp", "Infrastructure", "Access"],
+            imageUrl: "/sarvam_building_exterior.png",
+            altText: "Main Hospital Entrance Ramp"
+          },
+          {
+            _id: "img3",
             title: "Advanced Modular Operating Theatre",
             description: "Neurosurgery-calibrated sterile operating suite featuring positive airflow filtration.",
             category: "Facilities",
@@ -53,7 +62,7 @@ export const GalleryPage: React.FC = () => {
             altText: "Modular Operating Theatre"
           },
           {
-            _id: "img3",
+            _id: "img4",
             title: "Intensive Care Unit (ICU)",
             description: "14-bed Hybrid critical care unit with dedicated monitoring workstations.",
             category: "Facilities",
@@ -62,25 +71,7 @@ export const GalleryPage: React.FC = () => {
             altText: "Dedicated Critical Care ICU"
           },
           {
-            _id: "img4",
-            title: "High-Speed 32-Slice CT Scanner",
-            description: "GE Revolution diagnostics for rapid trauma and brain scan procedures.",
-            category: "Technology",
-            tags: ["Diagnostics", "CTScan", "Technology"],
-            imageUrl: "/facilities/diagnostic_imaging.jpg",
-            altText: "Diagnostic CT Scan Machine"
-          },
-          {
             _id: "img5",
-            title: "Automated Clinical Pathology Laboratory",
-            description: "Advanced diagnostic testing analyzers for blood panel assessments.",
-            category: "Technology",
-            tags: ["Lab", "Pathology", "Diagnostics"],
-            imageUrl: "/facilities/modern_laboratory.jpg",
-            altText: "High-Tech Diagnostics Laboratory"
-          },
-          {
-            _id: "img6",
             title: "Premium Patient Recovery Suite",
             description: "Private single patient room featuring comfortable recovery beds and wooden finishes.",
             category: "Facilities",
@@ -89,13 +80,58 @@ export const GalleryPage: React.FC = () => {
             altText: "Private Patient Suite"
           },
           {
+            _id: "img6",
+            title: "Emergency Trauma Reception Area",
+            description: "Spacious emergency reception lobby designed for quick patient registration and triage assessment.",
+            category: "Facilities",
+            tags: ["Lobby", "Emergency", "Reception"],
+            imageUrl: "/hospital_hero_lobby.jpg",
+            altText: "Emergency Trauma Reception Area"
+          },
+          {
             _id: "img7",
+            title: "High-Speed 32-Slice CT Scanner",
+            description: "GE Revolution diagnostics for rapid trauma and brain scan procedures.",
+            category: "Technology",
+            tags: ["Diagnostics", "CTScan", "Technology"],
+            imageUrl: "/facilities/diagnostic_imaging.jpg",
+            altText: "Diagnostic CT Scan Machine"
+          },
+          {
+            _id: "img8",
+            title: "Automated Clinical Pathology Laboratory",
+            description: "Advanced diagnostic testing analyzers for blood panel assessments.",
+            category: "Technology",
+            tags: ["Lab", "Pathology", "Diagnostics"],
+            imageUrl: "/facilities/modern_laboratory.jpg",
+            altText: "High-Tech Diagnostics Laboratory"
+          },
+          {
+            _id: "img9",
+            title: "Trauma Care & Neuro Center Board",
+            description: "Official signage board highlighting the neurosurgery and trauma care specializations of SarvamCare Hospital.",
+            category: "Technology",
+            tags: ["TraumaCare", "NeuroCenter", "Salem"],
+            imageUrl: "/sarvam_trauma_neuro_board.png",
+            altText: "Trauma Care & Neuro Center Board"
+          },
+          {
+            _id: "img10",
             title: "Senior Clinical Consultants Panel",
             description: "Experienced neurosurgeons, orthopaedicians, and critical care specialists during clinical reviews.",
             category: "Doctors",
             tags: ["Consultants", "Doctors", "Team"],
             imageUrl: "/sarvam_logo.jpg",
             altText: "Senior Consultants Panel"
+          },
+          {
+            _id: "img11",
+            title: "SarvamCare Hospital Sunset Campus",
+            description: "Exterior view of the state-of-the-art building situated on Salem Bangalore Highway.",
+            category: "Hospital",
+            tags: ["Campus", "Exterior", "Sunset"],
+            imageUrl: "/sarvam_hero_bg.jpg",
+            altText: "SarvamCare Hospital Sunset Campus"
           }
         ];
         setImages(fallbackImages);
