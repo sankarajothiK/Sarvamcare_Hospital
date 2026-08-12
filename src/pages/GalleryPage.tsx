@@ -141,6 +141,9 @@ export const GalleryPage: React.FC = () => {
                     src={img.imageUrl}
                     alt={img.altText || img.title}
                     loading="lazy"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = "/sarvam_building_exterior.png";
+                    }}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#120626]/90 via-[#120626]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
@@ -199,6 +202,9 @@ export const GalleryPage: React.FC = () => {
               <img
                 src={filteredImages[activeImageIdx].imageUrl}
                 alt={filteredImages[activeImageIdx].altText}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = "/sarvam_building_exterior.png";
+                }}
                 className="max-w-full max-h-[70vh] object-contain rounded-xl shadow-2xl border border-white/5"
               />
               <div className="text-center max-w-lg">

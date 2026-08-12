@@ -962,7 +962,14 @@ export const AdminDashboard: React.FC = () => {
                     />
                     {galForm.imageUrl && (
                       <div className="flex items-center gap-3.5 p-3 bg-slate-50 border border-slate-200 rounded-xl mt-2 animate-fade-in">
-                        <img src={galForm.imageUrl} alt="Preview" className="w-12 h-12 rounded-lg object-cover border border-slate-300" />
+                        <img 
+                           src={galForm.imageUrl} 
+                           alt="Preview" 
+                           onError={(e) => {
+                             (e.target as HTMLImageElement).src = "/sarvam_building_exterior.png";
+                           }}
+                           className="w-12 h-12 rounded-lg object-cover border border-slate-300" 
+                         />
                         <div className="flex flex-col gap-1">
                           <span className="text-[9px] text-green-600 font-bold uppercase tracking-wider flex items-center gap-1">✓ Uploaded Successfully</span>
                           <button 
@@ -1012,7 +1019,14 @@ export const AdminDashboard: React.FC = () => {
                   <div className="grid grid-cols-2 gap-4">
                     {galleryList.map(img => (
                       <div key={img._id} className="p-3 border border-slate-100 rounded-xl relative group">
-                        <img src={img.imageUrl} alt={img.altText} className="w-full h-24 object-cover rounded-lg" />
+                        <img 
+                           src={img.imageUrl} 
+                           alt={img.altText} 
+                           onError={(e) => {
+                             (e.target as HTMLImageElement).src = "/sarvam_building_exterior.png";
+                           }}
+                           className="w-full h-24 object-cover rounded-lg" 
+                         />
                         <div className="mt-2 text-[10px] font-bold text-[#32105F] truncate">{img.title}</div>
                         <button onClick={() => deleteGalleryImage(img._id)} className="absolute top-5 right-5 p-1.5 bg-red-600 text-white rounded-full hover:bg-red-800 shadow"><Trash2 className="h-3 w-3" /></button>
                       </div>
