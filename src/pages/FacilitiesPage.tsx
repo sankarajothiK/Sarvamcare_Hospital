@@ -69,18 +69,31 @@ export const FacilitiesPage: React.FC = () => {
             {facilities.map((fac) => {
               const Icon = (LucideIcons as any)[fac.iconName] || LucideIcons.HeartPulse;
               return (
-                <div key={fac.id} className="p-6 rounded-2xl border border-[#EDE4F7] bg-white hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
-                  <div className="space-y-4">
-                    <div className="p-3 rounded-xl bg-[#FAF7FF] text-[#D8B35A] border border-[#D8B35A]/25 w-fit group-hover:bg-[#32105F] group-hover:text-white transition-colors duration-300">
-                      <Icon className="h-6 w-6" />
+                <div key={fac.id} className="p-4 rounded-2xl border border-[#EDE4F7] bg-white hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
+                  <div>
+                    {/* Facility Image with hover zoom */}
+                    <div className="relative aspect-[16/10] w-full rounded-xl overflow-hidden mb-4 border border-slate-100 shadow-sm">
+                      <img 
+                        src={fac.imageUrl} 
+                        alt={fac.name} 
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
                     </div>
-                    <span className="text-[9px] text-[#6D2FA0] font-bold uppercase tracking-wider block">{fac.category}</span>
-                    <h3 className="font-serif text-sm sm:text-base font-bold text-[#32105F]">
-                      {fac.name}
-                    </h3>
-                    <p className="text-xs text-[#665A70] leading-relaxed font-light">
-                      {fac.description}
-                    </p>
+
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div className="p-2.5 rounded-lg bg-[#FAF7FF] text-[#D8B35A] border border-[#D8B35A]/25 w-fit group-hover:bg-[#32105F] group-hover:text-white transition-colors duration-300">
+                          <Icon className="h-5 w-5" />
+                        </div>
+                        <span className="text-[9px] text-[#6D2FA0] font-bold uppercase tracking-wider block">{fac.category}</span>
+                      </div>
+                      <h3 className="font-serif text-sm sm:text-base font-bold text-[#32105F]">
+                        {fac.name}
+                      </h3>
+                      <p className="text-xs text-[#665A70] leading-relaxed font-light">
+                        {fac.description}
+                      </p>
+                    </div>
                   </div>
                 </div>
               );

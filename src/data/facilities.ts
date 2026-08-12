@@ -4,49 +4,57 @@ export interface FacilityItem {
   category: string;
   iconName: string;
   description: string;
+  imageUrl: string;
 }
 
 export const facilities: FacilityItem[] = [
   {
-    id: "ct-scan",
-    name: "New GE Revolution Aspire Select 32 Slice CT",
-    category: "Diagnostics",
-    iconName: "Scan",
-    description: "High-speed, high-resolution diagnostic imaging providing clear cross-sectional analysis for rapid head and body trauma assessment."
+    id: "hospital-exterior",
+    name: "Modern Hospital Entrance & Facade",
+    category: "Infrastructure",
+    iconName: "Building",
+    description: "Designed for premium accessibility with dedicated emergency drop-off zones, patient access ramps, and clean architectural design.",
+    imageUrl: "/facilities/hospital_exterior.jpg"
   },
   {
     id: "operating-theatres",
-    name: "2 State of Art Modular Operation Theatres",
+    name: "State-of-the-Art Modular Operating Suites",
     category: "Surgical Suite",
     iconName: "Building",
-    description: "Equipped with positive pressure airflow, HEPA filtration, and modular wall systems to guarantee maximum sterility and patient safety during major surgeries."
-  },
-  {
-    id: "surgical-microscope",
-    name: "Carl Zeiss Neuro Surgical Operating Microscope",
-    category: "Precision Equipment",
-    iconName: "ZoomIn",
-    description: "Provides crystal clear illumination and magnification essential for intricate cranial neurosurgery, vascular anastomoses, and spinal microsurgeries."
-  },
-  {
-    id: "endoscopic-system",
-    name: "Storz Endoscopic System",
-    category: "Precision Equipment",
-    iconName: "Tv",
-    description: "German-engineered HD imaging endoscopic system for keyhole skull base procedures, intraventricular neurosurgery, and sinus corrections."
-  },
-  {
-    id: "electrocautery",
-    name: "Alsa Bologna Italian Electrocautery",
-    category: "Surgical Equipment",
-    iconName: "Zap",
-    description: "Precision electrosurgical unit from Italy offering highly regulated cutting and coagulation settings to minimize blood loss during operations."
+    description: "Equipped with positive pressure airflow, HEPA filtration, and modular wall systems to guarantee maximum sterility and patient safety during major surgeries.",
+    imageUrl: "/facilities/operating_theatre.jpg"
   },
   {
     id: "hybrid-icu",
-    name: "Dedicated 14 Beds Hybrid ICU",
+    name: "Dedicated 14-Bed Hybrid ICU Unit",
     category: "Critical Care",
     iconName: "HeartPulse",
-    description: "A continuous-monitoring critical care ward staffed by experienced intensivist-anaesthetists to support post-surgical recovery and severe trauma victims."
+    description: "Continuous-monitoring critical care suite staffed by experienced intensivist-anaesthetists to support post-surgical recovery and severe trauma victims.",
+    imageUrl: "/facilities/icu_unit.jpg"
+  },
+  {
+    id: "ct-scan",
+    name: "High-Speed 32-Slice CT Scan Center",
+    category: "Diagnostics",
+    iconName: "Scan",
+    description: "High-speed, high-resolution diagnostic imaging providing clear cross-sectional analysis for rapid head, neck, and body trauma assessment.",
+    imageUrl: "/facilities/diagnostic_imaging.jpg"
+  },
+  {
+    id: "modern-laboratory",
+    name: "Advanced Automated Pathology Lab",
+    category: "Diagnostics",
+    iconName: "Scan",
+    description: "Automated clinical testing analyzers and equipment for fast, highly accurate blood panel results, diagnostics, and microbiotic screening.",
+    imageUrl: "/facilities/modern_laboratory.jpg"
+  },
+  {
+    id: "patient-suites",
+    name: "Premium Private Patient Rooms & Suites",
+    category: "Patient Rooms",
+    iconName: "HeartPulse",
+    description: "Spacious private recovery rooms equipped with modern patient beds, warm wooden accents, natural lighting, and nursing call support.",
+    imageUrl: "/facilities/patient_room.jpg"
   }
 ];
+

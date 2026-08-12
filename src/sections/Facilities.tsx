@@ -50,32 +50,42 @@ export const Facilities: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.5, delay: index * 0.05 }}
-                className="group min-w-[280px] sm:min-w-[340px] max-w-[340px] snap-center relative p-8 rounded-3xl border border-[#EDE4F7] bg-white hover:shadow-2xl hover:-translate-y-1.5 hover:border-[#D8B35A] hover-glow-purple transition-all duration-500 flex flex-col justify-between shadow-sm"
+                className="group min-w-[280px] sm:min-w-[340px] max-w-[340px] snap-center relative p-5 rounded-3xl border border-[#EDE4F7] bg-white hover:shadow-2xl hover:-translate-y-1.5 hover:border-[#D8B35A] hover-glow-purple transition-all duration-500 flex flex-col justify-between shadow-sm"
               >
-                {/* Oversized elegant translucent number */}
-                <div className="font-serif text-8xl font-black text-[#32105F]/5 group-hover:text-[#D8B35A]/12 transition-colors duration-500 absolute -top-3 right-4 select-none pointer-events-none">
-                  {num}
-                </div>
-
-                <div className="space-y-6">
-                  {/* Category tag & Icon */}
-                  <div className="flex items-center justify-between">
-                    <div className="p-3 rounded-2xl bg-[#FAF7FF] text-[#6D2FA0] group-hover:bg-[#32105F] group-hover:text-[#D8B35A] transition-all duration-300 border border-[#EDE4F7]">
-                      <Icon className="h-6 w-6" />
+                <div>
+                  {/* Facility Image Container with Zoom effect */}
+                  <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden mb-5 border border-slate-100/50 shadow-inner">
+                    <img 
+                      src={item.imageUrl} 
+                      alt={item.name} 
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    {/* Floating elegant index badge */}
+                    <div className="absolute top-3 right-3 bg-[#32105F]/85 backdrop-blur-md text-[#D8B35A] text-[9px] font-mono px-2.5 py-0.5 rounded-full font-bold border border-[#D8B35A]/20">
+                      FACILITY {num}
                     </div>
-                    <span className="text-[9px] font-bold text-[#6D2FA0] bg-[#FAF7FF] border border-[#EDE4F7] px-2.5 py-1 rounded-full uppercase tracking-wider">
-                      {item.category}
-                    </span>
                   </div>
 
-                  {/* Name and Description */}
-                  <div className="space-y-2">
-                    <h3 className="font-serif text-lg font-bold text-[#32105F] leading-snug group-hover:text-[#6D2FA0] transition-colors duration-200">
-                      {item.name}
-                    </h3>
-                    <p className="text-xs text-[#665A70] leading-relaxed font-light font-sans line-clamp-3">
-                      {item.description}
-                    </p>
+                  <div className="space-y-4">
+                    {/* Category tag & Icon */}
+                    <div className="flex items-center justify-between">
+                      <div className="p-2.5 rounded-xl bg-[#FAF7FF] text-[#6D2FA0] group-hover:bg-[#32105F] group-hover:text-[#D8B35A] transition-all duration-300 border border-[#EDE4F7]">
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <span className="text-[9px] font-bold text-[#6D2FA0] bg-[#FAF7FF] border border-[#EDE4F7] px-2.5 py-1 rounded-full uppercase tracking-wider">
+                        {item.category}
+                      </span>
+                    </div>
+
+                    {/* Name and Description */}
+                    <div className="space-y-2">
+                      <h3 className="font-serif text-base sm:text-lg font-bold text-[#32105F] leading-snug group-hover:text-[#6D2FA0] transition-colors duration-200">
+                        {item.name}
+                      </h3>
+                      <p className="text-xs text-[#665A70] leading-relaxed font-light font-sans line-clamp-3">
+                        {item.description}
+                      </p>
+                    </div>
                   </div>
                 </div>
 
