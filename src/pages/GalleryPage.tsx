@@ -132,6 +132,42 @@ export const GalleryPage: React.FC = () => {
             tags: ["Campus", "Exterior", "Sunset"],
             imageUrl: "/sarvam_hero_bg.jpg",
             altText: "SarvamCare Hospital Sunset Campus"
+          },
+          {
+            _id: "img12",
+            title: "Neuron Center Precision & Horology",
+            description: "Inspiring microscopic precision in neurosurgery, reflecting high-quality horological watchmaking standards.",
+            category: "Flyers",
+            tags: ["Flyer", "Neurosurgery", "Precision"],
+            imageUrl: "/gallery/flyers/flyer_1.jpg",
+            altText: "Neuron Center Precision & Horology"
+          },
+          {
+            _id: "img13",
+            title: "Back Pain Awareness & Care",
+            description: "Advanced spinal assessments and minimally invasive neurosurgical evaluations for persistent back pain.",
+            category: "Flyers",
+            tags: ["Flyer", "Spine", "BackPain"],
+            imageUrl: "/gallery/flyers/flyer_2.jpg",
+            altText: "Back Pain Awareness & Care"
+          },
+          {
+            _id: "img14",
+            title: "Timely Brain & Spine Interventions",
+            description: "Clinical guidelines on the importance of early diagnosis and specialized microscopic surgeries.",
+            category: "Flyers",
+            tags: ["Flyer", "Clinical", "Surgery"],
+            imageUrl: "/gallery/flyers/flyer_3.jpg",
+            altText: "Timely Brain & Spine Interventions"
+          },
+          {
+            _id: "img15",
+            title: "Trigeminal Neuralgia Specialized Clinic",
+            description: "Comprehensive multidisciplinary center specializing in microvascular decompression and nerve pain relief.",
+            category: "Flyers",
+            tags: ["Flyer", "Neuralgia", "NervePain"],
+            imageUrl: "/gallery/flyers/flyer_4.jpg",
+            altText: "Trigeminal Neuralgia Specialized Clinic"
           }
         ];
         setImages(fallbackImages);

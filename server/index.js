@@ -223,7 +223,7 @@ mongoose
 
     // Seed gallery images if empty or outdated
     const galleryCount = await GalleryImage.countDocuments();
-    if (galleryCount < 10) {
+    if (galleryCount < 14) {
       console.log("Seeding default gallery images...");
       if (galleryCount > 0) {
         await GalleryImage.deleteMany({ imageUrl: { $in: [
@@ -313,6 +313,34 @@ mongoose
           category: "Hospital",
           imageUrl: "/sarvam_hero_bg.jpg",
           altText: "SarvamCare Hospital Sunset Campus"
+        },
+        {
+          title: "Neuron Center Precision & Horology",
+          description: "Inspiring microscopic precision in neurosurgery, reflecting high-quality horological watchmaking standards.",
+          category: "Flyers",
+          imageUrl: "/gallery/flyers/flyer_1.jpg",
+          altText: "Neuron Center Precision & Horology"
+        },
+        {
+          title: "Back Pain Awareness & Care",
+          description: "Advanced spinal assessments and minimally invasive neurosurgical evaluations for persistent back pain.",
+          category: "Flyers",
+          imageUrl: "/gallery/flyers/flyer_2.jpg",
+          altText: "Back Pain Awareness & Care"
+        },
+        {
+          title: "Timely Brain & Spine Interventions",
+          description: "Clinical guidelines on the importance of early diagnosis and specialized microscopic surgeries.",
+          category: "Flyers",
+          imageUrl: "/gallery/flyers/flyer_3.jpg",
+          altText: "Timely Brain & Spine Interventions"
+        },
+        {
+          title: "Trigeminal Neuralgia Specialized Clinic",
+          description: "Comprehensive multidisciplinary center specializing in microvascular decompression and nerve pain relief.",
+          category: "Flyers",
+          imageUrl: "/gallery/flyers/flyer_4.jpg",
+          altText: "Trigeminal Neuralgia Specialized Clinic"
         }
       ];
       await GalleryImage.insertMany(mockGallery);
