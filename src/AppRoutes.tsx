@@ -49,6 +49,9 @@ export const AppRoutes: React.FC = () => {
       <Route path="/centers/trauma-care" element={<TraumaPage />} />
       <Route path="/centers/neuro-center" element={<NeuroPage />} />
       <Route path="/centers/craniofacial" element={<SmilingMonkPage />} />
+      <Route path="/centers/spine-surgery" element={<Navigate to="/departments/neurosurgery" replace />} />
+      <Route path="/centers/orthopaedic-surgery" element={<Navigate to="/departments/orthopaedics" replace />} />
+      <Route path="/centers/psychiatry-psychology" element={<Navigate to="/departments/psychiatry" replace />} />
       
       {/* Legacy URLs redirection/compatibility */}
       <Route path="/trauma-care" element={<Navigate to="/centers/trauma-care" replace />} />

@@ -1,14 +1,14 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import { ShieldAlert, Brain, Sparkles, ChevronRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
 export const CentersPage: React.FC = () => {
   const centers = [
     {
       id: "trauma-care",
       name: "Sarvam Trauma Care",
-      icon: ShieldAlert,
+      logo: "/centers/logo_2.png",
       slug: "trauma-care",
       description: "Dedicated emergency polytrauma center operating 24/7. Equipped to address critical head injuries, compound skeletal fractures, and chest/abdominal trauma under code priorities.",
       services: ["Cranial Decompression", "Spinal Stabilization", "Compound Fracture Management", "Visceral Organ Reconstruction"],
@@ -17,16 +17,43 @@ export const CentersPage: React.FC = () => {
     {
       id: "neuro-center",
       name: "SarvamCare Neuro Center",
-      icon: Brain,
+      logo: "/centers/logo_1.png",
       slug: "neuro-center",
       description: "Premier center for comprehensive brain, spine, and nerve care. Under senior leadership, we perform microscopic resections of skull-base tumors, aneurysm clippings, and keyhole spine surgeries.",
       services: ["Skull Base Surgery", "Aneurysm Clippings", "Trigeminal Neuralgia Relief", "Minimally Invasive Discectomy"],
       badge: "Advanced Microsurgery"
     },
     {
+      id: "spine-surgery",
+      name: "Sarvam Spine Clinic",
+      logo: "/centers/logo_3.png",
+      slug: "spine-surgery",
+      description: "Specialized spine & spinal cord surgery unit. Equipped with advanced technology for correction of congenital spinal deformities, microdiscectomies, and instrumented stabilization for spinal fractures.",
+      services: ["Congenital Deformity Correction", "Microdiscectomy", "Spinal Cord Decompression", "Instrumented Fixation"],
+      badge: "Spine & Spinal Cord Surgery"
+    },
+    {
+      id: "orthopaedics",
+      name: "SarvamCare Bone & Joint Clinix",
+      logo: "/centers/logo_4.png",
+      slug: "orthopaedic-surgery",
+      description: "Advanced orthopaedic surgery center specializing in complex fracture fixation, total knee and hip replacements, arthroscopy, and sports medicine reconstruction.",
+      services: ["Joint Replacement (Arthroplasty)", "Complex Fracture Fixation", "Knee & Shoulder Arthroscopy", "Sports Injury Reconstruction"],
+      badge: "Orthopaedic & Joint Surgery"
+    },
+    {
+      id: "psychiatry",
+      name: "Sahasra Mind Clinix",
+      logo: "/centers/logo_5.png",
+      slug: "psychiatry-psychology",
+      description: "Sahasra Mind Clinix offers clinical psychological assessments, neuro-cognitive therapy, developmental psychology, de-addiction programs, and compassionate psychiatric counselling.",
+      services: ["Psychiatric Assessments", "Neuro-Cognitive Therapy", "CBT & Psychotherapy", "Adolescent Counselling"],
+      badge: "Psychiatry & Psychology"
+    },
+    {
       id: "craniofacial",
       name: "Smiling Monk Cranio Facial Clinic",
-      icon: Sparkles,
+      logo: "/centers/logo_6.png",
       slug: "craniofacial",
       description: "Specialized reconstructive and cosmetic facial surgical unit. We repair acute facial skeletal fractures, correct congenital syndromic cleft lips, and perform aesthetic nose and scar revisions.",
       services: ["Facial Skeletal Fracture Repair", "Cleft Lip & Palate Correction", "Rhinoplasty & Scar Revision", "Facial Animation Palsy Recovery"],
@@ -38,8 +65,8 @@ export const CentersPage: React.FC = () => {
     <>
       <Helmet>
         <title>Centers of Excellence | SarvamCare Hospital Salem</title>
-        <meta name="description" content="Explore our centers of excellence: Sarvam Trauma Care, SarvamCare Neuro Center, and Smiling Monk Cranio Facial Clinic in Salem, Tamil Nadu." />
-        <link rel="canonical" href="https://sarvamcare.com/centers" />
+        <meta name="description" content="Explore our 6 centers of excellence: Trauma Care, Neuro Center, Spine Clinic, Bone & Joint Clinix, Sahasra Mind Clinix, and Smiling Monk Cranio Facial Clinic in Salem." />
+        <link rel="canonical" href="https://sarvamcarehospital.in/centers" />
       </Helmet>
 
       {/* Hero Header */}
@@ -63,26 +90,29 @@ export const CentersPage: React.FC = () => {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
-            <h2 className="font-serif text-2xl sm:text-3.5xl font-bold text-[#32105F]">Surgical & Emergency Leadership</h2>
+            <h2 className="font-serif text-2xl sm:text-3.5xl font-bold text-[#32105F]">Surgical & Clinical Leadership</h2>
             <p className="text-xs text-[#665A70] font-light mt-2 leading-relaxed">
-              Our clinical capabilities are organized into three specialized divisions, combining top-tier surgeons with Zeiss operating microscopes and hybrid critical care.
+              Our clinical capabilities are organized into 6 specialized centers of excellence, combining top-tier medical specialists, state-of-the-art facilities, and compassionate patient care.
             </p>
           </div>
 
           <div className="space-y-8 max-w-4xl mx-auto">
             {centers.map((center) => {
-              const Icon = center.icon;
               return (
                 <div
                   key={center.id}
                   className="p-6 md:p-8 rounded-3xl border border-[#EDE4F7] bg-white hover:shadow-lg transition-all duration-300 grid grid-cols-1 md:grid-cols-12 gap-6 items-center group"
                 >
-                  {/* Icon & Badge */}
+                  {/* Logo & Badge */}
                   <div className="md:col-span-3 flex flex-col items-center md:items-start text-center md:text-left space-y-3">
-                    <div className="p-4 rounded-2xl bg-[#FAF7FF] text-[#D8B35A] border border-[#D8B35A]/25 group-hover:bg-[#32105F] group-hover:text-white transition-colors duration-300">
-                      <Icon className="h-8 w-8" />
+                    <div className="p-2 rounded-2xl bg-white border border-[#EDE4F7] shadow-sm group-hover:border-[#D8B35A]/30 transition-all duration-300 overflow-hidden w-24 h-24 flex items-center justify-center">
+                      <img 
+                        src={center.logo} 
+                        alt={`${center.name} Logo`} 
+                        className="w-full h-full object-contain select-none"
+                      />
                     </div>
-                    <span className="text-[9px] bg-red-50 text-red-600 border border-red-200/40 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider block">
+                    <span className="text-[9px] bg-red-50 text-red-600 border border-red-200/40 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider block text-center">
                       {center.badge}
                     </span>
                   </div>
