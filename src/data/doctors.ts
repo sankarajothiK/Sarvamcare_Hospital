@@ -25,12 +25,7 @@ export const doctors: Doctor[] = [
     qualification: "MCh",
     specialties: ["neurosurgery"]
   },
-  {
-    id: "dr-s-paranjothi",
-    name: "Dr. S. Paranjothi",
-    qualification: "MCh",
-    specialties: ["neurosurgery"]
-  },
+
 
   // NEUROLOGY
   {
