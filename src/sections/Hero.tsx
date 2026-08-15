@@ -95,7 +95,7 @@ export const Hero: React.FC = () => {
           <div className="md:col-span-5 flex justify-center lg:justify-end" />
 
         {/* Three Floating Bottom Circular Actions (Exactly Replicating Salem Saravana Hospital UI) */}
-        <div className="absolute bottom-8 left-0 right-0 z-20 pointer-events-none hidden md:block">
+        <div className="absolute bottom-16 left-0 right-0 z-20 pointer-events-none hidden md:block">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full h-12">
             
             {/* Middle Circle (Grid Menu, placed exactly on the S-curve line!) */}
