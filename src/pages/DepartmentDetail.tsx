@@ -108,28 +108,32 @@ export const DepartmentDetail: React.FC = () => {
         if (currentDept) {
           setDept(currentDept);
           // Fallback doctors from static database
-          const mappedDocs: DoctorData[] = staticDoctors.map((doc) => {
-            let designation = "Consultant Specialist";
-            if (doc.id === "dr-v-suresh-kumar") {
-              designation = "Chief Consultant Neurosurgeon & HOD";
-            } else if (doc.specialties.includes("neurosurgery")) {
-              designation = "Consultant Neurosurgeon";
-            } else if (doc.specialties.includes("neurology")) {
-              designation = "Consultant Neurologist";
-            } else if (doc.specialties.includes("plastic-surgery")) {
-              designation = "Consultant Reconstructive Surgeon";
-            } else if (doc.specialties.includes("orthopaedics")) {
-              designation = "Consultant Orthopaedic Surgeon";
-            }
-            return {
-              _id: doc.id,
-              name: doc.name,
-              qualification: doc.qualification,
-              designation,
-              departmentId: doc.specialties[0] || "general-medicine"
-            };
-          });
-          setDoctors(mappedDocs.filter(d => d.departmentId === slug));
+          const mappedDocs: DoctorData[] = staticDoctors
+            .filter((doc) => doc.specialties.includes(slug))
+            .map((doc) => {
+              let designation = "Consultant Specialist";
+              if (doc.id === "dr-v-suresh-kumar") {
+                designation = "Chief Consultant Neurosurgeon & HOD";
+              } else if (doc.specialties.includes("neurosurgery")) {
+                designation = "Consultant Neurosurgeon";
+              } else if (doc.specialties.includes("neurology")) {
+                designation = "Consultant Neurologist";
+              } else if (doc.specialties.includes("plastic-surgery")) {
+                designation = "Consultant Reconstructive Surgeon";
+              } else if (doc.specialties.includes("orthopaedics")) {
+                designation = "Consultant Orthopaedic Surgeon";
+              } else if (doc.specialties.includes("pain-clinic")) {
+                designation = "Consultant Pain Specialist";
+              }
+              return {
+                _id: doc.id,
+                name: doc.name,
+                qualification: doc.qualification,
+                designation,
+                departmentId: slug
+              };
+            });
+          setDoctors(mappedDocs);
         } else {
           setDept(null);
         }
@@ -278,9 +282,16 @@ export const DepartmentDetail: React.FC = () => {
                             <Award className="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 text-[#D8B35A] fill-[#32105F]" />
                           </div>
                           <div>
-                            <h4 className="text-xs font-bold text-[#32105F] group-hover:text-[#6D2FA0] transition-colors leading-tight">
-                              {doc.name}
-                            </h4>
+                            <div className="flex flex-wrap items-center gap-1.5">
+                              <h4 className="text-xs font-bold text-[#32105F] group-hover:text-[#6D2FA0] transition-colors leading-tight">
+                                {doc.name}
+                              </h4>
+                              {doc.qualification && (
+                                <span className="text-[9px] px-1.5 py-0.25 rounded bg-[#FAF7FF] border border-[#EDE4F7] text-[#6D2FA0] font-bold font-sans">
+                                  {doc.qualification}
+                                </span>
+                              )}
+                            </div>
                             <p className="text-[10px] text-[#665A70] font-light truncate mt-0.5">
                               {doc.designation}
                             </p>

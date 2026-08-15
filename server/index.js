@@ -150,7 +150,7 @@ mongoose
 
     // Seed doctors if empty or old seed
     const doctorCount = await Doctor.countDocuments();
-    if (doctorCount !== 22) {
+    if (doctorCount !== 23) {
       console.log("Seeding complete physician listings...");
       await Doctor.deleteMany({}); // Clear old seed
       const mockDoctors = [
@@ -173,6 +173,7 @@ mongoose
         { name: "Dr. Shankar Mohan", qualification: "MDS", designation: "Consultant Faciomaxillary Surgeon", departmentId: "faciomaxillary", biography: "Specialist in corrective jaw and facial plastic surgeries.", expertise: ["Jaw Surgery", "Craniofacial Repairs"], displayOrder: 11 },
         // Pain Clinic
         { name: "Dr. G. Balamurugan", qualification: "MD", designation: "Consultant Anaesthetist & Pain Specialist", departmentId: "pain-clinic", biography: "Expert in spinal blocks and chronic pain therapies.", expertise: ["Chronic Pain blocks", "ICU support"], displayOrder: 12 },
+        { name: "Dr. G. Gnana Prakasam", qualification: "MS", designation: "Consultant Orthopaedic & Pain Specialist", departmentId: "pain-clinic", biography: "Expert in polytrauma fractures and spine pain interventions.", expertise: ["Trauma Surgery", "Pain Management"], displayOrder: 13 },
         // Anaesthesia
         // ENT
         { name: "Dr. K. Mahendran", qualification: "MS", designation: "Consultant ENT Surgeon", departmentId: "ent", biography: "Specialist in microscopic ear and throat surgeries.", expertise: ["Microscopic Ear Surgery", "Sinus Surgery"], displayOrder: 14 },

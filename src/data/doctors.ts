@@ -75,6 +75,14 @@ export const doctors: Doctor[] = [
     qualification: "MS",
     specialties: ["orthopaedics"]
   },
+  // PAIN CLINIC
+  {
+    id: "dr-g-balamurugan",
+    name: "Dr. G. Balamurugan",
+    qualification: "MD",
+    specialties: ["pain-clinic", "anaesthesia"]
+  },
+
   {
     id: "dr-g-gnana-prakasam",
     name: "Dr. G. Gnana Prakasam",
@@ -94,14 +102,6 @@ export const doctors: Doctor[] = [
     name: "Dr. Shankar Mohan",
     qualification: "MDS",
     specialties: ["faciomaxillary"]
-  },
-
-  // PAIN CLINIC
-  {
-    id: "dr-g-balamurugan",
-    name: "Dr. G. Balamurugan",
-    qualification: "MD",
-    specialties: ["pain-clinic", "anaesthesia"]
   },
 
   // ANAESTHESIA & CRITICAL CARE
