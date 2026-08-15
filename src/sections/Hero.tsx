@@ -25,19 +25,19 @@ export const Hero: React.FC = () => {
         
         {/* Mobile Portrait (below 640px) */}
         <div 
-          className="absolute inset-x-0 top-0 bottom-[-60px] bg-cover bg-no-repeat bg-center sm:hidden opacity-100 transition-opacity duration-300"
+          className="absolute inset-0 bg-cover bg-no-repeat bg-center sm:hidden opacity-100 transition-opacity duration-300"
           style={{ backgroundImage: "url('/mobile_bg.png')" }}
         />
 
         {/* Mobile Landscape & Tablet (640px to 1023px) */}
         <div 
-          className="absolute inset-x-0 top-0 bottom-[-60px] bg-cover bg-no-repeat bg-center hidden sm:block lg:hidden opacity-100 transition-opacity duration-300"
+          className="absolute inset-0 bg-cover bg-no-repeat bg-center hidden sm:block lg:hidden opacity-100 transition-opacity duration-300"
           style={{ backgroundImage: "url('/mobile_bg_2.png')" }}
         />
 
         {/* Desktop screens (1024px and above) */}
         <div 
-          className="absolute inset-x-0 top-0 bottom-[-60px] lg:bottom-[-20px] bg-cover bg-no-repeat lg:bg-center lg:bg-[size:100%] hidden lg:block opacity-100 transition-opacity duration-300"
+          className="absolute inset-0 bg-cover bg-no-repeat bg-center hidden lg:block opacity-100 transition-opacity duration-300"
           style={{ backgroundImage: "url('/background.png')" }}
         />
 
