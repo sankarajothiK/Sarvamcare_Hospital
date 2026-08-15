@@ -224,18 +224,10 @@ mongoose
 
     // Seed gallery images if empty or outdated
     const galleryCount = await GalleryImage.countDocuments();
-    if (galleryCount < 24) {
+    if (galleryCount !== 25) {
       console.log("Seeding default gallery images...");
       if (galleryCount > 0) {
-        await GalleryImage.deleteMany({ imageUrl: { $in: [
-          "/facilities/hospital_exterior.jpg",
-          "/facilities/operating_theatre.jpg",
-          "/facilities/icu_unit.jpg",
-          "/facilities/diagnostic_imaging.jpg",
-          "/facilities/modern_laboratory.jpg",
-          "/facilities/patient_room.jpg",
-          "/sarvam_logo.jpg"
-        ] } });
+        await GalleryImage.deleteMany({});
       }
       const mockGallery = [
         {
