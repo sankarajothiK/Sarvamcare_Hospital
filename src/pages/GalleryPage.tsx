@@ -255,19 +255,7 @@ export const GalleryPage: React.FC = () => {
         const res = await fetch("/api/gallery");
         if (res.ok) {
           const data = await res.json();
-          const hasFlyers = data.some((img: any) => img.category.toLowerCase() === "flyers");
-          const hasNewHospital = data.some((img: any) => img.imageUrl.includes("/gallery/hospital/"));
-          
-          let mergedData = [...data];
-          if (!hasFlyers) {
-            const localFlyers = fallbackImages.filter(img => img.category.toLowerCase() === "flyers");
-            mergedData = [...mergedData, ...localFlyers];
-          }
-          if (!hasNewHospital) {
-            const localHospital = fallbackImages.filter(img => img.imageUrl.includes("/gallery/hospital/"));
-            mergedData = [...mergedData, ...localHospital];
-          }
-          setImages(mergedData);
+          setImages(data);
         } else {
           throw new Error("Load failed");
         }
