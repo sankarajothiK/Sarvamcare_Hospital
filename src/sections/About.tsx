@@ -6,6 +6,7 @@ export const About: React.FC = () => {
   const specialties = [
     "Neurosurgery",
     "Neurology",
+    "Psychiatry & Clinical Psychology",
     "Orthopaedics",
     "Facio Maxillary Surgery",
     "Trauma Management"
