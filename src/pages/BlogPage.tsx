@@ -30,7 +30,6 @@ export const BlogPage: React.FC = () => {
           throw new Error("Load failed");
         }
       } catch (err) {
-        // Fallback local mock data seed
         const fallbackBlogs = [
           {
             _id: "blog1",
@@ -51,6 +50,16 @@ export const BlogPage: React.FC = () => {
             author: "Clinical Team",
             publishDate: new Date().toISOString(),
             tags: ["Stroke", "Neurology", "Emergency"]
+          },
+          {
+            _id: "blog3",
+            title: "தலைகாயம் குறித்த விழிப்புணர்வு கையேடு | Head Injury Manual",
+            slug: "head-injury-manual-tamil",
+            excerpt: "தலைகாயங்களை பற்றி நீங்கள் எளிதாக புரிந்து கொள்ள மற்றும் சிகிச்சைகளை தெரிந்து கொள்ள இந்த கையேடு உதவும்.",
+            category: "Neurosurgery",
+            author: "Prof. Dr. V. Suresh Kumar",
+            publishDate: new Date().toISOString(),
+            tags: ["Head Injury", "Tamil", "Neurosurgery", "Clinical Guidelines"]
           }
         ];
         setPosts(fallbackBlogs);
