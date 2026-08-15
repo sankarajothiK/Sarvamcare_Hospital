@@ -224,7 +224,7 @@ mongoose
 
     // Seed gallery images if empty or outdated
     const galleryCount = await GalleryImage.countDocuments();
-    if (galleryCount < 14) {
+    if (galleryCount < 24) {
       console.log("Seeding default gallery images...");
       if (galleryCount > 0) {
         await GalleryImage.deleteMany({ imageUrl: { $in: [
@@ -342,6 +342,76 @@ mongoose
           category: "Flyers",
           imageUrl: "/gallery/flyers/flyer_4.jpg",
           altText: "Trigeminal Neuralgia Specialized Clinic"
+        },
+        {
+          title: "Premium Patient Ward Room",
+          description: "Spacious and comfortable private room designed for patient safety and quick recovery.",
+          category: "Hospital",
+          imageUrl: "/gallery/hospital/hospital_1.jpg",
+          altText: "Premium Patient Ward Room"
+        },
+        {
+          title: "Advanced Outpatient Consulting Room",
+          description: "Quiet private space for patient reviews and clinical consultations.",
+          category: "Hospital",
+          imageUrl: "/gallery/hospital/hospital_2.jpg",
+          altText: "Advanced Outpatient Consulting Room"
+        },
+        {
+          title: "Dedicated Clinical Diagnostics Area",
+          description: "Equipped with state-of-the-art diagnostic tools for rapid assessments.",
+          category: "Hospital",
+          imageUrl: "/gallery/hospital/hospital_3.jpg",
+          altText: "Dedicated Clinical Diagnostics Area"
+        },
+        {
+          title: "Hospital Corridors & Patient Lounge",
+          description: "Well-lit, wide, and clean corridors for quick patient transfers and accessibility.",
+          category: "Hospital",
+          imageUrl: "/gallery/hospital/hospital_4.jpg",
+          altText: "Hospital Corridors & Patient Lounge"
+        },
+        {
+          title: "Surgical Intensive Care Unit (ICU) Entrance",
+          description: "Controlled sterile access to critical care units for patient safety.",
+          category: "Hospital",
+          imageUrl: "/gallery/hospital/hospital_5.jpg",
+          altText: "Surgical Intensive Care Unit (ICU) Entrance"
+        },
+        {
+          title: "Emergency Trauma Resuscitation Room",
+          description: "Equipped with immediate response equipment for acute patient management.",
+          category: "Hospital",
+          imageUrl: "/gallery/hospital/hospital_6.jpg",
+          altText: "Emergency Trauma Resuscitation Room"
+        },
+        {
+          title: "Advanced Sterile Operation Theatre",
+          description: "Calibrated micro-surgical instruments and positive airflow systems for zero infection risk.",
+          category: "Hospital",
+          imageUrl: "/gallery/hospital/hospital_7.jpg",
+          altText: "Advanced Sterile Operation Theatre"
+        },
+        {
+          title: "Main Hospital Entrance Lobby",
+          description: "Welcoming reception and patient assistance helpdesk.",
+          category: "Hospital",
+          imageUrl: "/gallery/hospital/hospital_8.jpg",
+          altText: "Main Hospital Entrance Lobby"
+        },
+        {
+          title: "High-Definition Diagnostic Imaging Suite",
+          description: "Equipped with high-precision scans for brain, spine, and joint diagnostics.",
+          category: "Hospital",
+          imageUrl: "/gallery/hospital/hospital_9.jpg",
+          altText: "High-Definition Diagnostic Imaging Suite"
+        },
+        {
+          title: "Specialized Orthopaedic Rehabilitation Unit",
+          description: "Post-operative patient mobilization area and physical therapy rooms.",
+          category: "Hospital",
+          imageUrl: "/gallery/hospital/hospital_10.jpg",
+          altText: "Specialized Orthopaedic Rehabilitation Unit"
         }
       ];
       await GalleryImage.insertMany(mockGallery);

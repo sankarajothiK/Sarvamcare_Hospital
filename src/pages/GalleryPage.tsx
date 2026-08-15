@@ -156,6 +156,96 @@ export const GalleryPage: React.FC = () => {
       tags: ["Flyer", "Neuralgia", "NervePain"],
       imageUrl: "/gallery/flyers/flyer_4.jpg",
       altText: "Trigeminal Neuralgia Specialized Clinic"
+    },
+    {
+      _id: "img16",
+      title: "Premium Patient Ward Room",
+      description: "Spacious and comfortable private room designed for patient safety and quick recovery.",
+      category: "Hospital",
+      tags: ["Ward", "PatientRoom", "Facility"],
+      imageUrl: "/gallery/hospital/hospital_1.jpg",
+      altText: "Premium Patient Ward Room"
+    },
+    {
+      _id: "img17",
+      title: "Advanced Outpatient Consulting Room",
+      description: "Quiet private space for patient reviews and clinical consultations.",
+      category: "Hospital",
+      tags: ["OPD", "Consultation", "Doctor"],
+      imageUrl: "/gallery/hospital/hospital_2.jpg",
+      altText: "Advanced Outpatient Consulting Room"
+    },
+    {
+      _id: "img18",
+      title: "Dedicated Clinical Diagnostics Area",
+      description: "Equipped with state-of-the-art diagnostic tools for rapid assessments.",
+      category: "Hospital",
+      tags: ["Diagnostics", "Clinical", "Scanner"],
+      imageUrl: "/gallery/hospital/hospital_3.jpg",
+      altText: "Dedicated Clinical Diagnostics Area"
+    },
+    {
+      _id: "img19",
+      title: "Hospital Corridors & Patient Lounge",
+      description: "Well-lit, wide, and clean corridors for quick patient transfers and accessibility.",
+      category: "Hospital",
+      tags: ["Corridor", "Lounge", "Infrastructure"],
+      imageUrl: "/gallery/hospital/hospital_4.jpg",
+      altText: "Hospital Corridors & Patient Lounge"
+    },
+    {
+      _id: "img20",
+      title: "Surgical Intensive Care Unit (ICU) Entrance",
+      description: "Controlled sterile access to critical care units for patient safety.",
+      category: "Hospital",
+      tags: ["ICU", "CriticalCare", "Sterile"],
+      imageUrl: "/gallery/hospital/hospital_5.jpg",
+      altText: "Surgical Intensive Care Unit (ICU) Entrance"
+    },
+    {
+      _id: "img21",
+      title: "Emergency Trauma Resuscitation Room",
+      description: "Equipped with immediate response equipment for acute patient management.",
+      category: "Hospital",
+      tags: ["Trauma", "Emergency", "Resuscitation"],
+      imageUrl: "/gallery/hospital/hospital_6.jpg",
+      altText: "Emergency Trauma Resuscitation Room"
+    },
+    {
+      _id: "img22",
+      title: "Advanced Sterile Operation Theatre",
+      description: "Calibrated micro-surgical instruments and positive airflow systems for zero infection risk.",
+      category: "Hospital",
+      tags: ["OT", "Surgical", "Theater"],
+      imageUrl: "/gallery/hospital/hospital_7.jpg",
+      altText: "Advanced Sterile Operation Theatre"
+    },
+    {
+      _id: "img23",
+      title: "Main Hospital Entrance Lobby",
+      description: "Welcoming reception and patient assistance helpdesk.",
+      category: "Hospital",
+      tags: ["Lobby", "Reception", "Entrance"],
+      imageUrl: "/gallery/hospital/hospital_8.jpg",
+      altText: "Main Hospital Entrance Lobby"
+    },
+    {
+      _id: "img24",
+      title: "High-Definition Diagnostic Imaging Suite",
+      description: "Equipped with high-precision scans for brain, spine, and joint diagnostics.",
+      category: "Hospital",
+      tags: ["Imaging", "Scans", "Diagnostics"],
+      imageUrl: "/gallery/hospital/hospital_9.jpg",
+      altText: "High-Definition Diagnostic Imaging Suite"
+    },
+    {
+      _id: "img25",
+      title: "Specialized Orthopaedic Rehabilitation Unit",
+      description: "Post-operative patient mobilization area and physical therapy rooms.",
+      category: "Hospital",
+      tags: ["Rehab", "Orthopaedic", "Therapy"],
+      imageUrl: "/gallery/hospital/hospital_10.jpg",
+      altText: "Specialized Orthopaedic Rehabilitation Unit"
     }
   ];
 
@@ -166,12 +256,18 @@ export const GalleryPage: React.FC = () => {
         if (res.ok) {
           const data = await res.json();
           const hasFlyers = data.some((img: any) => img.category.toLowerCase() === "flyers");
+          const hasNewHospital = data.some((img: any) => img.imageUrl.includes("/gallery/hospital/"));
+          
+          let mergedData = [...data];
           if (!hasFlyers) {
             const localFlyers = fallbackImages.filter(img => img.category.toLowerCase() === "flyers");
-            setImages([...data, ...localFlyers]);
-          } else {
-            setImages(data);
+            mergedData = [...mergedData, ...localFlyers];
           }
+          if (!hasNewHospital) {
+            const localHospital = fallbackImages.filter(img => img.imageUrl.includes("/gallery/hospital/"));
+            mergedData = [...mergedData, ...localHospital];
+          }
+          setImages(mergedData);
         } else {
           throw new Error("Load failed");
         }
