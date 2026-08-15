@@ -18,7 +18,7 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section className="relative overflow-hidden bg-[#240d47] w-full aspect-[576/1024] lg:aspect-[1024/468] min-h-0 h-auto py-0 flex items-center font-sans">
+    <section className="relative overflow-hidden bg-[#240d47] w-full aspect-[576/1024] lg:aspect-[1024/469] min-h-0 h-auto py-0 flex items-center font-sans">
       
       {/* Background Visual Layering */}
       <div className="absolute inset-0 pointer-events-none z-0">
