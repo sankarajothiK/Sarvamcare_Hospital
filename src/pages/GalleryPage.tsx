@@ -23,15 +23,6 @@ export const GalleryPage: React.FC = () => {
 
   const fallbackImages = [
     {
-      _id: "img1",
-      title: "Modern Hospital Entrance & Facade",
-      description: "SarvamCare Hospital entrance showing safe drop-off bays and clean architectural layout.",
-      category: "Infrastructure",
-      tags: ["Salem", "Entrance", "Hospital"],
-      imageUrl: "/facilities/hospital_exterior.jpg",
-      altText: "SarvamCare Hospital Entrance"
-    },
-    {
       _id: "img2",
       title: "Main Hospital Entrance Ramp",
       description: "Designed for premium accessibility with dedicated wheelchair-friendly ramps and safe patient drop-off zones.",
@@ -39,60 +30,6 @@ export const GalleryPage: React.FC = () => {
       tags: ["Ramp", "Infrastructure", "Access"],
       imageUrl: "/sarvam_building_exterior.png",
       altText: "Main Hospital Entrance Ramp"
-    },
-    {
-      _id: "img3",
-      title: "Advanced Modular Operating Theatre",
-      description: "Neurosurgery-calibrated sterile operating suite featuring positive airflow filtration.",
-      category: "Facilities",
-      tags: ["OT", "Surgical", "Salem"],
-      imageUrl: "/facilities/operating_theatre.jpg",
-      altText: "Modular Operating Theatre"
-    },
-    {
-      _id: "img4",
-      title: "Intensive Care Unit (ICU)",
-      description: "14-bed Hybrid critical care unit with dedicated monitoring workstations.",
-      category: "Facilities",
-      tags: ["ICU", "CriticalCare"],
-      imageUrl: "/facilities/icu_unit.jpg",
-      altText: "Dedicated Critical Care ICU"
-    },
-    {
-      _id: "img5",
-      title: "Premium Patient Recovery Suite",
-      description: "Private single patient room featuring comfortable recovery beds and wooden finishes.",
-      category: "Facilities",
-      tags: ["Ward", "PatientRoom"],
-      imageUrl: "/facilities/patient_room.jpg",
-      altText: "Private Patient Suite"
-    },
-    {
-      _id: "img6",
-      title: "Emergency Trauma Reception Area",
-      description: "Spacious emergency reception lobby designed for quick patient registration and triage assessment.",
-      category: "Facilities",
-      tags: ["Lobby", "Emergency", "Reception"],
-      imageUrl: "/hospital_hero_lobby.jpg",
-      altText: "Emergency Trauma Reception Area"
-    },
-    {
-      _id: "img7",
-      title: "High-Speed 32-Slice CT Scanner",
-      description: "GE Revolution diagnostics for rapid trauma and brain scan procedures.",
-      category: "Technology",
-      tags: ["Diagnostics", "CTScan", "Technology"],
-      imageUrl: "/facilities/diagnostic_imaging.jpg",
-      altText: "Diagnostic CT Scan Machine"
-    },
-    {
-      _id: "img8",
-      title: "Automated Clinical Pathology Laboratory",
-      description: "Advanced diagnostic testing analyzers for blood panel assessments.",
-      category: "Technology",
-      tags: ["Lab", "Pathology", "Diagnostics"],
-      imageUrl: "/facilities/modern_laboratory.jpg",
-      altText: "High-Tech Diagnostics Laboratory"
     },
     {
       _id: "img9",
