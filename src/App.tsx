@@ -8,7 +8,7 @@ import { FloatingActions } from "./components/FloatingActions";
 import { Announcement } from "./sections/Announcement";
 import { AppRoutes } from "./AppRoutes";
 import { SarvamCareLogo } from "./components/BrandLogos";
-import { initAnalytics } from "./utils/analytics";
+import { initAnalytics, getActiveGaId } from "./utils/analytics";
 import { SocialSidebar } from "./components/SocialSidebar";
 
 const AppContent: React.FC = () => {
@@ -17,8 +17,31 @@ const AppContent: React.FC = () => {
   const location = useLocation();
 
   useEffect(() => {
-    // 1. Initialize Analytics once on mount
-    initAnalytics();
+    // 1. Initialize Analytics dynamically from database settings
+    const loadSeoAndAnalytics = async () => {
+      try {
+        const res = await fetch("/api/seo");
+        if (res.ok) {
+          const data = await res.json();
+          initAnalytics(data.gtmId, data.ga4MeasurementId);
+          
+          if (data.googleVerification) {
+            let meta = document.querySelector('meta[name="google-site-verification"]');
+            if (!meta) {
+              meta = document.createElement("meta");
+              meta.setAttribute("name", "google-site-verification");
+              document.head.appendChild(meta);
+            }
+            meta.setAttribute("content", data.googleVerification);
+          }
+        } else {
+          initAnalytics();
+        }
+      } catch (err) {
+        initAnalytics();
+      }
+    };
+    loadSeoAndAnalytics();
 
     // 2. Loading screen timer
     const timer = setTimeout(() => {
@@ -42,8 +65,9 @@ const AppContent: React.FC = () => {
 
   // 4. Trigger GA4 Pageview tracking on routing path changes
   useEffect(() => {
-    if (window.gtag && import.meta.env.VITE_GA_MEASUREMENT_ID) {
-      window.gtag("config", import.meta.env.VITE_GA_MEASUREMENT_ID, {
+    const gaId = getActiveGaId();
+    if (window.gtag && gaId) {
+      window.gtag("config", gaId, {
         page_path: location.pathname
       });
     }

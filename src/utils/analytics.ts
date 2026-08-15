@@ -11,18 +11,23 @@ declare global {
   }
 }
 
-const GTM_ID = import.meta.env.VITE_GTM_ID || "";
-const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID || "";
+let activeGaId = import.meta.env.VITE_GA_MEASUREMENT_ID || "";
+
+export const getActiveGaId = (): string => activeGaId;
 
 /**
  * Initializes GA4 and GTM by dynamically injecting their script tags.
  * This avoids hardcoding keys in index.html and keeps keys configurable.
  */
-export const initAnalytics = (): void => {
+export const initAnalytics = (customGtmId?: string, customGa4Id?: string): void => {
   if (typeof window === "undefined") return;
 
+  const GTM_ID = customGtmId || import.meta.env.VITE_GTM_ID || "";
+  activeGaId = customGa4Id || activeGaId;
+  const GA_MEASUREMENT_ID = activeGaId;
+
   // 1. Google Tag Manager Injection
-  if (GTM_ID) {
+  if (GTM_ID && !document.querySelector(`script[src*="gtm.js?id=${GTM_ID}"]`)) {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
     
@@ -36,7 +41,7 @@ export const initAnalytics = (): void => {
   }
 
   // 2. Google Analytics 4 Injection
-  if (GA_MEASUREMENT_ID) {
+  if (GA_MEASUREMENT_ID && !document.querySelector(`script[src*="gtag/js?id=${GA_MEASUREMENT_ID}"]`)) {
     const f = document.getElementsByTagName("script")[0];
     const j = document.createElement("script");
     j.async = true;
