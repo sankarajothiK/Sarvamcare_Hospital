@@ -2,8 +2,11 @@ import React from "react";
 import { Check } from "lucide-react";
 import { motion } from "framer-motion";
 import { NeuroCenterLogo } from "../components/BrandLogos";
+import { useLanguage } from "../utils/LanguageContext";
 
 export const NeuroCenter: React.FC = () => {
+  const { language, t } = useLanguage();
+
   const services = [
     "Microscopic & Endoscopic Neurosurgical Solutions for Brain Tumors, Aneurysms & Skull Base lesions",
     "Comprehensive Multimodal Cerebral Stroke & Ischemic Attack Management",
@@ -13,6 +16,19 @@ export const NeuroCenter: React.FC = () => {
     "Spinal Instrumentations & Decompression Stabilizations",
     "Complex Peripheral Nerve Reconstruction Surgery"
   ];
+
+  const getTranslatedService = (srv: string) => {
+    if (language === "ta") {
+      if (srv.startsWith("Microscopic & Endoscopic")) return "மூளைக் கட்டிகள், இரத்தக்குழாய் வீக்கம் மற்றும் தண்டுவடக் கோளாறுகளுக்கான அதிநவீன நுண்ணோக்கி & எண்டோஸ்கோபிக் அறுவைசிகிச்சைகள்.";
+      if (srv.startsWith("Comprehensive Multimodal Cerebral")) return "மூளை பக்கவாதம் (ஸ்ட்ரோக்) மற்றும் தற்காலிக நரம்பு செயலிழப்புகளுக்கான முழுமையான அவசர நரம்பியல் மேலாண்மை.";
+      if (srv.startsWith("Multimodality Management for Pituitary")) return "பிட்யூட்டரி சுரப்பிக் கட்டிகள் மற்றும் ஹார்மோன் சுரப்புக் கோளாறுகளுக்கான நவீன சிகிச்சைகள்.";
+      if (srv.startsWith("Functional Surgery for Trigeminal")) return "முக நரம்பு வலி (Trigeminal Neuralgia) மற்றும் முகத் தசைத் துடிப்புகளுக்கான சிறப்பு அறுவைசிகிச்சைகள்.";
+      if (srv.startsWith("Minimally Invasive Solutions")) return "தண்டுவடக் கட்டிகள், டிஸ்க் பாதிப்புகள் மற்றும் தண்டுவட நரம்பு அழுத்தத்திற்கான நுண்-துளை அறுவைசிகிச்சைகள்.";
+      if (srv.startsWith("Spinal Instrumentations & Decompression")) return "தண்டுவட முறிவுகள் மற்றும் தண்டுவட அழுத்தத்தை நீக்கி நிலைநிறுத்தும் சிறப்பு சிகிச்சைகள்.";
+      if (srv.startsWith("Complex Peripheral Nerve Reconstruction")) return "கை, கால்களில் உள்ள நரம்புக் காயங்கள் மற்றும் நரம்பு பாதிப்புகளுக்கான மறுசீரமைப்பு அறுவைசிகிச்சை.";
+    }
+    return srv;
+  };
 
   return (
     <section id="neuro-center" className="relative overflow-hidden bg-[#32105F] border-b border-[#D8B35A]/20 py-16 md:py-24">
@@ -81,15 +97,21 @@ export const NeuroCenter: React.FC = () => {
           </motion.div>
           
           <span className="text-[10px] sm:text-xs font-bold tracking-[0.25em] text-[#D8B35A] uppercase mt-4">
-            Dr. V. Suresh Kumar's Neuro Center
+            {language === "ta" ? "பேராசிரியர் Dr. V. சுரேஷ் குமார் அவர்களின் நரம்பியல் மையம்" : "Dr. V. Suresh Kumar's Neuro Center"}
           </span>
           <h2 className="font-serif text-3xl sm:text-4.5xl font-extrabold text-white mt-2">
-            Advanced Care for the <span className="gold-gradient-text">Brain, Spine & Nerves</span>
+            {language === "ta" ? (
+              <>மூளை, தண்டுவடம் & நரம்புகளுக்கான <span className="gold-gradient-text">மேம்பட்ட சிகிச்சை</span></>
+            ) : (
+              <>Advanced Care for the <span className="gold-gradient-text">Brain, Spine & Nerves</span></>
+            )}
           </h2>
           <div className="h-[2px] w-14 bg-[#D8B35A] mx-auto mt-4.5" />
           
           <p className="text-xs sm:text-sm text-indigo-100/90 mt-4 leading-relaxed font-sans font-light max-w-2xl">
-            A highly dedicated clinical center coordinating senior neurologists, neurosurgeons, and psychiatrists, offering advanced diagnostics, micro-surgical precision, and dedicated nerve stabilization.
+            {language === "en"
+              ? "A highly dedicated clinical center coordinating senior neurologists, neurosurgeons, and psychiatrists, offering advanced diagnostics, micro-surgical precision, and dedicated nerve stabilization."
+              : "சிறந்த நரம்பியல் நிபுணர்கள், நரம்பியல் அறுவைசிகிச்சை மருத்துவர்கள் மற்றும் மனநல மருத்துவர்களை ஒருங்கிணைத்து, நவீன நோயறிதல், துல்லியமான நுண்-அறுவைசிகிச்சை மற்றும் நரம்பு நிலைநிறுத்த சிகிச்சைகளை வழங்கும் பிரத்யேக மையம்."}
           </p>
         </div>
 
@@ -125,8 +147,12 @@ export const NeuroCenter: React.FC = () => {
               </svg>
               
               <div className="relative z-10 mt-4 space-y-1">
-                <span className="text-white font-serif text-sm font-semibold tracking-wide">Microsurgical Systems</span>
-                <p className="text-[10px] text-indigo-200/80 font-sans tracking-wide">Precision Nerve & Disc Decompression</p>
+                <span className="text-white font-serif text-sm font-semibold tracking-wide">
+                  {language === "ta" ? "நுண்ணோக்கி அறுவைசிகிச்சை" : "Microsurgical Systems"}
+                </span>
+                <p className="text-[10px] text-indigo-200/80 font-sans tracking-wide">
+                  {language === "ta" ? "துல்லியமான நரம்பு & தண்டுவட அழுத்த நிவாரணம்" : "Precision Nerve & Disc Decompression"}
+                </p>
               </div>
             </motion.div>
           </div>
@@ -147,7 +173,7 @@ export const NeuroCenter: React.FC = () => {
                     <Check className="h-3 w-3" />
                   </div>
                   <span className="text-xs sm:text-sm text-indigo-100 font-sans leading-relaxed font-light">
-                    {service}
+                    {getTranslatedService(service)}
                   </span>
                 </motion.div>
               ))}

@@ -1,25 +1,21 @@
 import React from "react";
 import { Check } from "lucide-react";
 import { motion } from "framer-motion";
+import { useLanguage } from "../utils/LanguageContext";
 
 export const About: React.FC = () => {
+  const { t, tArray } = useLanguage();
+
   const specialties = [
-    "Neurosurgery",
-    "Neurology",
-    "Psychiatry & Clinical Psychology",
-    "Orthopaedics",
-    "Facio Maxillary Surgery",
-    "Trauma Management"
+    t("spec_neurosurgery"),
+    t("spec_neurology"),
+    t("spec_psychiatry"),
+    t("spec_orthopaedics"),
+    t("spec_faciomaxillary"),
+    t("spec_trauma")
   ];
 
-  const whyChooseUs = [
-    "Experienced senior specialists",
-    "Modern diagnostic & surgical technology",
-    "Dedicated trauma response teams",
-    "Advanced brain and spine interventions",
-    "Multidisciplinary critical care suite",
-    "Patient-first ethical healthcare values"
-  ];
+  const whyChooseUs = tArray("why_items");
 
   return (
     <section id="about" className="bg-[#FFFFFF] py-16 md:py-24 border-b border-[#F3EDFA]">
@@ -59,26 +55,26 @@ export const About: React.FC = () => {
           <div className="lg:col-span-7 space-y-6 md:space-y-8 order-1 lg:order-2">
             <div className="space-y-3">
               <span className="text-[10px] sm:text-xs font-bold tracking-[0.25em] text-[#6D2FA0] uppercase">
-                About Our Institution
+                {t("about_eyebrow")}
               </span>
               <h2 className="font-serif text-3xl sm:text-4.5xl font-extrabold text-[#32105F] leading-tight">
-                Pioneering Healthcare Excellence
+                {t("about_title")}
               </h2>
               <div className="h-[2px] w-14 bg-[#D8B35A]" />
             </div>
 
             <div className="space-y-4 text-[#665A70] leading-relaxed font-sans text-sm sm:text-base font-light">
               <p className="font-medium text-[#32105F] text-base sm:text-lg">
-                SARVAMCare Hospital Pvt. Ltd. is Salem's premier medical hub for advanced, ethical, and patient-centered clinical care.
+                {t("about_desc1")}
               </p>
               <p>
-                Under the medical direction of **Dr. V. Suresh Kumar**, our center coordinates senior consultants, high-definition diagnostics, and cutting-edge surgical systems. We address complex neurological diseases, severe orthopaedic trauma, and comprehensive craniofacial reconstruction with precision and compassion.
+                {t("about_desc2")}
               </p>
             </div>
 
             {/* Specialties Array */}
             <div className="space-y-3">
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#32105F]/80">Key Clinical Verticals</h4>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#32105F]/80">{t("key_verticals")}</h4>
               <div className="flex flex-wrap gap-2">
                 {specialties.map((item) => (
                   <span
@@ -93,7 +89,7 @@ export const About: React.FC = () => {
 
             {/* Why Choose Us checklist */}
             <div className="pt-2">
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#32105F]/80 mb-3.5">Why SarvamCare</h4>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#32105F]/80 mb-3.5">{t("why_sarvamcare")}</h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 {whyChooseUs.map((why) => (
                   <div key={why} className="flex items-start gap-2.5">
@@ -113,4 +109,5 @@ export const About: React.FC = () => {
     </section>
   );
 };
+
 export default About;

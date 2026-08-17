@@ -5,8 +5,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { contactInfo } from "../data/contact";
 import { departments as staticDepts } from "../data/departments";
 import { doctors as staticDocs } from "../data/doctors";
+import { useLanguage } from "../utils/LanguageContext";
 
 export const AppointmentPage: React.FC = () => {
+  const { language, t } = useLanguage();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -145,9 +147,9 @@ export const AppointmentPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Request Appointment Online | SarvamCare Hospital Salem</title>
+        <title>{language === "en" ? "Request Appointment Online | SarvamCare Hospital Salem" : "மருத்துவ ஆலோசனைக்கு ஆன்லைனில் முன்பதிவு செய்க | சர்வம் கேர் மருத்துவமனை சேலம்"}</title>
         <meta name="description" content="Schedule a priority consultation at SarvamCare Hospital. Fill out patient name, mobile, preferred department, doctor, and consultation slot timings." />
-        <link rel="canonical" href="https://sarvamcare.com/appointment" />
+        <link rel="canonical" href="https://sarvamcarehospital.in/appointment" />
       </Helmet>
 
       {/* Hero Header */}
@@ -157,10 +159,10 @@ export const AppointmentPage: React.FC = () => {
         </div>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <span className="text-[10px] sm:text-xs font-bold tracking-[0.25em] text-[#D8B35A] uppercase block">
-            Outpatient Consultations
+            {language === "en" ? "Outpatient Consultations" : "வெளிநோயாளி ஆலோசனை"}
           </span>
           <h1 className="font-serif text-3xl sm:text-5xl font-extrabold text-white mt-2 leading-tight">
-            Book An Appointment
+            {t("book_appointment")}
           </h1>
           <div className="h-[2px] w-14 bg-[#D8B35A] mx-auto md:mx-0 mt-4.5" />
         </div>
@@ -174,13 +176,17 @@ export const AppointmentPage: React.FC = () => {
             {/* Left: Helpdesk details */}
             <div className="lg:col-span-5 space-y-6">
               <div className="space-y-3">
-                <span className="text-[10px] sm:text-xs font-bold tracking-[0.25em] text-[#6D2FA0] uppercase">Admissions Helpdesk</span>
+                <span className="text-[10px] sm:text-xs font-bold tracking-[0.25em] text-[#6D2FA0] uppercase">
+                  {language === "en" ? "Admissions Helpdesk" : "சேர்க்கை உதவி மையம்"}
+                </span>
                 <h2 className="font-serif text-2xl sm:text-3.5xl font-bold text-[#32105F] leading-tight">
-                  Connect Directly to Our Care Team
+                  {language === "en" ? "Connect Directly to Our Care Team" : "எங்கள் உதவி மையத்தை உடனடியாகத் தொடர்புகொள்ள"}
                 </h2>
               </div>
               <p className="text-xs sm:text-sm text-[#665A70] leading-relaxed font-light">
-                Our medical helpdesk is active daily to streamline outpatient checkups. You can submit your booking requirements using the form or reach out directly to coordinate ambulance or critical trauma admissions.
+                {language === "en"
+                  ? "Our medical helpdesk is active daily to streamline outpatient checkups. You can submit your booking requirements using the form or reach out directly to coordinate ambulance or critical trauma admissions."
+                  : "எங்களது மருத்துவ உதவி மையம் தினசரி வெளிநோயாளி ஆலோசனைகளை எளிதாக்க செயல்படுகிறது. தாங்கள் படிவத்தைப் பயன்படுத்தி முன்பதிவு செய்யலாம் அல்லது அவசர ஆம்புலன்ஸ் தேவைகளுக்கு எங்களை நேரடியாக அழைக்கலாம்."}
               </p>
 
               <div className="space-y-4 pt-4 border-t border-[#F3EDFA]">
@@ -193,7 +199,9 @@ export const AppointmentPage: React.FC = () => {
                     <Phone className="h-5 w-5" />
                   </div>
                   <div>
-                    <span className="text-[9px] text-[#665A70] font-bold uppercase tracking-wider block">Call Direct Hotline</span>
+                    <span className="text-[9px] text-[#665A70] font-bold uppercase tracking-wider block">
+                      {language === "en" ? "Call Direct Hotline" : "நேரடி உதவி எண்"}
+                    </span>
                     <span className="text-sm font-bold text-[#32105F]">{contactInfo.phone}</span>
                   </div>
                 </a>
@@ -209,8 +217,12 @@ export const AppointmentPage: React.FC = () => {
                     <MessageCircle className="h-5 w-5" />
                   </div>
                   <div>
-                    <span className="text-[9px] text-[#665A70] font-bold uppercase tracking-wider block">WhatsApp Helpline</span>
-                    <span className="text-sm font-bold text-green-600">Online Consulting Link</span>
+                    <span className="text-[9px] text-[#665A70] font-bold uppercase tracking-wider block">
+                      {language === "en" ? "WhatsApp Helpline" : "வாட்ஸ்அப் உதவி எண்"}
+                    </span>
+                    <span className="text-sm font-bold text-green-600">
+                      {language === "en" ? "Online Consulting Link" : "வாட்ஸ்அப் அரட்டை"}
+                    </span>
                   </div>
                 </a>
 
@@ -220,8 +232,12 @@ export const AppointmentPage: React.FC = () => {
                     <MapPin className="h-5 w-5" />
                   </div>
                   <div>
-                    <span className="text-[9px] text-[#665A70] font-bold uppercase tracking-wider block">Hospital Campus</span>
-                    <span className="text-xs text-[#24152F] font-semibold">{contactInfo.address.full}</span>
+                    <span className="text-[9px] text-[#665A70] font-bold uppercase tracking-wider block">
+                      {language === "en" ? "Hospital Campus" : "மருத்துவமனை முகவரி"}
+                    </span>
+                    <span className="text-xs text-[#24152F] font-semibold">
+                      {language === "ta" ? "மாமாங்கம், சேலம், தமிழ்நாடு, இந்தியா." : contactInfo.address.full}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -236,19 +252,25 @@ export const AppointmentPage: React.FC = () => {
                     <form onSubmit={handleSubmit} className="space-y-4">
                       
                       <div className="space-y-1">
-                        <h3 className="font-serif font-bold text-[#32105F] text-lg">Request Consultation Details</h3>
-                        <p className="text-xs text-[#665A70] font-light">Fill out details to route directly to our helpdesk.</p>
+                        <h3 className="font-serif font-bold text-[#32105F] text-lg">
+                          {t("book_modal_title")}
+                        </h3>
+                        <p className="text-xs text-[#665A70] font-light">
+                          {t("book_modal_desc")}
+                        </p>
                       </div>
 
                       {/* Patient Name */}
                       <div className="space-y-1">
-                        <label className="text-[10px] font-bold uppercase tracking-wider text-[#665A70]">Patient Name *</label>
+                        <label className="text-[10px] font-bold uppercase tracking-wider text-[#665A70]">
+                          {t("form_name")}
+                        </label>
                         <input
                           type="text"
                           required
                           value={name}
                           onChange={(e) => setName(e.target.value)}
-                          placeholder="Full Name"
+                          placeholder={language === "en" ? "Full Name" : "முழு பெயர்"}
                           className="w-full bg-white border border-[#EDE4F7] rounded-xl p-3 text-xs focus:ring-1 focus:ring-[#D8B35A] focus:border-[#D8B35A] focus:outline-none transition-all text-[#24152F]"
                         />
                       </div>
@@ -256,25 +278,29 @@ export const AppointmentPage: React.FC = () => {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {/* Mobile Number */}
                         <div className="space-y-1">
-                          <label className="text-[10px] font-bold uppercase tracking-wider text-[#665A70]">Mobile Number *</label>
+                          <label className="text-[10px] font-bold uppercase tracking-wider text-[#665A70]">
+                            {t("form_phone")}
+                          </label>
                           <input
                             type="tel"
                             required
                             value={phone}
                             onChange={(e) => setPhone(e.target.value)}
-                            placeholder="Mobile Number"
+                            placeholder={language === "en" ? "Mobile Number" : "தொலைபேசி எண்"}
                             className="w-full bg-white border border-[#EDE4F7] rounded-xl p-3 text-xs focus:ring-1 focus:ring-[#D8B35A] focus:border-[#D8B35A] focus:outline-none transition-all text-[#24152F]"
                           />
                         </div>
 
                         {/* Email */}
                         <div className="space-y-1">
-                          <label className="text-[10px] font-bold uppercase tracking-wider text-[#665A70]">Email Address</label>
+                          <label className="text-[10px] font-bold uppercase tracking-wider text-[#665A70]">
+                            {language === "en" ? "Email Address" : "மின்னஞ்சல் முகவரி"}
+                          </label>
                           <input
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            placeholder="Email Address"
+                            placeholder={language === "en" ? "Email Address" : "மின்னஞ்சல் முகவரி"}
                             className="w-full bg-white border border-[#EDE4F7] rounded-xl p-3 text-xs focus:ring-1 focus:ring-[#D8B35A] focus:border-[#D8B35A] focus:outline-none transition-all text-[#24152F]"
                           />
                         </div>
@@ -283,17 +309,21 @@ export const AppointmentPage: React.FC = () => {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {/* Department */}
                         <div className="space-y-1">
-                          <label className="text-[10px] font-bold uppercase tracking-wider text-[#665A70]">Department *</label>
+                          <label className="text-[10px] font-bold uppercase tracking-wider text-[#665A70]">
+                            {t("form_dept")}
+                          </label>
                           <select
                             required
                             value={dept}
                             onChange={(e) => setDept(e.target.value)}
                             className="w-full bg-white border border-[#EDE4F7] rounded-xl p-3 text-xs focus:ring-1 focus:ring-[#D8B35A] focus:border-[#D8B35A] focus:outline-none transition-all text-[#24152F]"
                           >
-                            <option value="" disabled>Select Department</option>
+                            <option value="" disabled>
+                              {language === "en" ? "Select Department" : "துறையைத் தேர்ந்தெடுக்கவும்"}
+                            </option>
                             {deptsList.map((d) => (
                               <option key={d.slug || d.id} value={d.name}>
-                                {d.name}
+                                {language === "ta" && d.tamilName ? d.tamilName : d.name}
                               </option>
                             ))}
                           </select>
@@ -301,7 +331,9 @@ export const AppointmentPage: React.FC = () => {
 
                         {/* Doctor */}
                         <div className="space-y-1">
-                          <label className="text-[10px] font-bold uppercase tracking-wider text-[#665A70]">Doctor *</label>
+                          <label className="text-[10px] font-bold uppercase tracking-wider text-[#665A70]">
+                            {t("form_doctor")}
+                          </label>
                           <select
                             required
                             value={doctor}
@@ -309,10 +341,12 @@ export const AppointmentPage: React.FC = () => {
                             disabled={!dept}
                             className="w-full bg-white border border-[#EDE4F7] rounded-xl p-3 text-xs focus:ring-1 focus:ring-[#D8B35A] focus:border-[#D8B35A] focus:outline-none transition-all disabled:opacity-50 text-[#24152F]"
                           >
-                            <option value="" disabled>Select Doctor</option>
+                            <option value="" disabled>
+                              {language === "en" ? "Select Doctor" : "மருத்துவரைத் தேர்ந்தெடுக்கவும்"}
+                            </option>
                             {filteredDoctors.map((doc) => (
                               <option key={doc._id || doc.id} value={doc.name}>
-                                {doc.name} ({doc.qualification})
+                                {language === "ta" && doc.tamilName ? doc.tamilName : doc.name} ({doc.qualification})
                               </option>
                             ))}
                           </select>
@@ -322,7 +356,9 @@ export const AppointmentPage: React.FC = () => {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {/* Preferred Date */}
                         <div className="space-y-1">
-                          <label className="text-[10px] font-bold uppercase tracking-wider text-[#665A70]">Preferred Date *</label>
+                          <label className="text-[10px] font-bold uppercase tracking-wider text-[#665A70]">
+                            {t("form_date")}
+                          </label>
                           <input
                             type="date"
                             required
@@ -334,29 +370,41 @@ export const AppointmentPage: React.FC = () => {
 
                         {/* Preferred Time */}
                         <div className="space-y-1">
-                          <label className="text-[10px] font-bold uppercase tracking-wider text-[#665A70]">Preferred Time *</label>
+                          <label className="text-[10px] font-bold uppercase tracking-wider text-[#665A70]">
+                            {language === "en" ? "Preferred Time *" : "விருப்பமான நேரம் *"}
+                          </label>
                           <select
                             required
                             value={time}
                             onChange={(e) => setTime(e.target.value)}
                             className="w-full bg-white border border-[#EDE4F7] rounded-xl p-3 text-xs focus:ring-1 focus:ring-[#D8B35A] focus:border-[#D8B35A] focus:outline-none transition-all text-[#24152F]"
                           >
-                            <option value="" disabled>Select Time Slot</option>
-                            <option value="Morning (09:00 AM - 12:00 PM)">Morning (09:00 AM - 12:00 PM)</option>
-                            <option value="Afternoon (12:00 PM - 04:00 PM)">Afternoon (12:00 PM - 04:00 PM)</option>
-                            <option value="Evening (04:00 PM - 07:00 PM)">Evening (04:00 PM - 07:00 PM)</option>
+                            <option value="" disabled>
+                              {language === "en" ? "Select Time Slot" : "நேரத்தைத் தேர்ந்தெடுக்கவும்"}
+                            </option>
+                            <option value="Morning (09:00 AM - 12:00 PM)">
+                              {language === "ta" ? "காலை (09:00 AM - 12:00 PM)" : "Morning (09:00 AM - 12:00 PM)"}
+                            </option>
+                            <option value="Afternoon (12:00 PM - 04:00 PM)">
+                              {language === "ta" ? "மதியம் (12:00 PM - 04:00 PM)" : "Afternoon (12:00 PM - 04:00 PM)"}
+                            </option>
+                            <option value="Evening (04:00 PM - 07:00 PM)">
+                              {language === "ta" ? "மாலை (04:00 PM - 07:00 PM)" : "Evening (04:00 PM - 07:00 PM)"}
+                            </option>
                           </select>
                         </div>
                       </div>
 
                       {/* Message */}
                       <div className="space-y-1">
-                        <label className="text-[10px] font-bold uppercase tracking-wider text-[#665A70]">Message / Clinical Query</label>
+                        <label className="text-[10px] font-bold uppercase tracking-wider text-[#665A70]">
+                          {language === "en" ? "Message / Clinical Query" : "செய்தி / நோய் அறிகுறிகள்"}
+                        </label>
                         <textarea
                           rows={3}
                           value={message}
                           onChange={(e) => setMessage(e.target.value)}
-                          placeholder="Briefly describe your symptoms or query..."
+                          placeholder={language === "en" ? "Briefly describe your symptoms or query..." : "உங்கள் அறிகுறிகள் அல்லது தேவைகளைச் சுருக்கமாக எழுதவும்..."}
                           className="w-full bg-white border border-[#EDE4F7] rounded-xl p-3 text-xs focus:ring-1 focus:ring-[#D8B35A] focus:border-[#D8B35A] focus:outline-none transition-all resize-none text-[#24152F]"
                         />
                       </div>
@@ -368,7 +416,11 @@ export const AppointmentPage: React.FC = () => {
                         className="w-full py-4 rounded-full bg-green-600 text-white text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-green-700 transition-all disabled:opacity-50"
                       >
                         <Calendar className="h-4.5 w-4.5" />
-                        <span>{submitting ? "Booking..." : "Request Appointment"}</span>
+                        <span>
+                          {submitting 
+                            ? (language === "en" ? "Booking..." : "முன்பதிவு செய்யப்படுகிறது...") 
+                            : (language === "en" ? "Request Appointment" : "முன்பதிவு செய்ய")}
+                        </span>
                       </button>
 
                     </form>
@@ -381,13 +433,17 @@ export const AppointmentPage: React.FC = () => {
                       className="text-center py-12 space-y-4"
                     >
                       <CheckCircle2 className="h-16 w-16 text-[#6D2FA0] mx-auto animate-pulse" />
-                      <h3 className="font-serif font-bold text-[#32105F] text-lg">Request Generated!</h3>
+                      <h3 className="font-serif font-bold text-[#32105F] text-lg">
+                        {language === "en" ? "Request Generated!" : "முன்பதிவு சமர்ப்பிக்கப்பட்டது!"}
+                      </h3>
                       <p className="text-xs text-[#665A70] max-w-sm mx-auto leading-relaxed">
-                        Your consultation booking has been recorded. Redirecting you to our official WhatsApp care channel to confirm your slot with the doctor.
+                        {t("form_book_success")}
                       </p>
                       <div className="flex justify-center items-center gap-1 text-[10px] text-[#665A70] font-light">
                         <AlertCircle className="h-3 w-3" />
-                        <span>Opening WhatsApp web connection...</span>
+                        <span>
+                          {language === "en" ? "Opening WhatsApp connection..." : "வாட்ஸ்அப் பக்கத்திற்குச் செல்கிறது..."}
+                        </span>
                       </div>
                     </motion.div>
                   )}

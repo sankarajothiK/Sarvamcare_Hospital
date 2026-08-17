@@ -3,14 +3,17 @@ import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { departments } from "../data/departments";
 import * as LucideIcons from "lucide-react";
+import { useLanguage } from "../utils/LanguageContext";
 
 export const SpecialitiesPage: React.FC = () => {
+  const { language, t } = useLanguage();
+
   return (
     <>
       <Helmet>
-        <title>Medical Specialities & Clinical Departments | SarvamCare Hospital Salem</title>
+        <title>{language === "en" ? "Medical Specialities & Clinical Departments | SarvamCare Hospital Salem" : "மருத்துவப் பிரிவுகள் & சிறப்புத் துறைகள் | சர்வம் கேர் சேலம்"}</title>
         <meta name="description" content="Explore our medical specialities in Salem: neurosurgery, neurology, orthopaedics, plastic surgery, ent, ophthalmology, general medicine, and advanced hybrid ICU care." />
-        <link rel="canonical" href="https://sarvamcare.com/specialities" />
+        <link rel="canonical" href="https://sarvamcarehospital.in/specialities" />
       </Helmet>
 
       {/* Hero Header */}
@@ -20,10 +23,10 @@ export const SpecialitiesPage: React.FC = () => {
         </div>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <span className="text-[10px] sm:text-xs font-bold tracking-[0.25em] text-[#D8B35A] uppercase block">
-            Clinical Verticals
+            {language === "en" ? "Clinical Verticals" : "சிறப்பு மருத்துவத் துறைகள்"}
           </span>
           <h1 className="font-serif text-3xl sm:text-5xl font-extrabold text-white mt-2 leading-tight">
-            Our Medical Specialities
+            {language === "en" ? "Our Medical Specialities" : "எங்கள் மருத்துவப் பிரிவுகள்"}
           </h1>
           <div className="h-[2px] w-14 bg-[#D8B35A] mx-auto md:mx-0 mt-4.5" />
         </div>
@@ -33,9 +36,13 @@ export const SpecialitiesPage: React.FC = () => {
       <section className="bg-[#FAF7FF] py-16 md:py-24 font-sans">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="font-serif text-2xl sm:text-3.5xl font-bold text-[#32105F]">Comprehensive Clinical Care</h2>
+            <h2 className="font-serif text-2xl sm:text-3.5xl font-bold text-[#32105F]">
+              {language === "en" ? "Comprehensive Clinical Care" : "முழுமையான மருத்துவக் கவனிப்பு"}
+            </h2>
             <p className="text-xs text-[#665A70] font-light mt-2 leading-relaxed">
-              We host specialized consultant doctors across multiple therapeutic areas, coordinating multi-disciplinary clinics to secure optimal patient recovery.
+              {language === "en"
+                ? "We host specialized consultant doctors across multiple therapeutic areas, coordinating multi-disciplinary clinics to secure optimal patient recovery."
+                : "பல்வேறு மருத்துவத் தேவைகளுக்காகத் தகுதி வாய்ந்த சிறப்பு மருத்துவர்கள் கொண்டு சிறந்த முறையில் சிகிச்சை வழங்கி வருகிறோம்."}
             </p>
           </div>
 
@@ -53,10 +60,10 @@ export const SpecialitiesPage: React.FC = () => {
                       <IconComponent className="h-6 w-6" />
                     </div>
                     <h3 className="font-serif text-sm sm:text-base font-bold text-[#32105F] group-hover:text-[#6D2FA0] transition-colors leading-tight">
-                      {dept.name}
+                      {language === "ta" && dept.tamilName ? dept.tamilName : dept.name}
                     </h3>
                     <p className="text-xs text-[#665A70] leading-relaxed font-light">
-                      {dept.description || "Expert clinical consultants providing personalized outpatient and inpatient care programs."}
+                      {language === "ta" && dept.tamilDescription ? dept.tamilDescription : (dept.description || "Expert clinical consultants providing personalized outpatient and inpatient care programs.")}
                     </p>
                   </div>
 
@@ -65,7 +72,7 @@ export const SpecialitiesPage: React.FC = () => {
                       to={`/specialities/${dept.slug}`}
                       className="text-xs font-bold text-[#6D2FA0] hover:text-[#32105F] flex items-center gap-1 transition-colors"
                     >
-                      <span>Explore Services</span>
+                      <span>{language === "en" ? "Explore Services" : "மேலும் அறிய"}</span>
                       <LucideIcons.ChevronRight className="h-3.5 w-3.5" />
                     </Link>
                   </div>

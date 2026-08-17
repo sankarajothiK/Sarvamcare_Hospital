@@ -10,6 +10,7 @@ import { AppRoutes } from "./AppRoutes";
 import { SarvamCareLogo } from "./components/BrandLogos";
 import { initAnalytics, getActiveGaId } from "./utils/analytics";
 import { SocialSidebar } from "./components/SocialSidebar";
+import { LanguageProvider } from "./utils/LanguageContext";
 
 const AppContent: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -160,11 +161,13 @@ const AppContent: React.FC = () => {
 
 export const App: React.FC = () => {
   return (
-    <HelmetProvider>
-      <BrowserRouter>
-        <AppContent />
-      </BrowserRouter>
-    </HelmetProvider>
+    <LanguageProvider>
+      <HelmetProvider>
+        <BrowserRouter>
+          <AppContent />
+        </BrowserRouter>
+      </HelmetProvider>
+    </LanguageProvider>
   );
 };
 

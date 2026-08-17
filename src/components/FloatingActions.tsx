@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Phone, Calendar, Send, X } from "lucide-react";
+import { Phone, Calendar, Send, X, Globe } from "lucide-react";
 import { contactInfo } from "../data/contact";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
+import { useLanguage } from "../utils/LanguageContext";
 
 interface Message {
   sender: "user" | "bot";
@@ -10,6 +11,7 @@ interface Message {
 }
 
 export const FloatingActions: React.FC = () => {
+  const { language, setLanguage } = useLanguage();
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -36,20 +38,40 @@ export const FloatingActions: React.FC = () => {
     // Simulate AI response
     setTimeout(() => {
       const query = userText.toLowerCase();
-      let botReply = "Thank you for reaching out. I'm noting down your inquiry. For immediate emergency/trauma assistance, please contact our 24/7 hotline at +91 94898 78908, or visit our hospital at Salem-Bangalore National Highway, Mamangam.";
+      let botReply = "";
 
-      if (query.includes("neuro") || query.includes("brain") || query.includes("spine") || query.includes("stroke") || query.includes("head")) {
-        botReply = "Our Advanced Neuro & Spine Center is led by Prof. Dr. V. Suresh Kumar. We specialize in microscopic neurosurgery, complex spine fixations, stroke interventions, and brain tumor removals. Would you like to check doctor availability?";
-      } else if (query.includes("cleft") || query.includes("smile") || query.includes("lip") || query.includes("child") || query.includes("plastic")) {
-        botReply = "SarvamCare runs the renowned 'Smiling Monk Cleft Project' providing specialized cleft lip and palate corrective plastic surgery. Our reconstructive team provides caring, child-friendly recovery programs. You can read more in our Specialties section.";
-      } else if (query.includes("trauma") || query.includes("accident") || query.includes("emergency") || query.includes("fracture") || query.includes("ortho")) {
-        botReply = "Our 24/7 Emergency & Trauma unit is always active and equipped with high-speed 32-Slice CT scanning, modern hybrid OTs, and trauma surgeons. Call our helpline at +91 94898 78908 for immediate ambulance dispatch.";
-      } else if (query.includes("appointment") || query.includes("book") || query.includes("slot") || query.includes("consult") || query.includes("visit")) {
-        botReply = "You can schedule a priority visit directly through our digital portal. Please navigate to our '/appointment' section or click the 'Book Consultation Slot' button in our menu drawer.";
-      } else if (query.includes("doctor") || query.includes("surgeon") || query.includes("specialist") || query.includes("registry")) {
-        botReply = "SarvamCare features a board of 20+ specialized medical consultants across Neurosurgery, Neurology, Orthopaedics, ENT, and General Medicine. You can browse the full board under our Doctors section.";
-      } else if (query.includes("cashless") || query.includes("insurance") || query.includes("tpa") || query.includes("policy")) {
-        botReply = "We support cashless hospitalization and lead insurance claims for major TPAs. Please visit our Patient Information page or contact our front desk at the hospital lobby during admission.";
+      if (language === "ta") {
+        botReply = "தொடர்பு கொண்டமைக்கு நன்றி. தங்களது கேள்வியை நாங்கள் பதிவு செய்துள்ளோம். அவசர அல்லது விபத்து சிகிச்சைக்கு எங்களது 24/7 உதவி எண்ணை உடனடியாக அழைக்கவும்: +91 94898 78908, அல்லது சேலம்-பெங்களூரு தேசிய நெடுஞ்சாலை, மாமங்கத்தில் உள்ள எங்களது மருத்துவமனைக்கு வரவும்.";
+        
+        if (query.includes("neuro") || query.includes("brain") || query.includes("spine") || query.includes("stroke") || query.includes("head") || query.includes("மூளை") || query.includes("நரம்பு") || query.includes("தண்டுவடம்")) {
+          botReply = "எங்கள் மேம்பட்ட நரம்பியல் & தண்டுவட சிகிச்சை மையம் பேராசிரியர் Dr. V. சுரேஷ் குமார் தலைமையில் இயங்குகிறது. மூளைக் கட்டிகள், நரம்புத் தளர்ச்சி மற்றும் பக்கவாத சிகிச்சைகளில் நாங்கள் நிபுணத்துவம் பெற்றுள்ளோம். மருத்துவர் சந்திப்பை முன்பதிவு செய்ய விரும்புகிறீர்களா?";
+        } else if (query.includes("cleft") || query.includes("smile") || query.includes("lip") || query.includes("child") || query.includes("plastic") || query.includes("உதடு") || query.includes("புன்னகை")) {
+          botReply = "முயல் உதடு மற்றும் அண்ணப் பிளவு உள்ள குழந்தைகளுக்கு 'புன்னகைத் துறவி' திட்டத்தின் கீழ் எங்களது நிபுணர்கள் பிளாஸ்டிக் மறுசீரமைப்பு அறுவைசிகிச்சைகளை மேற்கொள்கின்றனர். மேலும் அறிய எங்களது சிறப்புத் துறைகள் பக்கத்தைப் பார்க்கவும்.";
+        } else if (query.includes("trauma") || query.includes("accident") || query.includes("emergency") || query.includes("fracture") || query.includes("ortho") || query.includes("விபத்து") || query.includes("எலும்பு")) {
+          botReply = "எங்களது 24/7 விபத்து & அவசர சிகிச்சை பிரிவு 32-ஸ்லைஸ் சிடி ஸ்கேன் மற்றும் நவீன அறுவைசிகிச்சை கூடங்களைக் கொண்டுள்ளது. ஆம்புலன்ஸ் தேவைக்கு +91 94898 78908 என்ற எண்ணை அழைக்கவும்.";
+        } else if (query.includes("appointment") || query.includes("book") || query.includes("slot") || query.includes("consult") || query.includes("visit") || query.includes("பதிவு") || query.includes("நேரம்")) {
+          botReply = "எங்களது இணையதளம் மூலமாக நீங்கள் எளிதாக முன்பதிவு செய்யலாம். மெனுவில் உள்ள 'முன்பதிவு செய்ய' பொத்தானைக் கிளிக் செய்யவும் அல்லது '/appointment' பக்கத்திற்குச் செல்லவும்.";
+        } else if (query.includes("doctor") || query.includes("surgeon") || query.includes("specialist") || query.includes("registry") || query.includes("மருத்துவர்") || query.includes("டாக்டர்")) {
+          botReply = "சர்வம் கேர் மருத்துவமனையில் நரம்பியல், எலும்பியல், பொது மருத்துவம் எனப் பல பிரிவுகளில் 20-க்கும் மேற்பட்ட சிறப்பு மருத்துவர்கள் உள்ளனர். மருத்துவர்கள் பக்கத்தில் முழுப் பட்டியலைக் காணலாம்.";
+        } else if (query.includes("cashless") || query.includes("insurance") || query.includes("tpa") || query.includes("policy") || query.includes("காப்பீடு") || query.includes("இன்சூரன்ஸ்")) {
+          botReply = "அனைத்து முக்கிய காப்பீட்டு நிறுவனங்கள் மூலமாகவும் பணமில்லா (Cashless TPA) சிகிச்சைகளை நாங்கள் வழங்குகிறோம். கூடுதல் விவரங்களுக்கு நோயாளிகள் வழிகாட்டி பக்கத்தைப் பார்க்கவும்.";
+        }
+      } else {
+        botReply = "Thank you for reaching out. I'm noting down your inquiry. For immediate emergency/trauma assistance, please contact our 24/7 hotline at +91 94898 78908, or visit our hospital at Salem-Bangalore National Highway, Mamangam.";
+        
+        if (query.includes("neuro") || query.includes("brain") || query.includes("spine") || query.includes("stroke") || query.includes("head")) {
+          botReply = "Our Advanced Neuro & Spine Center is led by Prof. Dr. V. Suresh Kumar. We specialize in microscopic neurosurgery, complex spine fixations, stroke interventions, and brain tumor removals. Would you like to check doctor availability?";
+        } else if (query.includes("cleft") || query.includes("smile") || query.includes("lip") || query.includes("child") || query.includes("plastic")) {
+          botReply = "SarvamCare runs the renowned 'Smiling Monk Cleft Project' providing specialized cleft lip and palate corrective plastic surgery. Our reconstructive team provides caring, child-friendly recovery programs. You can read more in our Specialties section.";
+        } else if (query.includes("trauma") || query.includes("accident") || query.includes("emergency") || query.includes("fracture") || query.includes("ortho")) {
+          botReply = "Our 24/7 Emergency & Trauma unit is always active and equipped with high-speed 32-Slice CT scanning, modern hybrid OTs, and trauma surgeons. Call our helpline at +91 94898 78908 for immediate ambulance dispatch.";
+        } else if (query.includes("appointment") || query.includes("book") || query.includes("slot") || query.includes("consult") || query.includes("visit")) {
+          botReply = "You can schedule a priority visit directly through our digital portal. Please navigate to our '/appointment' section or click the 'Book Consultation Slot' button in our menu drawer.";
+        } else if (query.includes("doctor") || query.includes("surgeon") || query.includes("specialist") || query.includes("registry")) {
+          botReply = "SarvamCare features a board of 20+ specialized medical consultants across Neurosurgery, Neurology, Orthopaedics, ENT, and General Medicine. You can browse the full board under our Doctors section.";
+        } else if (query.includes("cashless") || query.includes("insurance") || query.includes("tpa") || query.includes("policy")) {
+          botReply = "We support cashless hospitalization and lead insurance claims for major TPAs. Please visit our Patient Information page or contact our front desk at the hospital lobby during admission.";
+        }
       }
 
       setMessages((prev) => [...prev, { sender: "bot", text: botReply }]);
@@ -81,7 +103,19 @@ export const FloatingActions: React.FC = () => {
       </div>
 
       {/* 2. Floating AI Agent Bot Icon Button (Sits above mobile bar / bottom right of screen) */}
-      <div className="fixed bottom-20 md:bottom-6 right-4 md:right-6 z-40 flex flex-col items-end pointer-events-none">
+      <div className="fixed bottom-20 md:bottom-6 right-4 md:right-6 z-40 flex flex-col items-end pointer-events-none gap-2.5">
+        {/* Language Toggle Button (Floating) */}
+        <div className="pointer-events-auto">
+          <button
+            onClick={() => setLanguage(language === "en" ? "ta" : "en")}
+            className="flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-full bg-[#32105F] border border-[#D8B35A] text-[#D8B35A] hover:bg-[#3D176E] shadow-lg hover:scale-105 active:scale-95 transition-all cursor-pointer font-bold text-[9px] uppercase tracking-wider"
+            title={language === "en" ? "தமிழ் மொழிக்கு மாற்றவும்" : "Switch to English"}
+          >
+            <Globe className="h-3 w-3" />
+            <span>{language === "en" ? "தமிழ்" : "English"}</span>
+          </button>
+        </div>
+
         <div className="pointer-events-auto group relative flex items-center">
           
           {/* Tooltip */}
@@ -133,10 +167,14 @@ export const FloatingActions: React.FC = () => {
                   </svg>
                 </div>
                 <div>
-                  <h4 className="text-white text-xs font-bold uppercase tracking-wider">AI Coordinator</h4>
+                  <h4 className="text-white text-xs font-bold uppercase tracking-wider">
+                    {language === "en" ? "AI Coordinator" : "AI ஒருங்கிணைப்பாளர்"}
+                  </h4>
                   <div className="flex items-center gap-1.5 mt-0.5">
                     <div className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
-                    <span className="text-[9px] text-green-400 font-bold uppercase tracking-wide">Online</span>
+                    <span className="text-[9px] text-green-400 font-bold uppercase tracking-wide">
+                      {language === "en" ? "Online" : "ஆன்லைனில்"}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -162,7 +200,11 @@ export const FloatingActions: React.FC = () => {
                         : "bg-[#240d47] text-white border border-[#D8B35A]/15 rounded-tl-none font-light"
                     }`}
                   >
-                    {msg.text}
+                    {i === 0 && msg.sender === "bot" && msg.text.startsWith("Hello!")
+                      ? (language === "ta" 
+                          ? "வணக்கம்! நான் சர்வம் கேர் நிறுவனத்தின் செயற்கை நுண்ணறிவு மருத்துவ ஒருங்கிணைப்பாளர். இன்று நான் உங்களுக்கு எவ்வாறு உதவ முடியும்? எங்களது மூளை/தண்டுவட அறுவைசிகிச்சை, புன்னகைத் துறவி முயல் உதடு சீரமைப்பு, அவசர விபத்து சிகிச்சை, மருத்துவர் நேரம் அல்லது பார்வையாளர்கள் நேரம் பற்றி நீங்கள் என்னிடம் கேட்கலாம்."
+                          : msg.text)
+                      : msg.text}
                   </div>
                 </div>
               ))}
@@ -176,7 +218,7 @@ export const FloatingActions: React.FC = () => {
             >
               <input
                 type="text"
-                placeholder="Ask me about treatments, timings, doctors..."
+                placeholder={language === "en" ? "Ask me about treatments, timings, doctors..." : "சிகிச்சைகள், நேரம், மருத்துவர்கள் பற்றி கேட்க..."}
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 className="flex-grow bg-[#240d47] border border-[#D8B35A]/20 text-white placeholder-indigo-300/40 text-xs px-3.5 py-2.5 rounded-full focus:outline-none focus:border-[#D8B35A] transition-all"

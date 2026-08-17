@@ -3,8 +3,11 @@ import { MessageCircle, ShieldAlert } from "lucide-react";
 import { motion } from "framer-motion";
 import { TraumaCareLogo } from "../components/BrandLogos";
 import { contactInfo } from "../data/contact";
+import { useLanguage } from "../utils/LanguageContext";
 
 export const TraumaCare: React.FC = () => {
+  const { language, t } = useLanguage();
+
   const injuries = [
     { title: "Traumatic Head Injuries", desc: "Emergency cranial decompression & immediate hematoma evacuations." },
     { title: "Complex Craniofacial Trauma", desc: "Stabilization and repair of facial skeletal fractures and tissue lacerations." },
@@ -24,6 +27,43 @@ export const TraumaCare: React.FC = () => {
     "Emergency Care"
   ];
 
+  const getTranslatedRole = (role: string) => {
+    if (language === "ta") {
+      if (role === "Neuro Surgeon") return "நரம்பியல் அறுவை";
+      if (role === "Orthopedician") return "எலும்பியல் நிபுணர்";
+      if (role === "Plastic Surgeon") return "பிளாஸ்டிக் அறுவை";
+      if (role === "Facio Maxillary") return "தாடை & முகம்";
+      if (role === "General Surgeon") return "பொது அறுவை";
+      if (role === "Intensivists") return "தீவிர சிகிச்சை";
+      if (role === "Emergency Care") return "அவசர சிகிச்சை";
+    }
+    return role;
+  };
+
+  const getTranslatedInjuryTitle = (title: string) => {
+    if (language === "ta") {
+      if (title === "Traumatic Head Injuries") return "தலையில் பலத்த காயங்கள்";
+      if (title === "Complex Craniofacial Trauma") return "முக எலும்பு முறிவுகள்";
+      if (title === "Acute Spine & Cord Injury") return "தண்டுவடம் & நரம்புக் காயங்கள்";
+      if (title === "Severe Orthopaedic Injuries") return "தீவிர எலும்பு முறிவுகள்";
+      if (title === "Thoracic & Chest Trauma") return "நெஞ்சுப் பகுதி காயங்கள்";
+      if (title === "Abdominal Injuries") return "வயிற்றுப் பகுதி காயங்கள்";
+    }
+    return title;
+  };
+
+  const getTranslatedInjuryDesc = (title: string, desc: string) => {
+    if (language === "ta") {
+      if (title === "Traumatic Head Injuries") return "அவசரகால மூளை அழுத்த நிவாரண அறுவைசிகிச்சைகள் மற்றும் இரத்த உறைவு அகற்றுதல்.";
+      if (title === "Complex Craniofacial Trauma") return "முக எலும்பு முறிவுகள் மற்றும் தசை கிழிசல்களை சீரமைத்தல்.";
+      if (title === "Acute Spine & Cord Injury") return "தண்டுவட முறிவுகள் மற்றும் நரம்பு அழுத்தத்தை நீக்கும் அவசர அறுவைசிகிச்சைகள்.";
+      if (title === "Severe Orthopaedic Injuries") return "ஒரே நேரத்தில் பல இடங்களில் ஏற்படும் எலும்பு முறிவுகளுக்கான நவீன மறுசீரமைப்பு.";
+      if (title === "Thoracic & Chest Trauma") return "நுரையீரல், விலா எலும்பு மற்றும் மூச்சுக்குழாய் பாதிப்புகளுக்கான அவசர சிகிச்சை.";
+      if (title === "Abdominal Injuries") return "உள் உறுப்புகள் காயம் மற்றும் இரத்தக் கசிவை நிறுத்த அவசர அறுவைசிகிச்சைகள்.";
+    }
+    return desc;
+  };
+
   return (
     <section id="trauma-care" className="relative overflow-hidden bg-gradient-to-br from-[#3D176E] via-[#32105F] to-[#2E0827] border-b border-[#D8B35A]/20 py-16 md:py-24 font-sans">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -40,15 +80,17 @@ export const TraumaCare: React.FC = () => {
           </motion.div>
           
           <span className="text-[10px] sm:text-xs font-bold tracking-[0.25em] text-[#D8B35A] uppercase mt-4">
-            Emergency & Trauma Services
+            {language === "en" ? "Emergency & Trauma Services" : "அவசர மற்றும் விபத்து சிகிச்சை"}
           </span>
           <h2 className="font-serif text-3xl sm:text-4.5xl font-extrabold text-white mt-2">
-            Sarvam Trauma Care
+            {language === "en" ? "Sarvam Trauma Care" : "சர்வம் விபத்து அவசர சிகிச்சை"}
           </h2>
           <div className="h-[2px] w-14 bg-[#D8B35A] mx-auto mt-4.5" />
           
           <p className="text-xs sm:text-sm text-indigo-100/90 mt-4 leading-relaxed font-sans font-light max-w-2xl">
-            Salem's dedicated center for the synchronization of senior surgeons, critical care physicians, and imaging suites, operating 24/7 to manage compound polytrauma.
+            {language === "en"
+              ? "Salem's dedicated center for the synchronization of senior surgeons, critical care physicians, and imaging suites, operating 24/7 to manage compound polytrauma."
+              : "சிறந்த அறுவைசிகிச்சை நிபுணர்கள், தீவிர சிகிச்சை மருத்துவர்கள் மற்றும் ஸ்கேன் வசதிகளை ஒருங்கிணைத்து, 24 மணி நேரமும் அவசர விபத்து சிகிச்சை வழங்கும் சேலத்தின் முதன்மை மையம்."}
           </p>
         </div>
 
@@ -58,7 +100,7 @@ export const TraumaCare: React.FC = () => {
           <div className="lg:col-span-6 space-y-6">
             <h3 className="font-serif text-xl sm:text-2xl font-bold text-white flex items-center gap-2.5 pb-2 border-b border-white/10">
               <ShieldAlert className="h-5 w-5 text-[#D8B35A]" />
-              <span>Injury Management Spectrum</span>
+              <span>{language === "en" ? "Injury Management Spectrum" : "விபத்துக் காயங்களுக்கான சிகிச்சை வரம்பு"}</span>
             </h3>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -71,8 +113,12 @@ export const TraumaCare: React.FC = () => {
                   transition={{ duration: 0.5, delay: index * 0.05 }}
                   className="p-5 rounded-2xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-all duration-300 shadow-sm"
                 >
-                  <h4 className="font-serif font-bold text-[#F3D98A] text-sm sm:text-base">{item.title}</h4>
-                  <p className="text-xs text-indigo-200/80 font-light mt-2 leading-relaxed">{item.desc}</p>
+                  <h4 className="font-serif font-bold text-[#F3D98A] text-sm sm:text-base">
+                    {getTranslatedInjuryTitle(item.title)}
+                  </h4>
+                  <p className="text-xs text-indigo-200/80 font-light mt-2 leading-relaxed">
+                    {getTranslatedInjuryDesc(item.title, item.desc)}
+                  </p>
                 </motion.div>
               ))}
             </div>
@@ -140,7 +186,7 @@ export const TraumaCare: React.FC = () => {
                     style={{ left: "50%", top: "50%" }}
                   >
                     <span className="text-[9px] font-bold text-indigo-100 leading-tight uppercase tracking-wider">
-                      {role}
+                      {getTranslatedRole(role)}
                     </span>
                   </motion.div>
                 );
@@ -150,7 +196,9 @@ export const TraumaCare: React.FC = () => {
 
             <div className="text-center mt-10 space-y-4">
               <p className="text-xs text-indigo-200/90 leading-relaxed font-light max-w-sm">
-                Our trauma unit runs under a synchronized clinical priority code. Specialists are dispatched simultaneously to secure immediate diagnostics.
+                {language === "en"
+                  ? "Our trauma unit runs under a synchronized clinical priority code. Specialists are dispatched simultaneously to secure immediate diagnostics."
+                  : "அவசர காலத்தில் அனைத்து துறை மருத்துவர்களும் உடனடியாக வரவழைக்கப்பட்டு நோயாளிகளுக்குச் சிகிச்சை தொடங்கும் அதிநவீன வசதி."}
               </p>
               <a
                 href={contactInfo.whatsapp.url}
@@ -159,7 +207,7 @@ export const TraumaCare: React.FC = () => {
                 className="inline-flex items-center justify-center gap-2 py-3.5 px-8 rounded-full text-xs font-bold uppercase tracking-wider text-white bg-green-600 hover:bg-green-700 active:scale-95 transition-all shadow-md"
               >
                 <MessageCircle className="h-4.5 w-4.5" />
-                <span>Enquire Trauma Care</span>
+                <span>{language === "en" ? "Enquire Trauma Care" : "விபத்து சிகிச்சை விவரங்கள் பெற"}</span>
               </a>
             </div>
 

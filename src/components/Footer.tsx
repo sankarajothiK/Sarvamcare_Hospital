@@ -1,20 +1,12 @@
+import React from "react";
 import { MapPin, Phone, Mail, MessageCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SarvamCareLogo } from "./BrandLogos";
 import { contactInfo } from "../data/contact";
+import { useLanguage } from "../utils/LanguageContext";
 
 export const Footer: React.FC = () => {
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    const targetElement = document.querySelector(href);
-    if (targetElement) {
-      const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - 70;
-      window.scrollTo({
-        top: targetPosition,
-        behavior: "smooth"
-      });
-    }
-  };
+  const { language, t } = useLanguage();
 
   return (
     <footer className="bg-[#32105F] border-t-2 border-[#D8B35A]/50 text-indigo-100 font-sans relative overflow-hidden">
@@ -31,7 +23,7 @@ export const Footer: React.FC = () => {
               <SarvamCareLogo className="h-11 w-11" showText={true} lightTheme={false} />
             </div>
             <p className="text-xs sm:text-sm text-indigo-200/85 leading-relaxed max-w-sm">
-              SarvamCare Hospital Pvt. Ltd. is a premier royal healthcare center of the future. We coordinate senior specialists, high-definition diagnostics, and advanced microscopic surgery.
+              {t("footer_desc")}
             </p>
             {/* Social Icons */}
             <div className="flex items-center space-x-3 pt-2">
@@ -82,36 +74,36 @@ export const Footer: React.FC = () => {
 
           {/* Quick Links */}
           <div className="space-y-4">
-            <h3 className="font-serif text-white font-bold text-sm sm:text-base tracking-wider uppercase">Navigation</h3>
+            <h3 className="font-serif text-white font-bold text-sm sm:text-base tracking-wider uppercase">{t("quick_links")}</h3>
             <ul className="space-y-2.5 text-xs sm:text-sm">
               <li>
                 <Link to="/" className="text-indigo-200/80 hover:text-[#D8B35A] transition-colors duration-200">
-                  Home Page
+                  {t("home")}
                 </Link>
               </li>
               <li>
                 <Link to="/about" className="text-indigo-200/80 hover:text-[#D8B35A] transition-colors duration-200">
-                  About Us
+                  {t("about")}
                 </Link>
               </li>
               <li>
                 <Link to="/specialities" className="text-indigo-200/80 hover:text-[#D8B35A] transition-colors duration-200">
-                  Specialities
+                  {t("departments")}
                 </Link>
               </li>
               <li>
                 <Link to="/doctors" className="text-indigo-200/80 hover:text-[#D8B35A] transition-colors duration-200">
-                  Consultants
+                  {t("doctors")}
                 </Link>
               </li>
               <li>
                 <Link to="/facilities" className="text-indigo-200/80 hover:text-[#D8B35A] transition-colors duration-200">
-                  Technology & Facilities
+                  {t("facilities")}
                 </Link>
               </li>
               <li>
                 <Link to="/patient-information" className="text-indigo-200/80 hover:text-[#D8B35A] transition-colors duration-200">
-                  Patient Information
+                  {t("patient_info")}
                 </Link>
               </li>
             </ul>
@@ -119,26 +111,28 @@ export const Footer: React.FC = () => {
 
           {/* Specialties */}
           <div className="space-y-4">
-            <h3 className="font-serif text-white font-bold text-sm sm:text-base tracking-wider uppercase">Key Centers</h3>
+            <h3 className="font-serif text-white font-bold text-sm sm:text-base tracking-wider uppercase">
+              {language === "en" ? "Key Centers" : "முக்கிய பிரிவுகள்"}
+            </h3>
             <ul className="space-y-2.5 text-xs sm:text-sm">
               <li>
                 <Link to="/centers/neuro-center" className="text-indigo-200/80 hover:text-[#D8B35A] transition-colors duration-200">
-                  Neurosurgery Center
+                  {language === "en" ? "Neurosurgery Center" : "நரம்பியல் அறுவைசிகிச்சை மையம்"}
                 </Link>
               </li>
               <li>
                 <Link to="/centers/trauma-care" className="text-indigo-200/80 hover:text-[#D8B35A] transition-colors duration-200">
-                  Polytrauma ICU
+                  {language === "en" ? "Polytrauma ICU" : "தீவிர விபத்து சிகிச்சை பிரிவு"}
                 </Link>
               </li>
               <li>
                 <Link to="/centers/craniofacial" className="text-indigo-200/80 hover:text-[#D8B35A] transition-colors duration-200">
-                  Craniofacial Clinic
+                  {language === "en" ? "Craniofacial Clinic" : "முக மறுசீரமைப்பு பிரிவு"}
                 </Link>
               </li>
               <li>
                 <Link to="/appointment" className="text-indigo-200/80 hover:text-[#D8B35A] transition-colors duration-200">
-                  Schedule Booking
+                  {t("book_appointment")}
                 </Link>
               </li>
             </ul>
@@ -146,12 +140,12 @@ export const Footer: React.FC = () => {
 
           {/* Contact Information */}
           <div className="space-y-4">
-            <h3 className="font-serif text-white font-bold text-sm sm:text-base tracking-wider uppercase">Contact Details</h3>
+            <h3 className="font-serif text-white font-bold text-sm sm:text-base tracking-wider uppercase">{t("contact_us")}</h3>
             <ul className="space-y-3.5 text-xs sm:text-sm">
               <li className="flex items-start gap-2.5">
                 <MapPin className="h-5 w-5 text-[#D8B35A] shrink-0 mt-0.5" />
                 <span className="text-indigo-100/90 leading-relaxed">
-                  {contactInfo.address.full}
+                  {language === "ta" ? "மாமாங்கம், சேலம், தமிழ்நாடு, இந்தியா." : contactInfo.address.full}
                 </span>
               </li>
               <li className="flex items-center gap-2.5">
@@ -175,17 +169,24 @@ export const Footer: React.FC = () => {
       {/* Bottom Footer */}
       <div className="bg-[#1e093b] border-t border-white/5 py-6 relative z-10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-[11px] text-indigo-200/60 gap-3">
-          <p>© 2026 SarvamCare Hospital Pvt. Ltd. All Rights Reserved.</p>
+          <p>{t("copyright")}</p>
           <div className="flex items-center space-x-4">
-            <Link to="/privacy-policy" className="hover:text-white transition-colors duration-200">Privacy Policy</Link>
+            <Link to="/privacy-policy" className="hover:text-white transition-colors duration-200">
+              {language === "en" ? "Privacy Policy" : "தனியுரிமைக் கொள்கை"}
+            </Link>
             <span>•</span>
-            <Link to="/terms-and-conditions" className="hover:text-white transition-colors duration-200">Terms & Conditions</Link>
+            <Link to="/terms-and-conditions" className="hover:text-white transition-colors duration-200">
+              {language === "en" ? "Terms & Conditions" : "விதிமுறைகள் & நிபந்தனைகள்"}
+            </Link>
             <span>•</span>
-            <Link to="/disclaimer" className="hover:text-white transition-colors duration-200">Medical Disclaimer</Link>
+            <Link to="/disclaimer" className="hover:text-white transition-colors duration-200">
+              {language === "en" ? "Medical Disclaimer" : "மருத்துவப் பொறுப்புத் துறப்பு"}
+            </Link>
           </div>
         </div>
       </div>
     </footer>
   );
 };
+
 export default Footer;

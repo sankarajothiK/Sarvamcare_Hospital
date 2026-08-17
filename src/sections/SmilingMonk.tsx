@@ -2,8 +2,11 @@ import React from "react";
 import { Sparkles, User, HelpCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { SmilingMonkLogo } from "../components/BrandLogos";
+import { useLanguage } from "../utils/LanguageContext";
 
 export const SmilingMonk: React.FC = () => {
+  const { language, t } = useLanguage();
+
   const services = [
     { title: "Facial Trauma Reconstruction", subtitle: "Acute fracture repairs and secondary correction of old, misaligned facial injuries." },
     { title: "Craniofacial Syndromic Correction", subtitle: "Congenital deformities, microtia, and comprehensive facial syndrome surgeries." },
@@ -22,6 +25,46 @@ export const SmilingMonk: React.FC = () => {
     "Ophthalmologist",
     "Neurosurgeons"
   ];
+
+  const getTranslatedTeamRole = (role: string) => {
+    if (language === "ta") {
+      if (role === "Facio Maxillary Surgeons") return "தாடை மற்றும் முக அறுவைசிகிச்சை நிபுணர்";
+      if (role === "Plastic Surgeons") return "பிளாஸ்டிக் அறுவைசிகிச்சை நிபுணர்";
+      if (role === "Ophthalmologist") return "கண் மருத்துவ நிபுணர்";
+      if (role === "Neurosurgeons") return "நரம்பியல் அறுவைசிகிச்சை நிபுணர்";
+    }
+    return role;
+  };
+
+  const getTranslatedTitle = (title: string) => {
+    if (language === "ta") {
+      if (title === "Facial Trauma Reconstruction") return "முகக் காயங்கள் சீரமைப்பு";
+      if (title === "Craniofacial Syndromic Correction") return "முக வடிவக் குறைபாடு சீரமைப்பு";
+      if (title === "Functional Rhinoplasty") return "மூக்கு வடிவமைப்பு (Rhinoplasty)";
+      if (title === "Eyelid Restoration (Blepharoplasty)") return "இமை வடிவமைப்பு (Blepharoplasty)";
+      if (title === "Orbital Wall Reconstruction") return "கண் கூண்டு முறிவு அறுவைசிகிச்சை";
+      if (title === "Cleft Lip & Palate Correction") return "முயல் உதடு & அண்ண பிளவு சீரமைப்பு";
+      if (title === "Facial Nerve Reanimation") return "முக நரம்பு வாத மறுசீரமைப்பு";
+      if (title === "Aesthetic Otoplasty") return "காது வடிவமைப்பு (Otoplasty)";
+      if (title === "Scar Revision") return "முக தழும்பு திருத்தம்";
+    }
+    return title;
+  };
+
+  const getTranslatedSubtitle = (title: string, subtitle: string) => {
+    if (language === "ta") {
+      if (title === "Facial Trauma Reconstruction") return "விபத்துகளால் ஏற்படும் முக எலும்பு முறிவுகள் மற்றும் பழைய முகக் காயங்களைச் சீரமைத்தல்.";
+      if (title === "Craniofacial Syndromic Correction") return "பிறவிக் குறைபாடுகள் மற்றும் முக வடிவமைப்புக் கோளாறுகளுக்கான சிறப்பு சிகிச்சைகள்.";
+      if (title === "Functional Rhinoplasty") return "சுவாசக் கோளாறுகளைச் சரிசெய்யும் அதே வேளையில் அழகியல் மூக்கு வடிவமைப்பு.";
+      if (title === "Eyelid Restoration (Blepharoplasty)") return "கண் இமை தளர்ச்சி மற்றும் கண் இமைகளில் உள்ள சுருக்கங்களை நீக்கும் சிகிச்சை.";
+      if (title === "Orbital Wall Reconstruction") return "கண்களைச் சுற்றியுள்ள எலும்பு முறிவுகள் மற்றும் கண் வீக்கங்களைச் சரிசெய்தல்.";
+      if (title === "Cleft Lip & Palate Correction") return "குழந்தைகள் மற்றும் பெரியவர்களுக்கான முயல் உதடு மற்றும் அண்ண பிளவு அறுவைசிகிச்சைகள்.";
+      if (title === "Facial Nerve Reanimation") return "முக பக்கவாதத்தால் பாதிக்கப்பட்ட நரம்புகள் மற்றும் தசைகளை மறுசீரமைக்கும் அறுவைசிகிச்சை.";
+      if (title === "Aesthetic Otoplasty") return "வடிவமற்ற அல்லது துருத்திக்கொண்டிருக்கும் காதுகளை அழகாக வடிவமைத்தல்.";
+      if (title === "Scar Revision") return "முகத்தில் உள்ள தழும்புகள் மற்றும் அறுவைசிகிச்சை வடுக்களை மறையச் செய்யும் மேம்பட்ட சிகிச்சைகள்.";
+    }
+    return subtitle;
+  };
 
   return (
     <section id="smiling-monk" className="bg-[#FAF7FF] py-16 md:py-24 border-b border-[#EDE4F7] relative overflow-hidden font-sans">
@@ -45,15 +88,17 @@ export const SmilingMonk: React.FC = () => {
           </motion.div>
           
           <span className="text-[10px] sm:text-xs font-bold tracking-[0.25em] text-[#6D2FA0] uppercase mt-4">
-            Smiling Monk® Cranio Facial Clinic
+            {language === "en" ? "Smiling Monk® Cranio Facial Clinic" : "புன்னகைத் துறவி® முக சீரமைப்பு கிளினிக்"}
           </span>
           <h2 className="font-serif text-3xl sm:text-4.5xl font-extrabold text-[#32105F] mt-2">
-            Reconstructive Facial Surgery
+            {language === "en" ? "Reconstructive Facial Surgery" : "முக சீரமைப்பு மற்றும் பிளாஸ்டிக் அறுவைசிகிச்சை"}
           </h2>
           <div className="h-[2px] w-14 bg-[#D8B35A] mx-auto mt-4.5" />
           
           <p className="text-xs sm:text-sm text-[#665A70] mt-4 leading-relaxed font-sans font-light max-w-2xl">
-            Dedicated clinic for acute facial trauma repair, correction of cleft deformities, and secondary aesthetic revision of facial features.
+            {language === "en"
+              ? "Dedicated clinic for acute facial trauma repair, correction of cleft deformities, and secondary aesthetic revision of facial features."
+              : "முக விபத்துக் காயங்கள், முயல் உதடு பிறவிக் குறைபாடுகள் மற்றும் அழகியல் முக அறுவைசிகிச்சைகளுக்கான சிறப்புப் பிரிவு."}
           </p>
         </div>
 
@@ -61,7 +106,7 @@ export const SmilingMonk: React.FC = () => {
         <div className="max-w-3xl mx-auto mb-12 p-5 rounded-2xl bg-white border border-[#EDE4F7] flex flex-wrap items-center justify-around gap-4 shadow-sm">
           <span className="text-[11px] font-bold text-[#32105F] uppercase tracking-wider flex items-center gap-1.5 shrink-0">
             <User className="h-4 w-4 text-[#D8B35A]" />
-            <span>Clinic Specialists:</span>
+            <span>{language === "en" ? "Clinic Specialists:" : "துறை மருத்துவர்கள்:"}</span>
           </span>
           <div className="flex flex-wrap items-center gap-2 justify-center">
             {team.map((role) => (
@@ -69,7 +114,7 @@ export const SmilingMonk: React.FC = () => {
                 key={role}
                 className="text-[10px] font-bold px-3 py-1.5 rounded-full bg-[#FAF7FF] text-[#6D2FA0] border border-[#EDE4F7]"
               >
-                {role}
+                {getTranslatedTeamRole(role)}
               </span>
             ))}
           </div>
@@ -98,11 +143,11 @@ export const SmilingMonk: React.FC = () => {
                 </div>
                 
                 <h3 className="font-serif text-base font-bold text-[#32105F] pr-4 leading-snug">
-                  {item.title}
+                  {getTranslatedTitle(item.title)}
                 </h3>
                 
                 <p className="text-xs text-[#665A70] leading-relaxed font-sans font-light">
-                  {item.subtitle}
+                  {getTranslatedSubtitle(item.title, item.subtitle)}
                 </p>
 
                 {/* Small gold line - expands on hover */}

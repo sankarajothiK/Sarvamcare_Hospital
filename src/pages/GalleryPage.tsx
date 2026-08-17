@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { Image, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLanguage } from "../utils/LanguageContext";
 
 interface GalleryItem {
   _id: string;
@@ -14,6 +15,7 @@ interface GalleryItem {
 }
 
 export const GalleryPage: React.FC = () => {
+  const { language, t } = useLanguage();
   const [images, setImages] = useState<GalleryItem[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [activeImageIdx, setActiveImageIdx] = useState<number | null>(null);
@@ -223,12 +225,56 @@ export const GalleryPage: React.FC = () => {
     setActiveImageIdx((activeImageIdx - 1 + filteredImages.length) % filteredImages.length);
   };
 
+  const getTranslatedTitle = (img: GalleryItem) => {
+    if (img._id === "img2") return t("gal_img_ramp_title");
+    if (img._id === "img9") return t("gal_img_ct_title");
+    if (img._id === "img10") return t("gal_img_logo_title");
+    if (img._id === "img11") return t("gal_img_main_title");
+    if (img._id === "img12") return t("gal_img_flyer1_title");
+    if (img._id === "img13") return t("gal_img_flyer2_title");
+    if (img._id === "img14") return t("gal_img_flyer3_title");
+    if (img._id === "img15") return t("gal_img_flyer4_title");
+    if (img._id === "img16") return t("gal_img_hosp1_title");
+    if (img._id === "img17") return t("gal_img_hosp2_title");
+    if (img._id === "img18") return t("gal_img_hosp3_title");
+    if (img._id === "img19") return t("gal_img_hosp4_title");
+    if (img._id === "img20") return t("gal_img_hosp5_title");
+    if (img._id === "img21") return t("gal_img_hosp6_title");
+    if (img._id === "img22") return t("gal_img_hosp7_title");
+    if (img._id === "img23") return t("gal_img_hosp8_title");
+    if (img._id === "img24") return t("gal_img_hosp9_title");
+    if (img._id === "img25") return t("gal_img_hosp10_title");
+    return img.title;
+  };
+
+  const getTranslatedDesc = (img: GalleryItem) => {
+    if (img._id === "img2") return t("gal_img_ramp_desc");
+    if (img._id === "img9") return t("gal_img_ct_desc");
+    if (img._id === "img10") return t("gal_img_logo_desc");
+    if (img._id === "img11") return t("gal_img_main_desc");
+    if (img._id === "img12") return t("gal_img_flyer1_desc");
+    if (img._id === "img13") return t("gal_img_flyer2_desc");
+    if (img._id === "img14") return t("gal_img_flyer3_desc");
+    if (img._id === "img15") return t("gal_img_flyer4_desc");
+    if (img._id === "img16") return t("gal_img_hosp1_desc");
+    if (img._id === "img17") return t("gal_img_hosp2_desc");
+    if (img._id === "img18") return t("gal_img_hosp3_desc");
+    if (img._id === "img19") return t("gal_img_hosp4_desc");
+    if (img._id === "img20") return t("gal_img_hosp5_desc");
+    if (img._id === "img21") return t("gal_img_hosp6_desc");
+    if (img._id === "img22") return t("gal_img_hosp7_desc");
+    if (img._id === "img23") return t("gal_img_hosp8_desc");
+    if (img._id === "img24") return t("gal_img_hosp9_desc");
+    if (img._id === "img25") return t("gal_img_hosp10_desc");
+    return img.description;
+  };
+
   return (
     <>
       <Helmet>
-        <title>Hospital Gallery & Infrastructure | SarvamCare Hospital Salem</title>
+        <title>{language === "en" ? "Hospital Gallery & Infrastructure | SarvamCare Hospital Salem" : "விபத்து தீவிர சிகிச்சை புகைப்படங்கள் & கட்டமைப்பு | சர்வம் கேர் மருத்துவமனை சேலம்"}</title>
         <meta name="description" content="View images of our intensive care units (ICUs), modular operating theaters, advanced clinical scanning machines, and campus infrastructure." />
-        <link rel="canonical" href="https://sarvamcare.com/gallery" />
+        <link rel="canonical" href="https://sarvamcarehospital.in/gallery" />
       </Helmet>
 
       {/* Hero Banner */}
@@ -238,32 +284,35 @@ export const GalleryPage: React.FC = () => {
         </div>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <span className="text-[10px] sm:text-xs font-bold tracking-[0.25em] text-[#D8B35A] uppercase block">
-            Media Library
+            {t("gallery_eyebrow")}
           </span>
           <h1 className="font-serif text-3xl sm:text-5xl font-extrabold text-white mt-2 leading-tight">
-            Sarvam Gallery
+            {t("gallery_title")}
           </h1>
+          <p className="text-xs sm:text-sm text-indigo-200/70 mt-3 font-light max-w-xl leading-relaxed">
+            {t("gallery_desc")}
+          </p>
           <div className="h-[2px] w-14 bg-[#D8B35A] mx-auto md:mx-0 mt-4.5" />
         </div>
       </section>
 
-      {/* Filter toolbar & Image grid */}
+      {/* Main Section */}
       <section className="bg-white py-16 md:py-24 font-sans">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          {/* Tabs */}
-          <div className="flex flex-wrap items-center justify-center gap-2.5 mb-12">
-            {categories.map(cat => (
+          {/* Filters */}
+          <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
+            {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-5 py-2.5 rounded-full text-xs font-bold tracking-wide uppercase transition-all duration-300 ${
-                  selectedCategory === cat
+                  selectedCategory.toLowerCase() === cat.toLowerCase()
                     ? "bg-[#32105F] text-white shadow-md"
                     : "bg-[#FAF7FF] border border-[#EDE4F7] text-[#32105F] hover:bg-[#F3EDFA]"
                 }`}
               >
-                {cat}
+                {cat === "all" ? t("gallery_all") : t(`gallery_${cat.toLowerCase()}`)}
               </button>
             ))}
           </div>
@@ -283,7 +332,7 @@ export const GalleryPage: React.FC = () => {
                 >
                   <img
                     src={img.imageUrl}
-                    alt={img.altText || img.title}
+                    alt={img.altText || getTranslatedTitle(img)}
                     loading="lazy"
                     onError={(e) => {
                       (e.target as HTMLImageElement).src = "/sarvam_building_exterior.png";
@@ -291,10 +340,16 @@ export const GalleryPage: React.FC = () => {
                     className="w-full h-auto block group-hover:scale-[1.03] transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#120626]/90 via-[#120626]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
-                    <span className="text-[9px] text-[#D8B35A] uppercase tracking-wider font-bold mb-1">{img.category}</span>
-                    <h4 className="text-sm font-bold text-white leading-tight">{img.title}</h4>
-                    {img.description && (
-                      <p className="text-[10px] text-indigo-200 font-light mt-1 max-h-12 overflow-hidden leading-relaxed">{img.description}</p>
+                    <span className="text-[9px] text-[#D8B35A] uppercase tracking-wider font-bold mb-1">
+                      {img.category === "craniofacial" ? (language === "ta" ? "புன்னகைத் துறவி" : "Smiling Monk") : t(`gallery_${img.category.toLowerCase()}`)}
+                    </span>
+                    <h4 className="text-sm font-bold text-white leading-tight">
+                      {getTranslatedTitle(img)}
+                    </h4>
+                    {getTranslatedDesc(img) && (
+                      <p className="text-[10px] text-indigo-200 font-light mt-1 max-h-12 overflow-hidden leading-relaxed">
+                        {getTranslatedDesc(img)}
+                      </p>
                     )}
                   </div>
                 </div>
@@ -306,9 +361,9 @@ export const GalleryPage: React.FC = () => {
           {!loading && filteredImages.length === 0 && (
             <div className="text-center py-16 border border-dashed border-[#EDE4F7] rounded-3xl max-w-md mx-auto bg-[#FAF7FF] shadow-sm">
               <Image className="h-9 w-9 text-[#D8B35A] mx-auto animate-pulse mb-4" />
-              <h3 className="font-serif font-bold text-[#32105F] text-base">No media items</h3>
+              <h3 className="font-serif font-bold text-[#32105F] text-base">{t("gallery_no_media")}</h3>
               <p className="text-xs text-[#665A70] font-light mt-1.5 px-4 leading-relaxed">
-                There are currently no gallery pictures matching this category. Please check back later.
+                {t("gallery_no_media_desc")}
               </p>
             </div>
           )}
@@ -347,15 +402,19 @@ export const GalleryPage: React.FC = () => {
             >
               <img
                 src={filteredImages[activeImageIdx].imageUrl}
-                alt={filteredImages[activeImageIdx].altText}
+                alt={getTranslatedTitle(filteredImages[activeImageIdx])}
                 onError={(e) => {
                   (e.target as HTMLImageElement).src = "/sarvam_building_exterior.png";
                 }}
                 className="max-w-full max-h-[70vh] object-contain rounded-xl shadow-2xl border border-white/5"
               />
               <div className="text-center max-w-lg">
-                <h4 className="text-white font-bold font-serif text-base">{filteredImages[activeImageIdx].title}</h4>
-                <p className="text-indigo-200/70 text-xs font-light mt-1">{filteredImages[activeImageIdx].description}</p>
+                <h4 className="text-white font-bold font-serif text-base">
+                  {getTranslatedTitle(filteredImages[activeImageIdx])}
+                </h4>
+                <p className="text-indigo-200/70 text-xs font-light mt-1">
+                  {getTranslatedDesc(filteredImages[activeImageIdx])}
+                </p>
               </div>
             </div>
 

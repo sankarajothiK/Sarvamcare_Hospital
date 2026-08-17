@@ -3,38 +3,43 @@ import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { services } from "../data/services";
 import { departments } from "../data/departments";
+import { useLanguage } from "../utils/LanguageContext";
 import { Activity, Brain, ShieldAlert, Sparkles, Bone, Search } from "lucide-react";
 
 export const ServicesPage: React.FC = () => {
+  const { language, t } = useLanguage();
   const [activeTab, setActiveTab] = useState<"all" | "neuro" | "trauma" | "craniofacial" | "orthopaedics" | "other">("all");
   const [searchQuery, setSearchQuery] = useState("");
 
   const categories = [
-    { id: "all", label: "All Services", icon: Activity },
-    { id: "neuro", label: "Neuro Care", icon: Brain },
-    { id: "trauma", label: "Trauma Care", icon: ShieldAlert },
-    { id: "craniofacial", label: "Craniofacial", icon: Sparkles },
-    { id: "orthopaedics", label: "Orthopaedics", icon: Bone }
+    { id: "all", label: t("tab_all"), icon: Activity },
+    { id: "neuro", label: t("tab_neuro"), icon: Brain },
+    { id: "trauma", label: t("tab_trauma"), icon: ShieldAlert },
+    { id: "craniofacial", label: t("tab_craniofacial"), icon: Sparkles },
+    { id: "orthopaedics", label: t("tab_ortho"), icon: Bone }
   ];
 
   const filteredServices = services.filter((srv) => {
     const matchesCategory = activeTab === "all" || srv.category === activeTab;
     const matchesSearch = srv.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          (srv.description && srv.description.toLowerCase().includes(searchQuery.toLowerCase()));
+                          (srv.tamilName && srv.tamilName.toLowerCase().includes(searchQuery.toLowerCase())) ||
+                          (srv.description && srv.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
+                          (srv.tamilDescription && srv.tamilDescription.toLowerCase().includes(searchQuery.toLowerCase()));
     return matchesCategory && matchesSearch;
   });
 
   const getDeptName = (deptId: string) => {
     const dept = departments.find((d) => d.id === deptId);
-    return dept ? dept.name : "Speciality Care";
+    if (!dept) return language === "ta" ? "சிறப்பு பிரிவு" : "Speciality Care";
+    return language === "ta" && dept.tamilName ? dept.tamilName : dept.name;
   };
 
   return (
     <>
       <Helmet>
-        <title>Clinical Services & Treatments | SarvamCare Hospital Salem</title>
+        <title>{language === "en" ? "Clinical Services & Treatments | SarvamCare Hospital Salem" : "மருத்துவ சிகிச்சைகள் மற்றும் சேவைகள் | சர்வம் கேர் மருத்துவமனை சேலம்"}</title>
         <meta name="description" content="Browse our medical treatments: microscopic neurosurgery, cleft lip reconstruction, compound fracture fixation, stroke care, and diagnostic 32 slice CT scans." />
-        <link rel="canonical" href="https://sarvamcare.com/services" />
+        <link rel="canonical" href="https://sarvamcarehospital.in/services" />
       </Helmet>
 
       {/* Hero Header */}
@@ -44,10 +49,10 @@ export const ServicesPage: React.FC = () => {
         </div>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <span className="text-[10px] sm:text-xs font-bold tracking-[0.25em] text-[#D8B35A] uppercase block">
-            Treatments & Solutions
+            {t("spec_explorer_eyebrow")}
           </span>
           <h1 className="font-serif text-3xl sm:text-5xl font-extrabold text-white mt-2 leading-tight">
-            Our Clinical Services
+            {t("spec_explorer_title")}
           </h1>
           <div className="h-[2px] w-14 bg-[#D8B35A] mx-auto md:mx-0 mt-4.5" />
         </div>
@@ -85,7 +90,7 @@ export const ServicesPage: React.FC = () => {
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#665A70]" />
               <input
                 type="text"
-                placeholder="Search clinical services..."
+                placeholder={t("search_placeholder_services")}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-11 pr-4 py-2.5 text-xs bg-white border border-[#EDE4F7] rounded-full focus:outline-none focus:ring-1 focus:ring-[#D8B35A] focus:border-[#D8B35A] transition-all text-[#24152F]"
@@ -103,7 +108,9 @@ export const ServicesPage: React.FC = () => {
                 <div className="space-y-3">
                   <div className="flex justify-between items-start">
                     <span className="text-[9px] bg-[#FAF7FF] text-[#6D2FA0] border border-[#EDE4F7] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">
-                      {srv.category}
+                      {srv.category === "craniofacial" 
+                        ? (language === "ta" ? "புன்னகைத் துறவி" : "Smiling Monk") 
+                        : srv.category}
                     </span>
                     <span className="text-[9px] text-[#665A70] font-medium tracking-wide">
                       {getDeptName(srv.departmentId)}
@@ -111,13 +118,13 @@ export const ServicesPage: React.FC = () => {
                   </div>
                   <h3 className="font-serif text-sm sm:text-base font-bold text-[#32105F] pt-1 flex flex-col gap-1">
                     <span>{srv.name}</span>
-                    {srv.tamilName && (
+                    {srv.tamilName && language === "ta" && (
                       <span className="text-xs font-sans text-slate-500 font-medium tracking-normal leading-relaxed">{srv.tamilName}</span>
                     )}
                   </h3>
-                  {srv.description && (
-                    <p className="text-xs text-[#665A70] leading-relaxed font-light">
-                      {srv.description}
+                  {(language === "ta" ? srv.tamilDescription : srv.description) && (
+                    <p className="text-xs text-[#665A70] leading-relaxed font-light font-sans">
+                      {language === "ta" ? srv.tamilDescription : srv.description}
                     </p>
                   )}
                 </div>
@@ -127,7 +134,7 @@ export const ServicesPage: React.FC = () => {
                     to={`/specialities/${srv.departmentId}`}
                     className="text-[10px] font-bold text-[#6D2FA0] hover:text-[#32105F] transition-colors uppercase tracking-wider"
                   >
-                    View Specialty Details
+                    {t("view_specialty_details")}
                   </Link>
                 </div>
               </div>
@@ -138,9 +145,9 @@ export const ServicesPage: React.FC = () => {
           {filteredServices.length === 0 && (
             <div className="text-center py-16 border border-dashed border-[#EDE4F7] rounded-3xl max-w-md mx-auto bg-white shadow-sm">
               <Activity className="h-9 w-9 text-[#D8B35A] mx-auto animate-pulse mb-4" />
-              <h3 className="font-serif font-bold text-[#32105F] text-base">No services found</h3>
+              <h3 className="font-serif font-bold text-[#32105F] text-base">{t("no_services_found")}</h3>
               <p className="text-xs text-[#665A70] font-light mt-1.5 px-4 leading-relaxed">
-                We couldn't find matching services for your search. Try changing category tabs or queries.
+                {t("no_services_desc")}
               </p>
             </div>
           )}

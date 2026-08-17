@@ -3,8 +3,10 @@ import { Compass, Calendar, Phone, MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { contactInfo } from "../data/contact";
+import { useLanguage } from "../utils/LanguageContext";
 
 export const Hero: React.FC = () => {
+  const { t } = useLanguage();
   const handleScroll = (href: string) => {
     const targetElement = document.querySelector(href);
     if (targetElement) {
@@ -65,7 +67,7 @@ export const Hero: React.FC = () => {
                 transition={{ duration: 0.6 }}
                 className="inline-block text-[10px] sm:text-xs font-bold tracking-[0.25em] text-[#D8B35A] md:text-[#6D2FA0] uppercase drop-shadow-sm md:drop-shadow-none invisible pointer-events-none"
               >
-                SARVAMCARE HOSPITAL
+                {t("hero_eyebrow")}
               </motion.span>
 
               {/* Title */}
@@ -75,8 +77,8 @@ export const Hero: React.FC = () => {
                 transition={{ duration: 0.8, delay: 0.1 }}
                 className="font-serif text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white md:text-[#32105F] leading-[1.12] drop-shadow-sm md:drop-shadow-none invisible pointer-events-none"
               >
-                Advanced Healthcare.<br />
-                <span className="gold-gradient-text md:bg-none md:text-[#C89B3C] font-black drop-shadow-sm md:drop-shadow-none">Compassionate Care.</span>
+                {t("hero_title")}<br />
+                <span className="gold-gradient-text md:bg-none md:text-[#C89B3C] font-black drop-shadow-sm md:drop-shadow-none">{t("hero_subtitle")}</span>
               </motion.h1>
               
               {/* Supporting Text */}
@@ -86,7 +88,7 @@ export const Hero: React.FC = () => {
                 transition={{ duration: 0.6, delay: 0.25 }}
                 className="text-sm sm:text-base md:text-lg text-indigo-100 md:text-[#32105F]/85 max-w-xl mx-auto md:mx-0 leading-relaxed font-normal drop-shadow-sm md:drop-shadow-none invisible pointer-events-none"
               >
-                Comprehensive, ethical and patient-centred healthcare with experienced specialists and advanced medical facilities.
+                {t("hero_desc")}
               </motion.p>
             </div>
           </div>

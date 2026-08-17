@@ -4,22 +4,26 @@ import { motion, AnimatePresence } from "framer-motion";
 import { services } from "../data/services";
 import { departments } from "../data/departments";
 import { contactInfo } from "../data/contact";
+import { useLanguage } from "../utils/LanguageContext";
 
 export const SpecialitiesExplorer: React.FC = () => {
+  const { language, t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   const filters = [
-    { id: "all", label: "All Specialities" },
-    { id: "neuro", label: "Neuro Center" },
-    { id: "trauma", label: "Trauma Care" },
-    { id: "orthopaedics", label: "Orthopaedics" },
-    { id: "craniofacial", label: "Craniofacial Clinic" },
-    { id: "other", label: "Other Specialties" }
+    { id: "all", label: t("tab_all") },
+    { id: "neuro", label: t("tab_neuro") },
+    { id: "trauma", label: t("tab_trauma") },
+    { id: "orthopaedics", label: t("tab_ortho") },
+    { id: "craniofacial", label: t("tab_craniofacial") },
+    { id: "other", label: t("tab_other") }
   ];
 
   const getDeptName = (deptId: string) => {
-    return departments.find((d) => d.id === deptId)?.name || deptId;
+    const dept = departments.find((d) => d.id === deptId);
+    if (!dept) return deptId;
+    return language === "ta" && dept.tamilName ? dept.tamilName : dept.name;
   };
 
   const filteredServices = services.filter((service) => {
@@ -31,9 +35,11 @@ export const SpecialitiesExplorer: React.FC = () => {
     if (searchQuery.trim() !== "") {
       const query = searchQuery.toLowerCase();
       const nameMatch = service.name.toLowerCase().includes(query);
+      const tamilNameMatch = service.tamilName?.toLowerCase().includes(query) || false;
       const descMatch = service.description?.toLowerCase().includes(query) || false;
+      const tamilDescMatch = service.tamilDescription?.toLowerCase().includes(query) || false;
       const deptMatch = getDeptName(service.departmentId).toLowerCase().includes(query);
-      return nameMatch || descMatch || deptMatch;
+      return nameMatch || tamilNameMatch || descMatch || tamilDescMatch || deptMatch;
     }
     return true;
   });
@@ -45,13 +51,13 @@ export const SpecialitiesExplorer: React.FC = () => {
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-10 md:mb-12">
           <span className="text-[10px] sm:text-xs font-bold tracking-[0.25em] text-[#6D2FA0] uppercase">
-            Treatments & Capabilities
+            {t("spec_explorer_eyebrow")}
           </span>
           <h2 className="font-serif text-3xl sm:text-4.5xl font-extrabold text-[#32105F] mt-2">
-            Clinical Services Explorer
+            {t("spec_explorer_title")}
           </h2>
           <p className="text-xs sm:text-sm text-[#665A70] mt-3 font-light">
-            Filter or search our complete clinical diagnostics, neurosurgeries, and therapies.
+            {t("spec_explorer_desc")}
           </p>
           <div className="h-[2px] w-14 bg-[#D8B35A] mx-auto mt-4.5" />
         </div>
@@ -81,7 +87,7 @@ export const SpecialitiesExplorer: React.FC = () => {
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#665A70]" />
             <input
               type="text"
-              placeholder="Search clinical procedures..."
+              placeholder={t("search_placeholder_services")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2.5 text-xs bg-[#FAF7FF] border border-[#EDE4F7] rounded-full focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D8B35A] focus:border-[#D8B35A] transition-all text-[#24152F]"
@@ -111,19 +117,21 @@ export const SpecialitiesExplorer: React.FC = () => {
                       {getDeptName(service.departmentId)}
                     </span>
                     <span className="text-[9px] uppercase font-bold text-[#6D2FA0] bg-[#FAF7FF] border border-[#EDE4F7] px-2.5 py-0.5 rounded-full">
-                      {service.category === "craniofacial" ? "Smiling Monk" : service.category}
+                      {service.category === "craniofacial" 
+                        ? (language === "ta" ? "புன்னகைத் துறவி" : "Smiling Monk") 
+                        : service.category}
                     </span>
                   </div>
 
                   <h3 className="font-serif font-bold text-[#32105F] text-base mt-4 group-hover:text-[#6D2FA0] transition-colors flex flex-col gap-1">
                     <span>{service.name}</span>
-                    {service.tamilName && (
+                    {service.tamilName && language === "ta" && (
                       <span className="text-xs font-sans text-slate-500 font-medium tracking-normal leading-relaxed">{service.tamilName}</span>
                     )}
                   </h3>
-                  {service.description && (
+                  {(language === "ta" ? service.tamilDescription : service.description) && (
                     <p className="text-xs text-[#665A70] mt-2.5 leading-relaxed font-light font-sans">
-                      {service.description}
+                      {language === "ta" ? service.tamilDescription : service.description}
                     </p>
                   )}
                 </div>
@@ -135,7 +143,7 @@ export const SpecialitiesExplorer: React.FC = () => {
                     rel="noopener noreferrer"
                     className="text-xs font-bold text-[#6D2FA0] hover:text-[#32105F] flex items-center gap-0.5 transition-colors"
                   >
-                    <span>Enquire Service</span>
+                    <span>{t("enquire_service")}</span>
                     <ChevronRight className="h-3.5 w-3.5" />
                   </a>
                   <div className="p-1.5 rounded bg-[#FAF7FF] text-[#D8B35A] border border-[#D8B35A]/25">
@@ -151,9 +159,9 @@ export const SpecialitiesExplorer: React.FC = () => {
         {filteredServices.length === 0 && (
           <div className="text-center py-16 border border-dashed border-[#EDE4F7] rounded-3xl max-w-md mx-auto bg-[#FAF7FF]">
             <Compass className="h-9 w-9 text-[#D8B35A] mx-auto animate-spin-slow mb-4" />
-            <h3 className="font-serif font-bold text-[#32105F] text-base">No services found</h3>
+            <h3 className="font-serif font-bold text-[#32105F] text-base">{t("no_services_found")}</h3>
             <p className="text-xs text-[#665A70] font-light mt-1.5 px-4 leading-relaxed">
-              We couldn't find matches for "{searchQuery}". Please check spelling or contact the hospital helper line directly.
+              {t("no_services_desc")}
             </p>
           </div>
         )}
@@ -162,4 +170,5 @@ export const SpecialitiesExplorer: React.FC = () => {
     </section>
   );
 };
+
 export default SpecialitiesExplorer;

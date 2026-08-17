@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet-async";
 import { Phone, MessageCircle, Award, ArrowLeft, Heart, CheckCircle2 } from "lucide-react";
 import { contactInfo } from "../data/contact";
 import { doctors as staticDoctors } from "../data/doctors";
+import { useLanguage } from "../utils/LanguageContext";
 
 interface DoctorData {
   _id: string;
@@ -14,10 +15,12 @@ interface DoctorData {
   biography?: string;
   expertise?: string[];
   status?: string;
+  profileImage?: string;
 }
 
 export const DoctorDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
+  const { language, t } = useLanguage();
   const [doctor, setDoctor] = useState<DoctorData | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -114,7 +117,7 @@ export const DoctorDetail: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#FAF7FF]">
-        <div className="h-10 w-10 border-2 border-brand-purple border-t-brand-gold rounded-full animate-spin" />
+        <div className="h-10 w-10 border-2 border-[#32105F] border-t-[#D8B35A] rounded-full animate-spin" />
       </div>
     );
   }
@@ -122,24 +125,101 @@ export const DoctorDetail: React.FC = () => {
   if (!doctor) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-[#FAF7FF] px-4 text-center">
-        <h2 className="font-serif text-3xl font-bold text-[#32105F] mb-2">Physician Profile Not Found</h2>
-        <p className="text-xs text-[#665A70] mb-6">We couldn't retrieve records for this consultant.</p>
+        <h2 className="font-serif text-3xl font-bold text-[#32105F] mb-2">{t("not_found_title")}</h2>
+        <p className="text-xs text-[#665A70] mb-6">{t("not_found_desc")}</p>
         <Link to="/doctors" className="px-6 py-2.5 bg-[#32105F] text-white rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-2">
           <ArrowLeft className="h-4 w-4" />
-          <span>Specialists Directory</span>
+          <span>{language === "en" ? "Specialists Directory" : "மருத்துவர்கள் விபரப்பட்டியல்"}</span>
         </Link>
       </div>
     );
   }
 
+  const staticDoc = staticDoctors.find(d => d.id === doctor._id || d.name === doctor.name);
   const deptSlug = doctor.departmentId;
+
+  const getDoctorName = () => {
+    return language === "ta" && staticDoc?.tamilName ? staticDoc.tamilName : doctor.name;
+  };
+
+  const getDocDesignation = () => {
+    if (language === "ta") {
+      if (staticDoc?.id === "dr-v-suresh-kumar") {
+        return "தலைமை நரம்பியல் அறுவைசிகிச்சை நிபுணர் & துறைத் தலைவர்";
+      }
+      const desc = doctor.designation;
+      if (desc === "Consultant Neurosurgeon") return "நரம்பியல் அறுவைசிகிச்சை நிபுணர்";
+      if (desc === "Consultant Neurologist") return "நரம்பியல் சிறப்பு மருத்துவர்";
+      if (desc === "Consultant Reconstructive Surgeon") return "மறுசீரமைப்பு அறுவைசிகிச்சை நிபுணர்";
+      if (desc === "Consultant Facio Maxillary Surgeon") return "தாடை மற்றும் முக அறுவைசிகிச்சை நிபுணர்";
+      if (desc === "Consultant Orthopaedic Surgeon") return "எலும்பு மற்றும் மூட்டு அறுவைசிகிச்சை நிபுணர்";
+      if (desc === "Consultant Psychiatrist") return "மனநல சிறப்பு மருத்துவர்";
+      if (desc === "Consultant ENT Surgeon") return "காது, மூக்கு, தொண்டை சிறப்பு மருத்துவர்";
+      if (desc === "Consultant Ophthalmologist") return "கண் மருத்துவ நிபுணர்";
+      if (desc === "Consultant General Physician") return "பொது நலம் மற்றும் சர்க்கரை நோய் சிறப்பு மருத்துவர்";
+      if (desc === "Consultant General Surgeon") return "பொது அறுவைசிகிச்சை நிபுணர்";
+      if (desc === "Consultant Radiologist") return "கதிரியக்கவியல் (ஸ்கேன்) நிபுணர்";
+    }
+    return doctor.designation;
+  };
+
+  const getBiography = () => {
+    return language === "ta" && staticDoc?.tamilBio ? staticDoc.tamilBio : doctor.biography;
+  };
+
+  const getExpertiseTranslation = (exp: string) => {
+    if (language === "ta") {
+      const map: Record<string, string> = {
+        "Brain Tumor Resections": "மூளைக் கட்டி அறுவைசிகிச்சை",
+        "Vascular Aneurysm Clipping": "இரத்தக் குழாய் அடைப்பு நீக்கம்",
+        "Minimally Invasive Spine Surgery": "தண்டுவட நுண்-துளை அறுவைசிகிச்சை",
+        "Skull Base Surgery": "மூளை தளம் சார்ந்த அறுவைசிகிச்சை",
+        "Microsurgical Spine Procedures": "நுண்ணோக்கி தண்டுவட அறுவைசிகிச்சை",
+        "Peripheral Nerve Decompressions": "நரம்பு அழுத்த நிவாரண சிகிச்சை",
+        "Brain Tumors Management": "மூளைக்கட்டி மேலாண்மை",
+        "Stroke Intervention Clinic": "பக்கவாதம் அவசர சிகிச்சை",
+        "EEG Diagnostics": "EEG நரம்பு பரிசோதனை",
+        "Epilepsy Management": "வலிப்பு நோய் மேலாண்மை",
+        "Neuropathies Therapy": "நரம்பு தளர்ச்சி சிகிச்சை",
+        "Microvascular Soft Tissue Transfers": "நுண் இரத்த நாள திசு மாற்று அறுவைசிகிச்சை",
+        "Rhinoplasty & Scar Revision": "மூக்கு வடிவமைப்பு மற்றும் தழும்பு திருத்தம்",
+        "Cleft Lip & Palate Correction": "முயல் உதடு மற்றும் அண்ண பிளவு சீரமைப்பு",
+        "Facial Skeletal Fracture Repair": "முக எலும்பு முறிவு மறுசீரமைப்பு",
+        "Orbital Reconstructions": "கண் எலும்பு கூடு மறுசீரமைப்பு",
+        "Craniofacial Syndromic Alignment": "முக வடிவ சீரமைப்பு",
+        "Complex Compound Fracture Fixation": "தீவிர எலும்பு முறிவு சீரமைப்பு",
+        "Joint Replacement Surgery": "மூட்டு மாற்று அறுவைசிகிச்சை",
+        "Spine Trauma Stabilization": "தண்டுவட விபத்து காயம் சீரமைப்பு",
+        "Cognitive Behavioral Support": "மனநல ஆலோசனை",
+        "Mental Health Diagnostics": "மனநல பரிசோதனை",
+        "Geriatric Psychiatry": "முதியோர் மனநல சிகிச்சை",
+        "Ear Reshaping (Otoplasty)": "காது வடிவமைப்பு (Otoplasty)",
+        "Head & Neck Surgery": "தலை மற்றும் கழுத்து அறுவைசிகிச்சை",
+        "Sinus Endoscopy": "சைனஸ் எண்டோஸ்கோபி",
+        "Primary Vision Diagnostics": "பார்வை பரிசோதனை",
+        "Eye Laceration Repairs": "கண் காயங்கள் சீரமைப்பு",
+        "Aesthetic Blepharoplasty": "கண் இமை வடிவமைப்பு",
+        "Diabetes Care Management": "சர்க்கரை நோய் மேலாண்மை",
+        "Hypertension Regulation": "உயர் இரத்த அழுத்த மேலாண்மை",
+        "Chronic Disease Therapies": "நாள்பட்ட நோய் சிகிச்சைகள்",
+        "Laproscopic Appendectomies": "லாப்ராஸ்கோபி குடல்வால் அறுவைசிகிச்சை",
+        "Abdominal Trauma Laparotomy": "வயிற்று பகுதி காயங்களுக்கான லேப்ராடமி",
+        "Soft Tissue Biopsies": "திசு பரிசோதனை (Biopsy)",
+        "High-Resolution 32-Slice CT Imaging": "அதிநவீன 32-ஸ்லைஸ் சிடி ஸ்கேன்",
+        "Digital Ultrasound": "டிஜிட்டல் அல்ட்ராசவுண்ட் ஸ்கேன்",
+        "X-ray Diagnostics": "எக்ஸ்ரே பரிசோதனை"
+      };
+      return map[exp] || exp;
+    }
+    return exp;
+  };
 
   return (
     <>
       <Helmet>
-        <title>{`${doctor.name} | ${doctor.qualification} - SarvamCare Hospital`}</title>
-        <meta name="description" content={`Consult ${doctor.name}, ${doctor.designation} at SarvamCare Salem. Read qualifications, clinical expertise, and schedule priority slots.`} />
-        <link rel="canonical" href={`https://sarvamcare.com/doctors/${slug}`} />
+        <title>{`${getDoctorName()} | ${doctor.qualification} - ${language === "en" ? "SarvamCare Hospital" : "சர்வம் கேர் மருத்துவமனை"}`}</title>
+        <meta name="description" content={`Consult ${getDoctorName()}, ${getDocDesignation()} at SarvamCare Salem. Read qualifications, clinical expertise, and schedule priority slots.`} />
+        <link rel="canonical" href={`https://sarvamcarehospital.in/doctors/${slug}`} />
       </Helmet>
 
       {/* Hero section */}
@@ -153,16 +233,16 @@ export const DoctorDetail: React.FC = () => {
             className="inline-flex items-center gap-1.5 text-xs text-[#D8B35A] hover:text-white font-bold uppercase tracking-wider mb-6 transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
-            <span>Back to Specialists</span>
+            <span>{language === "en" ? "Back to Specialists" : "மருத்துவர்கள் பட்டியலுக்கு"}</span>
           </Link>
           <span className="text-[10px] sm:text-xs font-bold tracking-[0.25em] text-[#D8B35A] uppercase block">
-            Specialist Spotlight
+            {language === "en" ? "Specialist Spotlight" : "சிறப்பு மருத்துவர் விவரம்"}
           </span>
           <h1 className="font-serif text-3xl sm:text-5xl font-extrabold text-white mt-2 leading-tight">
-            {doctor.name}
+            {getDoctorName()}
           </h1>
           <p className="text-sm sm:text-base text-indigo-200 mt-1 font-semibold tracking-wide">
-            {doctor.designation}
+            {getDocDesignation()}
           </p>
           <div className="h-[2px] w-14 bg-[#D8B35A] mt-4.5" />
         </div>
@@ -182,7 +262,7 @@ export const DoctorDetail: React.FC = () => {
                   {doctor.profileImage ? (
                     <img
                       src={doctor.profileImage}
-                      alt={doctor.name}
+                      alt={getDoctorName()}
                       className="h-full w-full rounded-full object-cover"
                     />
                   ) : (
@@ -196,17 +276,19 @@ export const DoctorDetail: React.FC = () => {
                 </div>
 
                 <div className="space-y-1">
-                  <h3 className="text-base font-bold text-[#32105F] leading-tight">{doctor.name}</h3>
+                  <h3 className="text-base font-bold text-[#32105F] leading-tight">{getDoctorName()}</h3>
                   <p className="text-xs text-[#6D2FA0] font-semibold tracking-wide">{doctor.qualification}</p>
                 </div>
 
                 <div className="pt-4 border-t border-[#EDE4F7] space-y-3">
-                  <span className="text-[10px] text-[#665A70] font-bold uppercase tracking-wider block">Specialty Area</span>
+                  <span className="text-[10px] text-[#665A70] font-bold uppercase tracking-wider block">
+                    {language === "en" ? "Specialty Area" : "சிறப்புப் பிரிவு"}
+                  </span>
                   <Link
                     to={`/departments/${deptSlug}`}
                     className="inline-block text-xs font-bold text-[#32105F] hover:text-[#6D2FA0] bg-white border border-[#EDE4F7] px-4 py-2 rounded-full transition-all shadow-sm"
                   >
-                    Explore Department
+                    {t("explore_department")}
                   </Link>
                 </div>
               </div>
@@ -216,14 +298,14 @@ export const DoctorDetail: React.FC = () => {
             <div className="lg:col-span-8 space-y-10">
               
               {/* Bio */}
-              {doctor.biography && (
+              {getBiography() && (
                 <div className="space-y-4">
                   <h2 className="font-serif text-2xl sm:text-3.5xl font-bold text-[#32105F] flex items-center gap-2">
                     <Heart className="h-5 w-5 text-[#D8B35A] fill-[#D8B35A]/10" />
-                    <span>Clinical Profile</span>
+                    <span>{language === "en" ? "Clinical Profile" : "மருத்துவ விவரக்குறிப்பு"}</span>
                   </h2>
-                  <p className="text-sm text-[#665A70] leading-relaxed font-light font-sans">
-                    {doctor.biography}
+                  <p className="text-sm text-[#665A70] leading-relaxed font-light font-sans whitespace-pre-line">
+                    {getBiography()}
                   </p>
                 </div>
               )}
@@ -231,12 +313,16 @@ export const DoctorDetail: React.FC = () => {
               {/* Area of Expertise */}
               {doctor.expertise && doctor.expertise.length > 0 && (
                 <div className="space-y-5">
-                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#32105F]">Core Expertise</h3>
+                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#32105F]">
+                    {language === "en" ? "Core Expertise" : "சிகிச்சைத் திறன்கள்"}
+                  </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                     {doctor.expertise.map((exp, i) => (
                       <div key={i} className="flex items-start gap-2.5 p-3.5 rounded-xl border border-[#EDE4F7] bg-[#FAF7FF]/40">
                         <CheckCircle2 className="h-4.5 w-4.5 text-[#D8B35A] shrink-0 mt-0.5" />
-                        <span className="text-xs sm:text-sm font-semibold text-[#32105F]">{exp}</span>
+                        <span className="text-xs sm:text-sm font-semibold text-[#32105F]">
+                          {getExpertiseTranslation(exp)}
+                        </span>
                       </div>
                     ))}
                   </div>
@@ -246,9 +332,13 @@ export const DoctorDetail: React.FC = () => {
               {/* Appointment CTA Card */}
               <div className="p-6 md:p-8 rounded-3xl border border-[#EDE4F7] bg-[#FAF7FF] space-y-5 shadow-sm">
                 <div className="space-y-1">
-                  <h4 className="font-serif text-lg font-bold text-[#32105F]">Schedule Consultation</h4>
+                  <h4 className="font-serif text-lg font-bold text-[#32105F]">
+                    {language === "en" ? "Schedule Consultation" : "முன்பதிவு செய்ய"}
+                  </h4>
                   <p className="text-xs text-[#665A70] font-light leading-relaxed">
-                    Directly coordinate with {doctor.name}'s clinic helpdesk for immediate slot confirmation.
+                    {language === "en" 
+                      ? `Directly coordinate with ${getDoctorName()}'s clinic helpdesk for immediate slot confirmation.` 
+                      : `உடனடி முன்பதிவிற்கு எங்களைத் தொடர்பு கொள்ளவும்.`}
                   </p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4 pt-2">
@@ -257,7 +347,7 @@ export const DoctorDetail: React.FC = () => {
                     className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider text-white bg-[#32105F] hover:bg-[#3D176E] transition-all shadow-md"
                   >
                     <Phone className="h-4 w-4" />
-                    <span>Call Direct Line</span>
+                    <span>{language === "en" ? "Call Direct Line" : "நேரடி உதவி எண்"}</span>
                   </a>
                   <a
                     href={contactInfo.whatsapp.url}
@@ -266,7 +356,7 @@ export const DoctorDetail: React.FC = () => {
                     className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider text-white bg-green-600 hover:bg-green-700 transition-all shadow-md"
                   >
                     <MessageCircle className="h-4.5 w-4.5" />
-                    <span>WhatsApp Inquiry</span>
+                    <span>{t("whatsapp_chat")}</span>
                   </a>
                 </div>
               </div>

@@ -5,26 +5,30 @@ import { Search, ChevronRight, Stethoscope } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { doctors as staticDoctors } from "../data/doctors";
 import { departments } from "../data/departments";
+import { useLanguage } from "../utils/LanguageContext";
 
 interface DoctorData {
   _id: string;
   name: string;
+  tamilName?: string;
   qualification: string;
   designation: string;
+  tamilDesignation?: string;
   departmentId: string;
   profileImage?: string;
   expertise?: string[];
 }
 
 export const DoctorsPage: React.FC = () => {
+  const { language, t } = useLanguage();
   const [doctors, setDoctors] = useState<DoctorData[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDept, setSelectedDept] = useState("all");
   const [loading, setLoading] = useState(true);
 
   const departmentsFilter = [
-    { id: "all", label: "All Specialists" },
-    ...departments.map((d) => ({ id: d.id, label: d.name }))
+    { id: "all", label: language === "en" ? "All Specialists" : "அனைத்து மருத்துவர்கள்" },
+    ...departments.map((d) => ({ id: d.id, label: language === "ta" && d.tamilName ? d.tamilName : d.name }))
   ];
 
   useEffect(() => {
@@ -41,37 +45,52 @@ export const DoctorsPage: React.FC = () => {
         // Fallback to our comprehensive data array
         const mappedDocs: DoctorData[] = staticDoctors.map((doc) => {
           let designation = "Consultant Specialist";
+          let tamilDesignation = "சிறப்பு ஆலோசகர்";
           if (doc.id === "dr-v-suresh-kumar") {
             designation = "Chief Consultant Neurosurgeon & HOD";
+            tamilDesignation = "தலைமை நரம்பியல் அறுவைசிகிச்சை நிபுணர் & துறைத் தலைவர்";
           } else if (doc.specialties.includes("neurosurgery")) {
             designation = "Consultant Neurosurgeon";
+            tamilDesignation = "நரம்பியல் அறுவைசிகிச்சை நிபுணர்";
           } else if (doc.specialties.includes("neurology")) {
             designation = "Consultant Neurologist";
+            tamilDesignation = "நரம்பியல் சிறப்பு மருத்துவர்";
           } else if (doc.specialties.includes("plastic-surgery")) {
             designation = "Consultant Reconstructive Surgeon";
+            tamilDesignation = "மறுசீரமைப்பு அறுவைசிகிச்சை நிபுணர்";
           } else if (doc.specialties.includes("faciomaxillary")) {
             designation = "Consultant Facio Maxillary Surgeon";
+            tamilDesignation = "தாடை மற்றும் முக அறுவைசிகிச்சை நிபுணர்";
           } else if (doc.specialties.includes("orthopaedics")) {
             designation = "Consultant Orthopaedic Surgeon";
+            tamilDesignation = "எலும்பு மற்றும் மூட்டு அறுவைசிகிச்சை நிபுணர்";
           } else if (doc.specialties.includes("psychiatry")) {
             designation = "Consultant Psychiatrist";
+            tamilDesignation = "மனநல சிறப்பு மருத்துவர்";
           } else if (doc.specialties.includes("ent")) {
             designation = "Consultant ENT Surgeon";
+            tamilDesignation = "காது, மூக்கு, தொண்டை சிறப்பு மருத்துவர்";
           } else if (doc.specialties.includes("ophthalmology")) {
             designation = "Consultant Ophthalmologist";
+            tamilDesignation = "கண் மருத்துவ நிபுணர்";
           } else if (doc.specialties.includes("general-medicine")) {
             designation = "Consultant General Physician";
+            tamilDesignation = "பொது நலம் மற்றும் சர்க்கரை நோய் சிறப்பு மருத்துவர்";
           } else if (doc.specialties.includes("general-surgery")) {
             designation = "Consultant General Surgeon";
+            tamilDesignation = "பொது அறுவைசிகிச்சை நிபுணர்";
           } else if (doc.specialties.includes("radiology")) {
             designation = "Consultant Radiologist";
+            tamilDesignation = "கதிரியக்கவியல் (ஸ்கேன்) நிபுணர்";
           }
           
           return {
             _id: doc.id,
             name: doc.name,
+            tamilName: doc.tamilName,
             qualification: doc.qualification,
             designation,
+            tamilDesignation,
             departmentId: doc.specialties[0] || "general-medicine",
             expertise: doc.bio ? [doc.bio] : ["Comprehensive Clinical Care", "Outpatient Diagnostics"]
           };
@@ -86,11 +105,47 @@ export const DoctorsPage: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  const getDeptName = (deptId: string) => {
+    const dept = departments.find(d => d.id === deptId);
+    if (!dept) return deptId;
+    return language === "ta" && dept.tamilName ? dept.tamilName : dept.name;
+  };
+
+  const getDocName = (doc: DoctorData) => {
+    const staticDoc = staticDoctors.find(d => d.id === doc._id || d.name === doc.name);
+    return language === "ta" && staticDoc?.tamilName ? staticDoc.tamilName : doc.name;
+  };
+
+  const getDocDesignation = (doc: DoctorData) => {
+    const staticDoc = staticDoctors.find(d => d.id === doc._id || d.name === doc.name);
+    if (language === "ta") {
+      if (staticDoc?.id === "dr-v-suresh-kumar") {
+        return "தலைமை நரம்பியல் அறுவைசிகிச்சை நிபுணர் & துறைத் தலைவர்";
+      }
+      return doc.tamilDesignation || doc.designation;
+    }
+    return doc.designation;
+  };
+
+  const getExpertise = (exp: string) => {
+    if (language === "ta") {
+      if (exp.includes("Prof & HOD Department of Neurosurgery")) {
+        return "தலைவர் மற்றும் பேராசிரியர், நரம்பியல் அறுவைசிகிச்சைப் பிரிவு, சேலம் அரசு மருத்துவக் கல்லூரி.";
+      }
+      if (exp === "Comprehensive Clinical Care") return "பொது மருத்துவ கவனிப்பு";
+      if (exp === "Outpatient Diagnostics") return "வெளிநோயாளி நோயறிதல்";
+    }
+    return exp;
+  };
+
   const filteredDoctors = doctors.filter(doc => {
     const query = searchQuery.toLowerCase();
+    const docName = getDocName(doc);
+    const docDesig = getDocDesignation(doc);
     const matchesSearch = doc.name.toLowerCase().includes(query) || 
+      docName.toLowerCase().includes(query) ||
       doc.qualification.toLowerCase().includes(query) || 
-      doc.designation.toLowerCase().includes(query);
+      docDesig.toLowerCase().includes(query);
     const matchesDept = selectedDept === "all" || doc.departmentId === selectedDept;
     return matchesSearch && matchesDept;
   });
@@ -98,9 +153,9 @@ export const DoctorsPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Specialist Doctors Directory | SarvamCare Hospital Salem</title>
+        <title>{language === "en" ? "Specialist Doctors Directory | SarvamCare Hospital Salem" : "மருத்துவ நிபுணர்கள் விபரப்பட்டியல் | சர்வம் கேர் மருத்துவமனை சேலம்"}</title>
         <meta name="description" content="Meet our consultant physicians and neurosurgeons. View doctor qualifications, specialties, and schedule direct clinic consultations." />
-        <link rel="canonical" href="https://sarvamcare.com/doctors" />
+        <link rel="canonical" href="https://sarvamcarehospital.in/doctors" />
       </Helmet>
 
       {/* Hero Header */}
@@ -110,10 +165,10 @@ export const DoctorsPage: React.FC = () => {
         </div>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <span className="text-[10px] sm:text-xs font-bold tracking-[0.25em] text-[#D8B35A] uppercase block">
-            Sarvam Medical Registry
+            {language === "en" ? "Sarvam Medical Registry" : "மருத்துவ நிபுணர்கள் குழு"}
           </span>
           <h1 className="font-serif text-3xl sm:text-5xl font-extrabold text-white mt-2 leading-tight">
-            Our Specialist Directory
+            {language === "en" ? "Our Specialist Directory" : "மருத்துவர்கள் விபரப்பட்டியல்"}
           </h1>
           <div className="h-[2px] w-14 bg-[#D8B35A] mx-auto md:mx-0 mt-4.5" />
         </div>
@@ -148,7 +203,7 @@ export const DoctorsPage: React.FC = () => {
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#665A70]" />
               <input
                 type="text"
-                placeholder="Search doctors by name or title..."
+                placeholder={language === "en" ? "Search doctors by name or title..." : "பெயர் அல்லது சிறப்புப் பிரிவு மூலம் தேடுக..."}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-11 pr-4 py-2.5 text-xs bg-white border border-[#EDE4F7] rounded-full focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D8B35A] focus:border-[#D8B35A] transition-all text-[#24152F]"
@@ -182,7 +237,7 @@ export const DoctorsPage: React.FC = () => {
                           {doc.profileImage ? (
                             <img
                               src={doc.profileImage}
-                              alt={doc.name}
+                              alt={getDocName(doc)}
                               className="h-14 w-14 rounded-full object-cover shrink-0 border border-[#D8B35A]/35 shadow-sm"
                             />
                           ) : (
@@ -192,13 +247,13 @@ export const DoctorsPage: React.FC = () => {
                           )}
                           <div>
                             <span className="text-[9px] uppercase tracking-wider font-bold text-[#6D2FA0]">
-                              {doc.departmentId.toUpperCase()}
+                              {getDeptName(doc.departmentId)}
                             </span>
                             <h3 className="text-sm font-bold text-[#32105F] group-hover:text-[#6D2FA0] transition-colors leading-tight mt-0.5">
-                              {doc.name}
+                              {getDocName(doc)}
                             </h3>
                             <p className="text-[10px] text-[#665A70] font-light mt-0.5">
-                              {doc.designation}
+                              {getDocDesignation(doc)}
                             </p>
                           </div>
                         </div>
@@ -206,13 +261,13 @@ export const DoctorsPage: React.FC = () => {
                         {/* Qualifications / Skills */}
                         <div className="py-4 space-y-2">
                           <p className="text-xs text-[#32105F] font-bold">
-                            Credentials: <span className="text-[#665A70] font-normal">{doc.qualification}</span>
+                            {language === "en" ? "Credentials:" : "தகுதிகள்:"} <span className="text-[#665A70] font-normal">{doc.qualification}</span>
                           </p>
                           {doc.expertise && doc.expertise.length > 0 && (
                             <div className="flex flex-wrap gap-1.5 pt-1">
                               {doc.expertise.map((exp, i) => (
                                 <span key={i} className="text-[9px] bg-[#FAF7FF] text-[#6D2FA0] border border-[#EDE4F7] px-2 py-0.5 rounded-full font-medium">
-                                  {exp}
+                                  {getExpertise(exp)}
                                 </span>
                               ))}
                             </div>
@@ -226,7 +281,7 @@ export const DoctorsPage: React.FC = () => {
                           to={`/doctors/${docSlug}`}
                           className="text-xs font-bold text-[#6D2FA0] hover:text-[#32105F] flex items-center gap-0.5 transition-colors"
                         >
-                          <span>View Doctor Profile</span>
+                          <span>{language === "en" ? "View Doctor Profile" : "விவரக் குறிப்பு காண்க"}</span>
                           <ChevronRight className="h-3.5 w-3.5" />
                         </Link>
                         <div className="p-1.5 rounded-lg bg-[#FAF7FF] text-[#D8B35A] border border-[#D8B35A]/25">
@@ -244,9 +299,13 @@ export const DoctorsPage: React.FC = () => {
           {!loading && filteredDoctors.length === 0 && (
             <div className="text-center py-16 border border-dashed border-[#EDE4F7] rounded-3xl max-w-md mx-auto bg-white shadow-sm">
               <Stethoscope className="h-9 w-9 text-[#D8B35A] mx-auto animate-pulse mb-4" />
-              <h3 className="font-serif font-bold text-[#32105F] text-base">No physicians found</h3>
+              <h3 className="font-serif font-bold text-[#32105F] text-base">
+                {language === "en" ? "No physicians found" : "மருத்துவர்கள் யாரும் இல்லை"}
+              </h3>
               <p className="text-xs text-[#665A70] font-light mt-1.5 px-4 leading-relaxed">
-                We couldn't find matching consultants for "{searchQuery}". Try modifying your filter tabs or search queries.
+                {language === "en" 
+                  ? `We couldn't find matching consultants for "${searchQuery}". Try modifying your filter tabs or search queries.`
+                  : `தாங்கள் தேடிய "${searchQuery}" பெயரில் மருத்துவ நிபுணர்கள் யாரும் இல்லை. வேறு வார்த்தைகளைப் பயன்படுத்தவும்.`}
               </p>
             </div>
           )}

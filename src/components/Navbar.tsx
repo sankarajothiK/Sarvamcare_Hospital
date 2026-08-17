@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Menu, X, Calendar } from "lucide-react";
-import { contactInfo } from "../data/contact";
+import { Menu, X, Calendar, Globe } from "lucide-react";
+import { useLanguage } from "../utils/LanguageContext";
 
 export const Navbar: React.FC = () => {
+  const { language, setLanguage, t } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
@@ -22,19 +23,19 @@ export const Navbar: React.FC = () => {
   }, []);
 
   const navLinks = [
-    { name: "Home", href: "/" },
-    { name: "About Us", href: "/about" },
-    { name: "Specialities", href: "/specialities" },
-    { name: "Doctors", href: "/doctors" },
-    { name: "Centers", href: "/centers" },
-    { name: "Services", href: "/services" },
-    { name: "Facilities", href: "/facilities" },
-    { name: "Gallery", href: "/gallery" },
-    { name: "Health Packages", href: "/packages" },
-    { name: "Blog", href: "/blog" },
-    { name: "Testimonials", href: "#testimonials" },
-    { name: "Patient Info", href: "/patient-information" },
-    { name: "Contact", href: "/contact" }
+    { name: t("home"), href: "/" },
+    { name: t("about"), href: "/about" },
+    { name: t("departments"), href: "/specialities" },
+    { name: t("doctors"), href: "/doctors" },
+    { name: t("centers"), href: "/centers" },
+    { name: t("services"), href: "/services" },
+    { name: t("facilities"), href: "/facilities" },
+    { name: t("gallery"), href: "/gallery" },
+    { name: t("packages"), href: "/packages" },
+    { name: t("blog"), href: "/blog" },
+    { name: t("testimonials"), href: "#testimonials" },
+    { name: t("patient_info"), href: "/patient-information" },
+    { name: t("contact"), href: "/contact" }
   ];
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, href: string) => {
@@ -58,17 +59,23 @@ export const Navbar: React.FC = () => {
     }
   };
 
+  const isAdminRoute = location.pathname.startsWith("/admin") || location.pathname === "/login";
+
   return (
     <>
-      {/* 1. Floating Menu Toggle Button (Top-Right Circular Trigger) */}
-      <button
-        onClick={() => setIsMenuOpen(!isMenuOpen)}
-        className="fixed top-6 right-6 z-50 flex items-center justify-center h-12 w-12 rounded-full bg-[#32105F] border-2 border-[#D8B35A] text-[#D8B35A] hover:bg-[#3D176E] shadow-2xl hover:scale-105 active:scale-95 transition-all pointer-events-auto cursor-pointer"
-        aria-label="Toggle Menu"
-      >
-        {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-      </button>
-
+      {/* Floating Header Actions Wrapper */}
+      {!isAdminRoute && (
+        <>
+          {/* 1. Floating Menu Toggle Button (Top-Right Circular Trigger) */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="fixed top-6 right-6 z-50 flex items-center justify-center h-12 w-12 rounded-full bg-[#32105F] border-2 border-[#D8B35A] text-[#D8B35A] hover:bg-[#3D176E] shadow-2xl hover:scale-105 active:scale-95 transition-all pointer-events-auto cursor-pointer"
+            aria-label="Toggle Menu"
+          >
+            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </>
+      )}
 
       {/* Backdrop Overlay when Vertical Dropdown is active */}
       {isMenuOpen && (
@@ -90,7 +97,9 @@ export const Navbar: React.FC = () => {
           
           {/* Menu Section Title */}
           <div className="pb-2.5 border-b border-white/10 flex items-center justify-between">
-            <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#D8B35A] opacity-75">Clinical Menu</span>
+            <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#D8B35A] opacity-75">
+              {language === "en" ? "Clinical Menu" : "மருத்துவ மெனு"}
+            </span>
             <span className="text-[8px] text-indigo-300/60 font-semibold">Mamangam, Salem</span>
           </div>
 
@@ -130,7 +139,7 @@ export const Navbar: React.FC = () => {
               className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-[#32105F] bg-[#D8B35A] hover:bg-[#F3D98A] transition-all duration-300 shadow-md active:scale-95"
             >
               <Calendar className="h-3.5 w-3.5" />
-              <span>Book Appointment</span>
+              <span>{t("book_appointment")}</span>
             </Link>
           </div>
 
