@@ -115,8 +115,11 @@ export const SpecialitiesExplorer: React.FC = () => {
                     </span>
                   </div>
 
-                  <h3 className="font-serif font-bold text-[#32105F] text-base mt-4 group-hover:text-[#6D2FA0] transition-colors">
-                    {service.name}
+                  <h3 className="font-serif font-bold text-[#32105F] text-base mt-4 group-hover:text-[#6D2FA0] transition-colors flex flex-col gap-1">
+                    <span>{service.name}</span>
+                    {service.tamilName && (
+                      <span className="text-xs font-sans text-slate-500 font-medium tracking-normal leading-relaxed">{service.tamilName}</span>
+                    )}
                   </h3>
                   {service.description && (
                     <p className="text-xs text-[#665A70] mt-2.5 leading-relaxed font-light font-sans">

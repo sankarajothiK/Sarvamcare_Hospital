@@ -109,8 +109,11 @@ export const ServicesPage: React.FC = () => {
                       {getDeptName(srv.departmentId)}
                     </span>
                   </div>
-                  <h3 className="font-serif text-sm sm:text-base font-bold text-[#32105F] pt-1">
-                    {srv.name}
+                  <h3 className="font-serif text-sm sm:text-base font-bold text-[#32105F] pt-1 flex flex-col gap-1">
+                    <span>{srv.name}</span>
+                    {srv.tamilName && (
+                      <span className="text-xs font-sans text-slate-500 font-medium tracking-normal leading-relaxed">{srv.tamilName}</span>
+                    )}
                   </h3>
                   {srv.description && (
                     <p className="text-xs text-[#665A70] leading-relaxed font-light">
