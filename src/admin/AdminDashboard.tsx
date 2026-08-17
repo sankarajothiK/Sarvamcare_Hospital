@@ -57,6 +57,7 @@ export const AdminDashboard: React.FC = () => {
 
   // Gallery CMS Form States
   const [galForm, setGalForm] = useState({ title: "", description: "", category: "Hospital", tags: "", imageUrl: "/sarvam_logo.jpg", altText: "" });
+  const [editingGalId, setEditingGalId] = useState<string | null>(null);
 
   // Site Settings Form States
   const [settingsForm, setSettingsForm] = useState({ phone: "", whatsapp: "", email: "", address: "", emergencyNumber: "", googleMapsUrl: "" });
@@ -336,11 +337,16 @@ export const AdminDashboard: React.FC = () => {
     };
     const body = {
       ...galForm,
-      tags: galForm.tags.split(",").map(s => s.trim()).filter(Boolean)
+      tags: typeof galForm.tags === "string" ? galForm.tags.split(",").map(s => s.trim()).filter(Boolean) : galForm.tags
     };
 
     try {
-      await fetch("/api/gallery", { method: "POST", headers, body: JSON.stringify(body) });
+      if (editingGalId) {
+        await fetch(`/api/gallery/${editingGalId}`, { method: "PUT", headers, body: JSON.stringify(body) });
+        setEditingGalId(null);
+      } else {
+        await fetch("/api/gallery", { method: "POST", headers, body: JSON.stringify(body) });
+      }
       setGalForm({ title: "", description: "", category: "Hospital", tags: "", imageUrl: "/sarvam_logo.jpg", altText: "" });
       setActiveTab("gallery");
     } catch (err) {
@@ -942,10 +948,9 @@ export const AdminDashboard: React.FC = () => {
           {activeTab === "gallery" && (
             <div className="space-y-8 animate-fade-in">
               <h1 className="text-2xl font-bold text-[#32105F]">Visual Gallery CMS</h1>
-
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 <form onSubmit={saveGalleryImage} className="lg:col-span-5 p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
-                  <h3 className="text-sm font-bold text-[#32105F]">Add Gallery Photo</h3>
+                  <h3 className="text-sm font-bold text-[#32105F]">{editingGalId ? "Edit Gallery Photo" : "Add Gallery Photo"}</h3>
                   <div className="space-y-1">
                     <label className="text-[10px] font-bold text-slate-500 uppercase">Image Title *</label>
                     <input type="text" required value={galForm.title} onChange={e => setGalForm({...galForm, title: e.target.value})} className="w-full bg-slate-50 border border-slate-200 p-2.5 text-xs rounded-lg" placeholder="Trauma ICU Bay" />
@@ -1009,11 +1014,26 @@ export const AdminDashboard: React.FC = () => {
                     <label className="text-[10px] font-bold text-slate-500 uppercase">Description</label>
                     <textarea rows={2} value={galForm.description} onChange={e => setGalForm({...galForm, description: e.target.value})} className="w-full bg-slate-50 border border-slate-200 p-2.5 text-xs rounded-lg resize-none" />
                   </div>
-                  <button type="submit" className="w-full py-2.5 bg-[#32105F] hover:bg-[#3D176E] text-white text-xs font-bold uppercase rounded-lg">
-                    Upload Image
-                  </button>
+                  <div className="space-y-2">
+                    <button type="submit" className="w-full py-2.5 bg-[#32105F] hover:bg-[#3D176E] text-white text-xs font-bold uppercase rounded-lg transition-colors">
+                      {editingGalId ? "Save Image Details" : "Upload Image"}
+                    </button>
+                    {editingGalId && (
+                      <button 
+                        type="button" 
+                        onClick={() => {
+                          setEditingGalId(null);
+                          setGalForm({ title: "", description: "", category: "Hospital", tags: "", imageUrl: "/sarvam_logo.jpg", altText: "" });
+                          if (galleryFileInputRef.current) galleryFileInputRef.current.value = "";
+                        }} 
+                        className="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold uppercase rounded-lg transition-colors"
+                      >
+                        Cancel Edit
+                      </button>
+                    )}
+                  </div>
                 </form>
-
+ 
                 <div className="lg:col-span-7 p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
                   <h3 className="text-sm font-bold text-[#32105F]">Hospital Image Library</h3>
                   <div className="grid grid-cols-2 gap-4">
@@ -1028,7 +1048,34 @@ export const AdminDashboard: React.FC = () => {
                            className="w-full h-24 object-cover rounded-lg" 
                          />
                         <div className="mt-2 text-[10px] font-bold text-[#32105F] truncate">{img.title}</div>
-                        <button onClick={() => deleteGalleryImage(img._id)} className="absolute top-5 right-5 p-1.5 bg-red-600 text-white rounded-full hover:bg-red-800 shadow"><Trash2 className="h-3 w-3" /></button>
+                        <div className="absolute top-5 right-5 flex gap-1.5">
+                          <button 
+                            type="button"
+                            onClick={() => {
+                              setEditingGalId(img._id);
+                              setGalForm({
+                                title: img.title,
+                                description: img.description || "",
+                                category: img.category || "Hospital",
+                                tags: img.tags ? img.tags.join(", ") : "",
+                                imageUrl: img.imageUrl,
+                                altText: img.altText || ""
+                              });
+                            }} 
+                            className="p-1.5 bg-[#32105F] text-white rounded-full hover:bg-[#3D176E] shadow transition-transform active:scale-95"
+                            title="Edit Details"
+                          >
+                            <Edit className="h-3 w-3" />
+                          </button>
+                          <button 
+                            type="button"
+                            onClick={() => deleteGalleryImage(img._id)} 
+                            className="p-1.5 bg-red-600 text-white rounded-full hover:bg-red-800 shadow transition-transform active:scale-95"
+                            title="Delete Image"
+                          >
+                            <Trash2 className="h-3 w-3" />
+                          </button>
+                        </div>
                       </div>
                     ))}
                   </div>

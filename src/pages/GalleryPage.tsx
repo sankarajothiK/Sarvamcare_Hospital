@@ -274,12 +274,12 @@ export const GalleryPage: React.FC = () => {
               <div className="h-8 w-8 border-2 border-brand-purple border-t-brand-gold rounded-full animate-spin" />
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6 md:space-y-0">
               {filteredImages.map((img, idx) => (
                 <div
                   key={img._id}
                   onClick={() => setActiveImageIdx(idx)}
-                  className="group relative rounded-2xl overflow-hidden border border-[#EDE4F7] bg-[#FAF7FF] cursor-pointer hover:shadow-lg transition-all duration-300 aspect-[4/3] shadow-sm"
+                  className="break-inside-avoid mb-6 group relative rounded-2xl overflow-hidden border border-[#EDE4F7] bg-[#FAF7FF] cursor-pointer hover:shadow-lg transition-all duration-300 shadow-sm"
                 >
                   <img
                     src={img.imageUrl}
@@ -288,12 +288,14 @@ export const GalleryPage: React.FC = () => {
                     onError={(e) => {
                       (e.target as HTMLImageElement).src = "/sarvam_building_exterior.png";
                     }}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-auto block group-hover:scale-[1.03] transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#120626]/90 via-[#120626]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
                     <span className="text-[9px] text-[#D8B35A] uppercase tracking-wider font-bold mb-1">{img.category}</span>
                     <h4 className="text-sm font-bold text-white leading-tight">{img.title}</h4>
-                    <p className="text-[10px] text-indigo-200 font-light truncate mt-1">{img.description}</p>
+                    {img.description && (
+                      <p className="text-[10px] text-indigo-200 font-light mt-1 max-h-12 overflow-hidden leading-relaxed">{img.description}</p>
+                    )}
                   </div>
                 </div>
               ))}
