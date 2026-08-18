@@ -97,22 +97,27 @@ export const ContactPage: React.FC = () => {
                   </div>
 
                   {/* Phone */}
-                  <a
-                    href={`tel:${contactInfo.phoneRaw}`}
-                    className="flex items-start gap-4 p-4 rounded-2xl border border-[#EDE4F7] bg-[#FAF7FF] hover:bg-white hover:shadow-md transition-all group"
-                  >
+                  <div className="flex items-start gap-4 p-4 rounded-2xl border border-[#EDE4F7] bg-[#FAF7FF]">
                     <div className="p-2.5 rounded-xl bg-blue-50 text-blue-600 border border-blue-500/20 shrink-0 shadow-sm">
                       <Phone className="h-5 w-5" />
                     </div>
-                    <div>
+                    <div className="space-y-1">
                       <span className="text-[9px] text-[#665A70] font-bold uppercase tracking-wider block">
                         {t("helpline")}
                       </span>
-                      <p className="text-xs sm:text-sm text-[#32105F] font-bold mt-0.5">
-                        {contactInfo.phone}
-                      </p>
+                      <div className="flex flex-col gap-1">
+                        <a href={`tel:${contactInfo.phoneRaw}`} className="text-xs sm:text-sm text-[#32105F] font-bold hover:text-[#6D2FA0] transition-colors block">
+                          {contactInfo.phone}
+                        </a>
+                        <a href="tel:+919080509321" className="text-xs sm:text-sm text-[#32105F] font-bold hover:text-[#6D2FA0] transition-colors block">
+                          90805 09321
+                        </a>
+                        <a href="tel:04272334434" className="text-xs sm:text-sm text-[#32105F] font-bold hover:text-[#6D2FA0] transition-colors block">
+                          0427-2334434
+                        </a>
+                      </div>
                     </div>
-                  </a>
+                  </div>
 
                   {/* WhatsApp */}
                   <a
@@ -299,7 +304,7 @@ export const ContactPage: React.FC = () => {
               height="100%"
               frameBorder="0"
               src="https://maps.google.com/maps?q=SarvamCare%20Hospital%20Mamangam%20Salem&t=&z=15&ie=UTF8&iwloc=&output=embed"
-              className="grayscale contrast-125 border-none"
+              className="border-none"
               loading="lazy"
             />
           </div>

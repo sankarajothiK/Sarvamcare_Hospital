@@ -148,11 +148,19 @@ export const Footer: React.FC = () => {
                   {language === "ta" ? "மாமாங்கம், சேலம், தமிழ்நாடு, இந்தியா." : contactInfo.address.full}
                 </span>
               </li>
-              <li className="flex items-center gap-2.5">
-                <Phone className="h-5 w-5 text-[#D8B35A] shrink-0" />
-                <a href={`tel:${contactInfo.phoneRaw}`} className="text-indigo-100/90 hover:text-white font-semibold transition-colors duration-200">
-                  {contactInfo.phone}
-                </a>
+              <li className="flex items-start gap-2.5">
+                <Phone className="h-5 w-5 text-[#D8B35A] shrink-0 mt-0.5" />
+                <div className="flex flex-col gap-1">
+                  <a href={`tel:${contactInfo.phoneRaw}`} className="text-indigo-100/90 hover:text-white font-semibold transition-colors duration-200 block">
+                    {contactInfo.phone}
+                  </a>
+                  <a href="tel:+919080509321" className="text-indigo-100/90 hover:text-white font-semibold transition-colors duration-200 block">
+                    90805 09321
+                  </a>
+                  <a href="tel:04272334434" className="text-indigo-100/90 hover:text-white font-semibold transition-colors duration-200 block">
+                    0427-2334434
+                  </a>
+                </div>
               </li>
               <li className="flex items-center gap-2.5">
                 <Mail className="h-5 w-5 text-[#D8B35A] shrink-0" />
