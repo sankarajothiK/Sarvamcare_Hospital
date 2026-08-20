@@ -232,224 +232,348 @@ mongoose
       console.log("Health articles seeded!");
     }
 
-    // Seed gallery images if empty or outdated
+    // Seed gallery images if empty or reset
     const galleryCount = await GalleryImage.countDocuments();
     if (galleryCount === 0) {
-      console.log("Seeding default gallery images...");
-      const mockGallery = [
+      console.log("Seeding 51 default gallery images...");
+      const newGalleryMetadata = [
         {
-          title: "Main Hospital Entrance Ramp",
-          description: "Designed for premium accessibility with dedicated wheelchair-friendly ramps and safe patient drop-off zones.",
-          category: "Infrastructure",
-          imageUrl: "/sarvam_building_exterior.png",
-          altText: "Main Hospital Entrance Ramp"
+          "filename": "IMG-20260809-WA0011(1).jpg",
+          "title": "SarvamCare Brain, Spine & Mind Care Services",
+          "description": "Informational flyer highlighting specialized centers at SarvamCare Hospital, including the Brain & Spine Center, Spine & Head Injury Management, and Sahasra Mind Clinix for psychiatry and psychology.",
+          "category": "Flyers"
         },
         {
-          title: "Trauma Care & Neuro Center Board",
-          description: "Official signage board highlighting the neurosurgery and trauma care specializations of SarvamCare Hospital.",
-          category: "Technology",
-          imageUrl: "/sarvam_trauma_neuro_board.png",
-          altText: "Trauma Care & Neuro Center Board"
+          "filename": "IMG-20260809-WA0011.jpg",
+          "title": "SarvamCare Specialized Neuroscience & Mind Services",
+          "description": "Healthcare promotional flyer outlining key clinical divisions at SarvamCare Hospital, including Brain & Spine Care, Trauma & Head Injury Management, and Psychiatry Services.",
+          "category": "Flyers"
         },
         {
-          title: "Senior Clinical Consultants Panel",
-          description: "Experienced neurosurgeons, orthopaedicians, and critical care specialists during clinical reviews.",
-          category: "Doctors",
-          imageUrl: "/sarvam_logo.jpg",
-          altText: "Senior Consultants Panel"
+          "filename": "IMG-20260809-WA0014.jpg",
+          "title": "World Brain Day Awareness Flyer",
+          "description": "SarvamCare Neuro Center awareness poster celebrating World Brain Day under the motto 'Tribute to Thinking Organ' and 'Safe surgery Save neurons'.",
+          "category": "Flyers"
         },
         {
-          title: "SarvamCare Hospital Sunset Campus",
-          description: "Exterior view of the state-of-the-art building situated on Salem Bangalore Highway.",
-          category: "Hospital",
-          imageUrl: "/sarvam_hero_bg.jpg",
-          altText: "SarvamCare Hospital Sunset Campus"
+          "filename": "IMG-20260809-WA0015.jpg",
+          "title": "SarvamCare Neuro Center and Spine Clinic",
+          "description": "Clinical flyer presenting advanced surgical centers for brain, spine, and spinal cord care with the motto 'Safe surgery Save neurons' at SarvamCare Hospital.",
+          "category": "Flyers"
         },
         {
-          title: "Neuron Center Precision & Horology",
-          description: "Inspiring microscopic precision in neurosurgery, reflecting high-quality horological watchmaking standards.",
-          category: "Flyers",
-          imageUrl: "/gallery/flyers/flyer_1.jpg",
-          altText: "Neuron Center Precision & Horology"
+          "filename": "IMG-20260809-WA0018(1).jpg",
+          "title": "Sarvam Care Neuron Center Banner",
+          "description": "Branding banner in Tamil for Sarvam Care Neuron Center, representing the center for neurological treatments located in Mamangam, Salem.",
+          "category": "Flyers"
         },
         {
-          title: "Back Pain Awareness & Care",
-          description: "Advanced spinal assessments and minimally invasive neurosurgical evaluations for persistent back pain.",
-          category: "Flyers",
-          imageUrl: "/gallery/flyers/flyer_2.jpg",
-          altText: "Back Pain Awareness & Care"
+          "filename": "IMG-20260809-WA0018.jpg",
+          "title": "Sarvam Care Neuron Center Tamil Banner",
+          "description": "Promotional horizontal banner for Sarvam Care Neuron Center, highlighting comprehensive neurological medical services in Mamangam, Salem.",
+          "category": "Flyers"
         },
         {
-          title: "Timely Brain & Spine Interventions",
-          description: "Clinical guidelines on the importance of early diagnosis and specialized microscopic surgeries.",
-          category: "Flyers",
-          imageUrl: "/gallery/flyers/flyer_3.jpg",
-          altText: "Timely Brain & Spine Interventions"
+          "filename": "IMG-20260809-WA0021.jpg",
+          "title": "Sahasra Mind Clinix Mental Health Services",
+          "description": "Promotional flyer for Sahasra Mind Clinix at SarvamCare Hospital promoting psychiatric and psychological care under the theme 'Solutions For beautiful mind'.",
+          "category": "Flyers"
         },
         {
-          title: "Trigeminal Neuralgia Specialized Clinic",
-          description: "Comprehensive multidisciplinary center specializing in microvascular decompression and nerve pain relief.",
-          category: "Flyers",
-          imageUrl: "/gallery/flyers/flyer_4.jpg",
-          altText: "Trigeminal Neuralgia Specialized Clinic"
+          "filename": "IMG-20260809-WA0024.jpg",
+          "title": "SarvamCare Multi-Specialty Surgical Care",
+          "description": "Hospital flyer outlining specialized surgical treatments including Brain & Spine Surgery, Trauma Surgery, Stroke Management, Facial Surgery, and Bone & Joint Surgery.",
+          "category": "Flyers"
         },
         {
-          title: "Premium Patient Ward Room",
-          description: "Spacious and comfortable private room designed for patient safety and quick recovery.",
-          category: "Hospital",
-          imageUrl: "/gallery/hospital/hospital_1.jpg",
-          altText: "Premium Patient Ward Room"
+          "filename": "IMG-20260809-WA0025.jpg",
+          "title": "NeuronCenter Precision Care - Philippe Dufour Concept",
+          "description": "Thematic poster comparing the micromechanical precision and devotion of master watchmaker Philippe Dufour with the precision required in neurosciences at NeuronCenter.",
+          "category": "Flyers"
         },
         {
-          title: "Advanced Outpatient Consulting Room",
-          description: "Quiet private space for patient reviews and clinical consultations.",
-          category: "Hospital",
-          imageUrl: "/gallery/hospital/hospital_2.jpg",
-          altText: "Advanced Outpatient Consulting Room"
+          "filename": "IMG-20260809-WA0029(1).jpg",
+          "title": "Endoscopic & Microscopic Surgery for Pituitary Adenomas",
+          "description": "Medical informational flyer illustrating preoperative and postoperative sagittal anatomical views of pituitary adenoma excision at SarvamCare Neuro Center.",
+          "category": "Flyers"
         },
         {
-          title: "Dedicated Clinical Diagnostics Area",
-          description: "Equipped with state-of-the-art diagnostic tools for rapid assessments.",
-          category: "Hospital",
-          imageUrl: "/gallery/hospital/hospital_3.jpg",
-          altText: "Dedicated Clinical Diagnostics Area"
+          "filename": "IMG-20260809-WA0029.jpg",
+          "title": "Pituitary Adenomas Surgical Excision Guide",
+          "description": "Educational clinical poster showcasing advanced endoscopic and microscopic surgical techniques for pituitary adenomas with sagittal medical illustrations.",
+          "category": "Flyers"
         },
         {
-          title: "Hospital Corridors & Patient Lounge",
-          description: "Well-lit, wide, and clean corridors for quick patient transfers and accessibility.",
-          category: "Hospital",
-          imageUrl: "/gallery/hospital/hospital_4.jpg",
-          altText: "Hospital Corridors & Patient Lounge"
+          "filename": "IMG-20260809-WA0030.jpg",
+          "title": "SarvamCare Multi-Department Specialty Services",
+          "description": "Comprehensive department overview flyer detailing Brain & Spine Treatment, Trauma Care, Psychiatry & Psychology, Craniofacial Surgery, and Orthopaedic Surgery.",
+          "category": "Flyers"
         },
         {
-          title: "Surgical Intensive Care Unit (ICU) Entrance",
-          description: "Controlled sterile access to critical care units for patient safety.",
-          category: "Hospital",
-          imageUrl: "/gallery/hospital/hospital_5.jpg",
-          altText: "Surgical Intensive Care Unit (ICU) Entrance"
+          "filename": "IMG-20260809-WA0031(1).jpg",
+          "title": "Trigeminal Neuralgia Integrated Treatment Center",
+          "description": "Medical awareness flyer on Trigeminal Neuralgia covering full-spectrum management from medical therapy to microvascular surgical intervention at SarvamCare Neuro Center.",
+          "category": "Flyers"
         },
         {
-          title: "Emergency Trauma Resuscitation Room",
-          description: "Equipped with immediate response equipment for acute patient management.",
-          category: "Hospital",
-          imageUrl: "/gallery/hospital/hospital_6.jpg",
-          altText: "Emergency Trauma Resuscitation Room"
+          "filename": "IMG-20260809-WA0031.jpg",
+          "title": "Trigeminal Neuralgia Treatment - Neuro Center",
+          "description": "Informational flyer from Sarvam Care Hospital Neuro Center outlining medical and surgical management options for trigeminal neuralgia.",
+          "category": "Flyers"
         },
         {
-          title: "Advanced Sterile Operation Theatre",
-          description: "Calibrated micro-surgical instruments and positive airflow systems for zero infection risk.",
-          category: "Hospital",
-          imageUrl: "/gallery/hospital/hospital_7.jpg",
-          altText: "Advanced Sterile Operation Theatre"
+          "filename": "IMG-20260811-WA0003.jpg",
+          "title": "Brain and Spine Surgery - Sarvam Care Neuro Center",
+          "description": "Hospital flyer promoting brain and spinal surgery expertise and consultation services at Sarvam Care Neuro Center in Salem.",
+          "category": "Flyers"
         },
         {
-          title: "Main Hospital Entrance Lobby",
-          description: "Welcoming reception and patient assistance helpdesk.",
-          category: "Hospital",
-          imageUrl: "/gallery/hospital/hospital_8.jpg",
-          altText: "Main Hospital Entrance Lobby"
+          "filename": "IMG-20260811-WA0004.jpg",
+          "title": "Center for Craniofacial Reconstruction Surgery",
+          "description": "Medical services flyer highlighting craniofacial deformity corrections, trauma care, rhinoplasty, oculoplasty, and a multidisciplinary surgical team.",
+          "category": "Flyers"
         },
         {
-          title: "High-Definition Diagnostic Imaging Suite",
-          description: "Equipped with high-precision scans for brain, spine, and joint diagnostics.",
-          category: "Hospital",
-          imageUrl: "/gallery/hospital/hospital_9.jpg",
-          altText: "High-Definition Diagnostic Imaging Suite"
+          "filename": "IMG-20260811-WA0005(1).jpg",
+          "title": "Safe Brain & Spine Surgery Philosophy",
+          "description": "Inspirational poster quoting Hippocrates and Harvey Cushing, underscoring safe neurosurgery and the balance of science and artistry in medicine.",
+          "category": "Flyers"
         },
         {
-          title: "Specialized Orthopaedic Rehabilitation Unit",
-          description: "Post-operative patient mobilization area and physical therapy rooms.",
-          category: "Hospital",
-          imageUrl: "/gallery/hospital/hospital_10.jpg",
-          altText: "Specialized Orthopaedic Rehabilitation Unit"
+          "filename": "IMG-20260811-WA0006.jpg",
+          "title": "Neuron Center - Precision in Neurosciences",
+          "description": "Promotional poster emphasizing micro-surgical precision and neural preservation inspired by master horological craftsmanship.",
+          "category": "Flyers"
         },
         {
-          title: "High-Resolution CT Scanner Room",
-          description: "This image shows a modern diagnostic imaging room containing a large, white CT or MRI scanner machine in the center. The machine has a motorized sliding patient bed with white sheets and a blue headrest extending from the circular scanner opening. In the background, there is a control room window on the left with computer screens visible behind the glass, a metal utility cart, cabinets, a wall clock, and bright ceiling lighting.",
-          category: "Technology",
-          imageUrl: "/gallery/additional/diagnostic_imaging_1786516060157.jpg",
-          altText: "High-Resolution CT Scanner Room"
+          "filename": "IMG-20260811-WA0007.jpg",
+          "title": "Neurosurgical Awareness & Safe Surgery",
+          "description": "Educational flyer advising on timely intervention for brain and spine conditions utilizing modern surgical technologies.",
+          "category": "Flyers"
         },
         {
-          title: "Advanced CT Diagnostics Suite",
-          description: "This image shows a brightly lit, modern medical diagnostic suite featuring a large white CT scanner machine in the center with a patient table. In the background, a staff member wearing a white lab coat is seated at a desk with multiple monitors, viewed through a control room window. The room has light wooden wall panels with purple accent lighting, medical carts with bottles and equipment, a handwashing sink, and white flooring.",
-          category: "Technology",
-          imageUrl: "/gallery/additional/facility_diagnostics_suite_1786514126059.jpg",
-          altText: "Advanced CT Diagnostics Suite"
+          "filename": "IMG-20260811-WA0008.jpg",
+          "title": "Spine Care & Back Pain Consultation",
+          "description": "Informational flyer for back pain evaluation, minimally invasive and endoscopic spine surgeries by Chief Neurosurgeon Dr. V. Sureshkumar.",
+          "category": "Flyers"
         },
         {
-          title: "Emergency Trauma Bay",
-          description: "This image shows a modern emergency trauma bay equipped with a centrally positioned mobile hospital bed. The room contains various medical devices including heart monitors mounted on the wall, an overhead surgical light, a medical supply cart on the left, counter space, a desktop computer, and blood pressure monitoring tools. The lighting is clean and includes purple neon accents along the ceiling.",
-          category: "Facilities",
-          imageUrl: "/gallery/additional/facility_emergency_bay_1786513966711.jpg",
-          altText: "Emergency Trauma Bay"
+          "filename": "IMG-20260812-WA0009.jpg",
+          "title": "GE Revolution CT Scanner",
+          "description": "Advanced GE Revolution CT scanner featuring high-precision diagnostic imaging and an automated motorized patient table.",
+          "category": "Technology"
         },
         {
-          title: "Medical Center Main Facade",
-          description: "This image shows a modern multi-story medical center building with a wood and glass facade. A large canopy extends over the main entrance driveway, labeled with directions for 'Drop-Off' and 'Emergency'. In front of the entrance, an ambulance is parked on the left with staff unloading a patient on a stretcher, and several cars are parked on the right. There are some trees, shrubs, and pedestrians walking near the building.",
-          category: "Infrastructure",
-          imageUrl: "/gallery/additional/facility_exterior_1786513216613.jpg",
-          altText: "Medical Center Main Facade"
+          "filename": "IMG-20260812-WA0010.jpg",
+          "title": "Advanced Microsurgical Operating Microscope",
+          "description": "Operating room setup showing a neurosurgeon performing delicate microsurgery using a high-magnification surgical microscope and neural imaging guidance.",
+          "category": "Technology"
         },
         {
-          title: "Intensive Care Unit (ICU)",
-          description: "This image shows a modern Intensive Care Unit (ICU) containing two patient beds. In the foreground, a female patient is lying in a bed equipped with a vital signs monitor displaying waveforms, and a mechanical ventilator machine next to it. In the background, another patient is visible in a bed, and two nurses wearing blue uniforms are working at a nursing station desk. The room has wooden wall panels, medical equipment, a sink, and purple accent lights in the ceiling.",
-          category: "Facilities",
-          imageUrl: "/gallery/additional/facility_icu_1786513332013.jpg",
-          altText: "Intensive Care Unit (ICU)"
+          "filename": "IMG-20260813-WA0006.jpg",
+          "title": "Sarvam Care Specialty Centers & Clinical Departments",
+          "description": "Overview poster detailing specialized departments including Brain & Nerves, Trauma Care, Spine Clinic, Orthopaedic Surgery, Psychiatry, and Craniofacial Surgery.",
+          "category": "Flyers"
         },
         {
-          title: "Advanced Operating Theatre",
-          description: "This image shows a modern operating theatre featuring an adjustable surgical table in the center covered in blue sheeting. Above the table are large double surgical lights suspended from the ceiling. Around the room, there are several monitors displaying patient information, an anesthesia machine on the left, medical carts, storage cabinets, and clean steel instrumentation surfaces.",
-          category: "Facilities",
-          imageUrl: "/gallery/additional/facility_operation_theatre_1786513254455.jpg",
-          altText: "Advanced Operating Theatre"
+          "filename": "IMG-20260813-WA0103.jpg",
+          "title": "Prof. Robert F. Spetzler with Dr. V. Sureshkumar",
+          "description": "Dr. V. Sureshkumar photographed alongside renowned cerebrovascular and skull base neurosurgeon Prof. Robert F. Spetzler, former President and CEO of Barrow Neurological Institute.",
+          "category": "Doctors"
         },
         {
-          title: "Premium Private Room",
-          description: "This image shows a modern, premium private hospital patient room. In the center is an adjustable patient bed with clean white pillows and bedding. The room features a wooden wall headboard panel with purple accent lighting, an bedside table, a patient vitals monitor on an arm, a large window overlooking green gardens, a comfortable armchair for visitors with a side table, and a wall-mounted TV screen.",
-          category: "Hospital",
-          imageUrl: "/gallery/additional/facility_patient_room_1786514680022.jpg",
-          altText: "Premium Private Room"
+          "filename": "IMG-20260813-WA0104.jpg",
+          "title": "Prof. Tetsuo Kanno with Dr. V. Sureshkumar",
+          "description": "Dr. V. Sureshkumar pictured alongside the late Prof. Tetsuo Kanno, founder of the neurosurgery department at Fujita Health University, Japan.",
+          "category": "Doctors"
         },
         {
-          title: "Modern Healthcare Building & Entrance",
-          description: "This image shows a modern multi-story healthcare facility building. On the left, a curved concrete access ramp with glass railings leads up to an upper level. Below, the main entrance lobby has glass doors with a driveway where a car is passing. The front area includes landscaping with trees, shrubs, and a paved walkway where two individuals in medical scrubs are walking. The building facade is marked with the sign 'Modern Healthcare Facility'.",
-          category: "Infrastructure",
-          imageUrl: "/gallery/additional/hospital_exterior_1786515473707.jpg",
-          altText: "Modern Healthcare Building & Entrance"
+          "filename": "IMG-20260813-WA0105.jpg",
+          "title": "Prof. Mahmut Gazi Yasargil with Dr. V. Sureshkumar",
+          "description": "Dr. V. Sureshkumar in attendance with Prof. Mahmut Gazi Yasargil, celebrated as the father of modern microneurosurgery.",
+          "category": "Doctors"
         },
         {
-          title: "Single ICU Patient Room",
-          description: "This image shows a single-bed intensive care patient room. An adjustable hospital bed with white and blue sheets is positioned in the center. Next to the bed is a mobile IV stand with infusion pumps and bags. In the background, there is a patient monitor, a computer desk with a rolling stool, cabinets, and a glass partition looking into an adjacent room or corridor.",
-          category: "Facilities",
-          imageUrl: "/gallery/additional/icu_unit_1786516011183.jpg",
-          altText: "Single ICU Patient Room"
+          "filename": "IMG-20260813-WA0106(1).jpg",
+          "title": "Mentorship with Prof. Albino Bricolo",
+          "description": "Prof. Albino Bricolo (1934–2015), Professor of Neurosurgery at the University of Verona, Italy, distinguished for his pioneering work on skull base tumors and craniopharyngiomas.",
+          "category": "Doctors"
         },
         {
-          title: "Clinical Diagnostics Laboratory",
-          description: "This image shows a modern, bright clinical laboratory. Multiple workbenches are equipped with automated analyzers, centrifuges, computers, and diagnostic equipment. In the foreground, there are racks of blood collection test tubes with red, blue, and yellow caps, along with multi-channel pipettes and chemical bottles on a stainless-steel table. Storage cabinets, a fume hood, and laboratory refrigerators are visible in the background.",
-          category: "Technology",
-          imageUrl: "/gallery/additional/modern_laboratory_1786516097810.jpg",
-          altText: "Clinical Diagnostics Laboratory"
+          "filename": "IMG-20260813-WA0106.jpg",
+          "title": "Mentorship with Prof. Albino Bricolo",
+          "description": "Prof. Albino Bricolo (1934–2015), Professor of Neurosurgery at the University of Verona, Italy, distinguished for his pioneering work on skull base tumors and craniopharyngiomas.",
+          "category": "Doctors"
         },
         {
-          title: "State-of-the-Art Operation Theatre",
-          description: "This image shows a modern operating theatre room. In the center is an operating table covered in blue drapes, with a blue surgical gown folded on top. Above is an adjustable multi-petal overhead surgical light assembly. The room has medical monitors, a scrub sink station on the left wall with a window, mobile equipment carts with surgical instruments, computer workstations, and wall-integrated displays.",
-          category: "Facilities",
-          imageUrl: "/gallery/additional/operating_theatre_1786515709165.jpg",
-          altText: "State-of-the-Art Operation Theatre"
+          "filename": "IMG-20260813-WA0107.jpg",
+          "title": "Academic Interaction with Prof. Michael L. J. Apuzzo",
+          "description": "Prof. Michael L. J. Apuzzo from Keck School of Medicine, USA, renowned neurosurgeon recognized worldwide for surgical approaches in and around the third ventricle.",
+          "category": "Doctors"
         },
         {
-          title: "Cozy Patient Room with View",
-          description: "This image shows a cozy private patient room in a hospital. On the left is an adjustable patient bed with white pillows, a white bedsheet, and a blue throw blanket. Next to the bed is a wooden nightstand with a lamp. On the right, there is a blue fabric armchair with a pillow, a small round wooden table, a wooden vanity cabinet with a box of tissues, a wall-mounted television, and a window displaying green trees and a building in the distance under a blue sky.",
-          category: "Hospital",
-          imageUrl: "/gallery/additional/patient_room_1786516375421.jpg",
-          altText: "Cozy Patient Room with View"
+          "filename": "IMG-20260813-WA0108.jpg",
+          "title": "Mentorship with Prof. Arnold H. Menezes",
+          "description": "Prof. Arnold Menezes (1944–2025), Professor of Neurosurgery at Iowa University Hospital for 5 decades and pioneer in craniovertebral junction and pediatric spine diseases.",
+          "category": "Doctors"
+        },
+        {
+          "filename": "IMG-20260814-WA0003.jpg",
+          "title": "Brain & Spinal Cord Tumors Care - Sarvam Care Hospital",
+          "description": "Information on Sarvam Care Hospital Neuro Center highlighting specialized protocols for precise, gross total tumor excision using microsurgery and endoscopic surgical facilities.",
+          "category": "Flyers"
+        },
+        {
+          "filename": "IMG-20260814-WA0004.jpg",
+          "title": "மூளை & தண்டுவட கட்டிகள் சிகிச்சை - சர்வம் கேர் நியூரோ சென்டர்",
+          "description": "சர்வம் கேர் நியூரோ சென்டரின் நவீன மைக்ரோஸ்கோப் மற்றும் எண்டாஸ்கோப்பி அறுவை சிகிச்சை வசதிகள் மற்றும் மூளை, தண்டுவட கட்டிகளுக்கான சிறப்பு சிகிச்சைகள் குறித்த விவரம்.",
+          "category": "Flyers"
+        },
+        {
+          "filename": "IMG-20260814-WA0005.jpg",
+          "title": "Interaction with Prof. Jacques Brotchi",
+          "description": "Prof. Jacques Brotchi, Belgian Professor of Neurosurgery and internationally recognized expert in spinal cord tumor surgery.",
+          "category": "Doctors"
+        },
+        {
+          "filename": "IMG-20260814-WA0006.jpg",
+          "title": "Interaction with Prof. Atul Goel",
+          "description": "Prof. Atul Goel, innovative neurosurgeon from Mumbai whose visionary insights changed the paradigm of cranio-vertebral junction pathology and its management protocols.",
+          "category": "Doctors"
+        },
+        {
+          "filename": "IMG-20260814-WA0007.jpg",
+          "title": "Mentorship with Prof. Yoshio Suzuki",
+          "description": "Prof. Yoshio Suzuki (1947–2008) from Nagoya, Japan, eminent cerebrovascular surgeon and esteemed mentor for neurosurgical graduates across the world.",
+          "category": "Doctors"
+        },
+        {
+          "filename": "IMG-20260817-WA0003.jpg",
+          "title": "Mentorship with Prof. Suburam",
+          "description": "Prof. Suburam, neurosurgeon, exemplifying neurosurgical craftsmanship (செய்நேர்த்தி), perseverance, simplified algorithms for complex conditions, and delicate handling of neural structures.",
+          "category": "Doctors"
+        },
+        {
+          "filename": "IMG-20260819-WA0026.jpg",
+          "title": "Academic Meeting with Prof. Juha Hernesniemi",
+          "description": "Prof. Juha Hernesniemi (1947–2023), Finnish neurosurgeon from Helsinki who pioneered concepts of simple and clean surgery emphasizing that 'a surgeon should not have surprise on table'.",
+          "category": "Doctors"
+        },
+        {
+          "filename": "IMG-20260819-WA0027.jpg",
+          "title": "Interaction with Prof. Andrew H. Kaye",
+          "description": "Prof. Andrew Kaye, distinguished neurosurgeon from Australia practicing in Israel, renowned worldwide for brain tumor and skull base surgery.",
+          "category": "Doctors"
+        },
+        {
+          "filename": "IMG-20260819-WA0028.jpg",
+          "title": "Meeting with Dr. A.P.J. Abdul Kalam",
+          "description": "Meeting with former President Dr. A.P.J. Abdul Kalam, reflecting on his inspiring philosophy from 'Agni Siragugal' that 'if the student is ready, the teacher will appear'.",
+          "category": "Doctors"
+        },
+        {
+          "filename": "IMG-20260819-WA0030.jpg",
+          "title": "Prof. Laligam Sekar - Skull Base & Vascular Neurosurgeon",
+          "description": "Prof. Laligam Sekar from University of Washington, USA, renowned neurosurgeon specializing in complex skull base tumor surgery and vascular revascularization techniques.",
+          "category": "Doctors"
+        },
+        {
+          "filename": "IMG-20260819-WA0031.jpg",
+          "title": "Prof. P. Namperumalsamy - Vitreo-Retinal Surgeon & Mentor",
+          "description": "Prof. Namperumalsamy, pioneering vitreo-retinal surgeon and instrumental leader in the establishment of the Aravind Eye Care System.",
+          "category": "Doctors"
+        },
+        {
+          "filename": "IMG-20260819-WA0032.jpg",
+          "title": "Prof. R.N. Bhattacharya - Revered Indian Neurosurgeon",
+          "description": "Prof. R.N. Bhattacharya, revered Indian neurosurgeon and respected clinical mentor known for tenacity and dedication to neurosurgery.",
+          "category": "Doctors"
+        },
+        {
+          "filename": "IMG-20260819-WA0035.jpg",
+          "title": "Prof. Sébastien Froelich - Endoscopic Skull Base Surgeon",
+          "description": "Prof. Sébastien Froelich, neurosurgeon at Paris University Hospital, specialized in endoscopic skull base surgery and keyhole microsurgery.",
+          "category": "Doctors"
+        },
+        {
+          "filename": "IMG-20260819-WA0036.jpg",
+          "title": "Prof. Madjid Samii - Master Neurosurgeon",
+          "description": "Prof. Madjid Samii, founder of the International Neuroscience Institute (INI) in Hannover, Germany, and pioneer in vestibular schwannoma tumor surgery.",
+          "category": "Doctors"
+        },
+        {
+          "filename": "IMG-20260820-WA0011(1).jpg",
+          "title": "Brain & Spinal Cord Tumors - Microsurgery & Endoscopy Flyer",
+          "description": "SarvamCare Neuro Center flyer featuring conceptualized treatment protocols, microsurgery, and endoscopic surgery for brain and spinal cord tumor excision.",
+          "category": "Flyers"
+        },
+        {
+          "filename": "IMG-20260820-WA0011.jpg",
+          "title": "Comprehensive Brain & Spinal Cord Tumor Care Flyer",
+          "description": "Informational flyer on SarvamCare Neuro Center's advanced microscopic and endoscopic tumor surgery services.",
+          "category": "Flyers"
+        },
+        {
+          "filename": "IMG-20260820-WA0012.jpg",
+          "title": "Brain & Spine Tumor Management Flyer (Tamil)",
+          "description": "SarvamCare Neuron Center flyer in Tamil detailing safe, advanced microscopic and endoscopic surgical facilities for brain and spinal cord tumor excision.",
+          "category": "Flyers"
+        },
+        {
+          "filename": "IMG-20260820-WA0013.jpg",
+          "title": "Neurosurgery Awareness & Timely Care Flyer (Tamil)",
+          "description": "SarvamCare Neuron Center public awareness flyer in Tamil highlighting the safety of modern neural surgeries and the critical importance of timely treatment.",
+          "category": "Flyers"
+        },
+        {
+          "filename": "IMG-20260820-WA0014.jpg",
+          "title": "Pituitary Adenoma Endoscopic & Microscopic Surgery Flyer",
+          "description": "SarvamCare Neuro Center flyer displaying preoperative and postoperative sagittal anatomical views for pituitary adenoma excision.",
+          "category": "Flyers"
+        },
+        {
+          "filename": "IMG-20260820-WA0015.jpg",
+          "title": "Center for Craniofacial Reconstruction Surgery Flyer",
+          "description": "SarvamCare Smiling Monk Craniofacial Aesthetic Clinics flyer detailing services for facial trauma, deformity corrections, oculoplasty, and rhinoplasty.",
+          "category": "Flyers"
+        },
+        {
+          "filename": "IMG-20260820-WA0016.jpg",
+          "title": "Safe Neurosurgery & Neural Preservation Flyer (Tamil)",
+          "description": "Public awareness flyer in Tamil underscoring safe neurosurgical technologies and the necessity of preventing delays in brain and spinal procedures.",
+          "category": "Flyers"
         }
       ];
-      await GalleryImage.insertMany(mockGallery);
-      console.log("Default gallery images seeded!");
+
+      const imagesDir = path.join(__dirname, "../public/Gallery Images");
+      let seededCount = 0;
+      for (const meta of newGalleryMetadata) {
+        const filePath = path.join(imagesDir, meta.filename);
+        if (fs.existsSync(filePath)) {
+          try {
+            const fileBuffer = fs.readFileSync(filePath);
+            const ext = path.extname(meta.filename).toLowerCase();
+            let mime = "image/jpeg";
+            if (ext === ".png") mime = "image/png";
+            const base64Data = `data:${mime};base64,${fileBuffer.toString("base64")}`;
+
+            const newImg = new GalleryImage({
+              title: meta.title,
+              description: meta.description,
+              category: meta.category,
+              image: base64Data,
+              imageUrl: ""
+            });
+            await newImg.save();
+            newImg.imageUrl = `/api/gallery/image/${newImg._id}`;
+            await newImg.save();
+            seededCount++;
+          } catch (e) {
+            console.error(`Error seeding image file ${meta.filename}:`, e);
+          }
+        }
+      }
+      console.log(`Successfully seeded ${seededCount} gallery images.`);
     }
   })
   .catch(err => {

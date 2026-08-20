@@ -70,13 +70,14 @@ const HealthPackageSchema = new Schema({
 const GalleryImageSchema = new Schema({
   title: { type: String, required: true },
   description: { type: String, default: "" },
-  category: { type: String, required: true }, // Hospital, Technology, Facilities, Events
+  category: { type: String, required: true }, // Hospital, Technology, Facilities, Events, Flyers
   tags: { type: [String], default: [] }, // Neurosurgery, TraumaCare, ICU, OT
-  imageUrl: { type: String, required: true },
+  imageUrl: { type: String }, // Optional dynamic serving URL e.g. /api/gallery/image/:id
+  image: { type: String }, // Base64 data string
   altText: { type: String, default: "" },
   seoFilename: { type: String, default: "" },
   status: { type: String, default: "published" } // published, draft
-});
+}, { timestamps: true });
 
 // 7. Appointment Schema
 const AppointmentSchema = new Schema({

@@ -224,17 +224,63 @@ router.delete("/packages/:id", authMiddleware, async (req, res) => {
 // --- GALLERY IMAGES ---
 router.get("/gallery", async (req, res) => {
   try {
-    const imgs = await GalleryImage.find();
+    const imgs = await GalleryImage.find().sort({ createdAt: -1 });
     res.json(imgs);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
+// Dynamic image serving endpoint
+router.get("/gallery/image/:id", async (req, res) => {
+  try {
+    const img = await GalleryImage.findById(req.params.id);
+    if (!img || !img.image) {
+      return res.status(404).send("Image not found");
+    }
+    
+    let contentType = "image/jpeg";
+    if (img.image.startsWith("data:")) {
+      const match = img.image.match(/data:([^;]+);/);
+      if (match) {
+        contentType = match[1];
+      }
+    }
+    
+    const base64Data = img.image.replace(/^data:image\/\w+;base64,/, "");
+    const imgBuffer = Buffer.from(base64Data, 'base64');
+    
+    res.writeHead(200, {
+      'Content-Type': contentType,
+      'Content-Length': imgBuffer.length
+    });
+    res.end(imgBuffer);
+  } catch (err) {
+    res.status(500).send("Error serving image");
+  }
+});
+
 router.post("/gallery", authMiddleware, async (req, res) => {
   try {
-    const img = new GalleryImage(req.body);
+    const { title, description, category, image } = req.body;
+    if (!title || !description || !image) {
+      return res.status(400).json({ message: "Please provide an image, title, and description." });
+    }
+
+    const img = new GalleryImage({
+      title,
+      description,
+      category: category || "Hospital",
+      image,
+      imageUrl: ""
+    });
+
     await img.save();
+    
+    // Set dynamic route path
+    img.imageUrl = `/api/gallery/image/${img._id}`;
+    await img.save();
+
     res.status(201).json(img);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -243,7 +289,14 @@ router.post("/gallery", authMiddleware, async (req, res) => {
 
 router.put("/gallery/:id", authMiddleware, async (req, res) => {
   try {
-    const img = await GalleryImage.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const { title, description, category, tags, image, altText } = req.body;
+    const updateData = { title, description, category, tags, altText };
+    
+    if (image && image.startsWith("data:")) {
+      updateData.image = image;
+    }
+    
+    const img = await GalleryImage.findByIdAndUpdate(req.params.id, updateData, { new: true });
     res.json(img);
   } catch (err) {
     res.status(400).json({ message: err.message });

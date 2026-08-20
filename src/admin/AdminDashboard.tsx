@@ -56,8 +56,10 @@ export const AdminDashboard: React.FC = () => {
   const [editingBlogId, setEditingBlogId] = useState<string | null>(null);
 
   // Gallery CMS Form States
-  const [galForm, setGalForm] = useState({ title: "", description: "", category: "Hospital", tags: "", imageUrl: "/sarvam_logo.jpg", altText: "" });
+  const [galForm, setGalForm] = useState({ title: "", description: "", category: "Hospital", tags: "", imageUrl: "", altText: "" });
   const [editingGalId, setEditingGalId] = useState<string | null>(null);
+  const [galleryUploading, setGalleryUploading] = useState(false);
+  const [galleryNotification, setGalleryNotification] = useState<{ type: "success" | "error" | null; message: string }>({ type: null, message: "" });
 
   // Site Settings Form States
   const [settingsForm, setSettingsForm] = useState({ phone: "", whatsapp: "", email: "", address: "", emergencyNumber: "", googleMapsUrl: "" });
@@ -331,37 +333,82 @@ export const AdminDashboard: React.FC = () => {
   // --- GALLERY HANDLERS ---
   const saveGalleryImage = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!galForm.title || !galForm.description || (!editingGalId && !galForm.imageUrl)) {
+      setGalleryNotification({ type: "error", message: "Please provide an image, title, and description." });
+      return;
+    }
+
+    setGalleryUploading(true);
+    setGalleryNotification({ type: null, message: "" });
+
     const headers = { 
       "Content-Type": "application/json",
       "Authorization": `Bearer ${token}` 
     };
+
     const body = {
-      ...galForm,
-      tags: typeof galForm.tags === "string" ? galForm.tags.split(",").map(s => s.trim()).filter(Boolean) : galForm.tags
+      title: galForm.title,
+      description: galForm.description,
+      category: galForm.category,
+      tags: typeof galForm.tags === "string" ? galForm.tags.split(",").map(s => s.trim()).filter(Boolean) : galForm.tags,
+      image: galForm.imageUrl, // Base64 data
+      altText: galForm.altText || galForm.title
     };
 
     try {
+      let res;
       if (editingGalId) {
-        await fetch(`/api/gallery/${editingGalId}`, { method: "PUT", headers, body: JSON.stringify(body) });
-        setEditingGalId(null);
+        res = await fetch(`/api/gallery/${editingGalId}`, { 
+          method: "PUT", 
+          headers, 
+          body: JSON.stringify(body) 
+        });
       } else {
-        await fetch("/api/gallery", { method: "POST", headers, body: JSON.stringify(body) });
+        res = await fetch("/api/gallery", { 
+          method: "POST", 
+          headers, 
+          body: JSON.stringify(body) 
+        });
       }
-      setGalForm({ title: "", description: "", category: "Hospital", tags: "", imageUrl: "/sarvam_logo.jpg", altText: "" });
-      setActiveTab("gallery");
+
+      if (res.ok) {
+        setGalleryNotification({ 
+          type: "success", 
+          message: "Gallery image uploaded successfully!" 
+        });
+        setEditingGalId(null);
+        setGalForm({ title: "", description: "", category: "Hospital", tags: "", imageUrl: "", altText: "" });
+        if (galleryFileInputRef.current) galleryFileInputRef.current.value = "";
+        
+        // Refresh the list immediately
+        const galListRes = await fetch("/api/gallery");
+        if (galListRes.ok) setGalleryList(await galListRes.json());
+      } else {
+        throw new Error("Upload failed");
+      }
     } catch (err) {
       console.error(err);
+      setGalleryNotification({ 
+        type: "error", 
+        message: "Failed to upload gallery image. Please try again." 
+      });
+    } finally {
+      setGalleryUploading(false);
     }
   };
 
   const deleteGalleryImage = async (id: string) => {
     if (!window.confirm("Are you sure?")) return;
     try {
-      await fetch(`/api/gallery/${id}`, { 
+      const res = await fetch(`/api/gallery/${id}`, { 
         method: "DELETE", 
         headers: { "Authorization": `Bearer ${token}` } 
       });
-      setActiveTab("gallery");
+      if (res.ok) {
+        // Refresh list
+        const galListRes = await fetch("/api/gallery");
+        if (galListRes.ok) setGalleryList(await galListRes.json());
+      }
     } catch (err) {
       console.error(err);
     }
@@ -951,9 +998,28 @@ export const AdminDashboard: React.FC = () => {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 <form onSubmit={saveGalleryImage} className="lg:col-span-5 p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
                   <h3 className="text-sm font-bold text-[#32105F]">{editingGalId ? "Edit Gallery Photo" : "Add Gallery Photo"}</h3>
+                  
+                  {galleryNotification.type && (
+                    <div className={`p-3 text-xs font-semibold rounded-lg ${
+                      galleryNotification.type === "success" 
+                        ? "bg-green-50 text-green-700 border border-green-200 animate-fade-in" 
+                        : "bg-red-50 text-red-700 border border-red-200 animate-fade-in"
+                    }`}>
+                      {galleryNotification.message}
+                    </div>
+                  )}
+
                   <div className="space-y-1">
                     <label className="text-[10px] font-bold text-slate-500 uppercase">Image Title *</label>
-                    <input type="text" required value={galForm.title} onChange={e => setGalForm({...galForm, title: e.target.value})} className="w-full bg-slate-50 border border-slate-200 p-2.5 text-xs rounded-lg" placeholder="Trauma ICU Bay" />
+                    <input 
+                      type="text" 
+                      required 
+                      disabled={galleryUploading}
+                      value={galForm.title} 
+                      onChange={e => setGalForm({...galForm, title: e.target.value})} 
+                      className="w-full bg-slate-50 border border-slate-200 p-2.5 text-xs rounded-lg disabled:opacity-50" 
+                      placeholder="Trauma ICU Bay" 
+                    />
                   </div>
                   <div className="space-y-1">
                     <label className="text-[10px] font-bold text-slate-500 uppercase">Gallery Photo File *</label>
@@ -962,8 +1028,9 @@ export const AdminDashboard: React.FC = () => {
                       ref={galleryFileInputRef}
                       accept="image/*" 
                       required={!galForm.imageUrl}
+                      disabled={galleryUploading}
                       onChange={handleGalleryPhotoChange} 
-                      className="w-full bg-slate-50 border border-slate-200 p-2 text-xs rounded-lg" 
+                      className="w-full bg-slate-50 border border-slate-200 p-2 text-xs rounded-lg disabled:opacity-50" 
                     />
                     {galForm.imageUrl && (
                       <div className="flex items-center gap-3.5 p-3 bg-slate-50 border border-slate-200 rounded-xl mt-2 animate-fade-in">
@@ -976,14 +1043,15 @@ export const AdminDashboard: React.FC = () => {
                            className="w-12 h-12 rounded-lg object-cover border border-slate-300" 
                          />
                         <div className="flex flex-col gap-1">
-                          <span className="text-[9px] text-green-600 font-bold uppercase tracking-wider flex items-center gap-1">✓ Uploaded Successfully</span>
+                          <span className="text-[9px] text-green-600 font-bold uppercase tracking-wider flex items-center gap-1">✓ Image Selected</span>
                           <button 
                             type="button" 
+                            disabled={galleryUploading}
                             onClick={() => {
                               setGalForm(prev => ({ ...prev, imageUrl: "" }));
                               if (galleryFileInputRef.current) galleryFileInputRef.current.value = "";
                             }} 
-                            className="px-2.5 py-1 text-[9px] font-bold uppercase bg-red-50 text-red-600 hover:bg-red-100 rounded-md border border-red-200 transition-colors w-fit flex items-center gap-1 active:scale-95"
+                            className="px-2.5 py-1 text-[9px] font-bold uppercase bg-red-50 text-red-600 hover:bg-red-100 rounded-md border border-red-200 transition-colors w-fit flex items-center gap-1 active:scale-95 disabled:opacity-50"
                           >
                             Remove Image
                           </button>
@@ -993,7 +1061,12 @@ export const AdminDashboard: React.FC = () => {
                   </div>
                   <div className="space-y-1">
                     <label className="text-[10px] font-bold text-slate-500 uppercase">Category *</label>
-                    <select value={galForm.category} onChange={e => setGalForm({...galForm, category: e.target.value})} className="w-full bg-slate-50 border border-slate-200 p-2.5 text-xs rounded-lg">
+                    <select 
+                      disabled={galleryUploading}
+                      value={galForm.category} 
+                      onChange={e => setGalForm({...galForm, category: e.target.value})} 
+                      className="w-full bg-slate-50 border border-slate-200 p-2.5 text-xs rounded-lg disabled:opacity-50"
+                    >
                       <option value="Hospital">Hospital</option>
                       <option value="Infrastructure">Infrastructure</option>
                       <option value="Doctors">Doctors</option>
@@ -1004,29 +1077,63 @@ export const AdminDashboard: React.FC = () => {
                   </div>
                   <div className="space-y-1">
                     <label className="text-[10px] font-bold text-slate-500 uppercase">Tags (Comma separated)</label>
-                    <input type="text" value={galForm.tags} onChange={e => setGalForm({...galForm, tags: e.target.value})} className="w-full bg-slate-50 border border-slate-200 p-2.5 text-xs rounded-lg" placeholder="ICU, OT, Salem" />
+                    <input 
+                      type="text" 
+                      disabled={galleryUploading}
+                      value={galForm.tags} 
+                      onChange={e => setGalForm({...galForm, tags: e.target.value})} 
+                      className="w-full bg-slate-50 border border-slate-200 p-2.5 text-xs rounded-lg disabled:opacity-50" 
+                      placeholder="ICU, OT, Salem" 
+                    />
                   </div>
                   <div className="space-y-1">
                     <label className="text-[10px] font-bold text-slate-500 uppercase">Alt Text</label>
-                    <input type="text" value={galForm.altText} onChange={e => setGalForm({...galForm, altText: e.target.value})} className="w-full bg-slate-50 border border-slate-200 p-2.5 text-xs rounded-lg" />
+                    <input 
+                      type="text" 
+                      disabled={galleryUploading}
+                      value={galForm.altText} 
+                      onChange={e => setGalForm({...galForm, altText: e.target.value})} 
+                      className="w-full bg-slate-50 border border-slate-200 p-2.5 text-xs rounded-lg disabled:opacity-50" 
+                    />
                   </div>
                   <div className="space-y-1">
                     <label className="text-[10px] font-bold text-slate-500 uppercase">Description</label>
-                    <textarea rows={2} value={galForm.description} onChange={e => setGalForm({...galForm, description: e.target.value})} className="w-full bg-slate-50 border border-slate-200 p-2.5 text-xs rounded-lg resize-none" />
+                    <textarea 
+                      rows={2} 
+                      disabled={galleryUploading}
+                      value={galForm.description} 
+                      onChange={e => setGalForm({...galForm, description: e.target.value})} 
+                      className="w-full bg-slate-50 border border-slate-200 p-2.5 text-xs rounded-lg resize-none disabled:opacity-50" 
+                    />
                   </div>
                   <div className="space-y-2">
-                    <button type="submit" className="w-full py-2.5 bg-[#32105F] hover:bg-[#3D176E] text-white text-xs font-bold uppercase rounded-lg transition-colors">
-                      {editingGalId ? "Save Image Details" : "Upload Image"}
+                    <button 
+                      type="submit" 
+                      disabled={galleryUploading}
+                      className="w-full py-2.5 bg-[#32105F] hover:bg-[#3D176E] text-white text-xs font-bold uppercase rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    >
+                      {galleryUploading ? (
+                        <>
+                          <svg className="animate-spin -ml-1 mr-3 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          Saving...
+                        </>
+                      ) : (
+                        editingGalId ? "Save Image Details" : "Upload Image"
+                      )}
                     </button>
                     {editingGalId && (
                       <button 
                         type="button" 
+                        disabled={galleryUploading}
                         onClick={() => {
                           setEditingGalId(null);
-                          setGalForm({ title: "", description: "", category: "Hospital", tags: "", imageUrl: "/sarvam_logo.jpg", altText: "" });
+                          setGalForm({ title: "", description: "", category: "Hospital", tags: "", imageUrl: "", altText: "" });
                           if (galleryFileInputRef.current) galleryFileInputRef.current.value = "";
                         }} 
-                        className="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold uppercase rounded-lg transition-colors"
+                        className="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold uppercase rounded-lg transition-colors disabled:opacity-50"
                       >
                         Cancel Edit
                       </button>
