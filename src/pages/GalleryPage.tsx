@@ -185,6 +185,114 @@ export const GalleryPage: React.FC = () => {
       tags: ["Rehab", "Orthopaedic", "Therapy"],
       imageUrl: "/gallery/hospital/hospital_10.jpg",
       altText: "Specialized Orthopaedic Rehabilitation Unit"
+    },
+    {
+      _id: "img26",
+      title: "High-Resolution CT Scanner Room",
+      description: "This image shows a modern diagnostic imaging room containing a large, white CT or MRI scanner machine in the center. The machine has a motorized sliding patient bed with white sheets and a blue headrest extending from the circular scanner opening. In the background, there is a control room window on the left with computer screens visible behind the glass, a metal utility cart, cabinets, a wall clock, and bright ceiling lighting.",
+      category: "Technology",
+      tags: ["CT", "Scanner", "Diagnostics", "Imaging"],
+      imageUrl: "/gallery/additional/diagnostic_imaging_1786516060157.jpg",
+      altText: "High-Resolution CT Scanner Room"
+    },
+    {
+      _id: "img27",
+      title: "Advanced CT Diagnostics Suite",
+      description: "This image shows a brightly lit, modern medical diagnostic suite featuring a large white CT scanner machine in the center with a patient table. In the background, a staff member wearing a white lab coat is seated at a desk with multiple monitors, viewed through a control room window. The room has light wooden wall panels with purple accent lighting, medical carts with bottles and equipment, a handwashing sink, and white flooring.",
+      category: "Technology",
+      tags: ["Suite", "Diagnostics", "CT", "Scanning"],
+      imageUrl: "/gallery/additional/facility_diagnostics_suite_1786514126059.jpg",
+      altText: "Advanced CT Diagnostics Suite"
+    },
+    {
+      _id: "img28",
+      title: "Emergency Trauma Bay",
+      description: "This image shows a modern emergency trauma bay equipped with a centrally positioned mobile hospital bed. The room contains various medical devices including heart monitors mounted on the wall, an overhead surgical light, a medical supply cart on the left, counter space, a desktop computer, and blood pressure monitoring tools. The lighting is clean and includes purple neon accents along the ceiling.",
+      category: "Facilities",
+      tags: ["Trauma", "Emergency", "Bay", "Facilities"],
+      imageUrl: "/gallery/additional/facility_emergency_bay_1786513966711.jpg",
+      altText: "Emergency Trauma Bay"
+    },
+    {
+      _id: "img29",
+      title: "Medical Center Main Facade",
+      description: "This image shows a modern multi-story medical center building with a wood and glass facade. A large canopy extends over the main entrance driveway, labeled with directions for 'Drop-Off' and 'Emergency'. In front of the entrance, an ambulance is parked on the left with staff unloading a patient on a stretcher, and several cars are parked on the right. There are some trees, shrubs, and pedestrians walking near the building.",
+      category: "Infrastructure",
+      tags: ["Facade", "Building", "Entrance", "Infrastructure"],
+      imageUrl: "/gallery/additional/facility_exterior_1786513216613.jpg",
+      altText: "Medical Center Main Facade"
+    },
+    {
+      _id: "img30",
+      title: "Intensive Care Unit (ICU)",
+      description: "This image shows a modern Intensive Care Unit (ICU) containing two patient beds. In the foreground, a female patient is lying in a bed equipped with a vital signs monitor displaying waveforms, and a mechanical ventilator machine next to it. In the background, another patient is visible in a bed, and two nurses wearing blue uniforms are working at a nursing station desk. The room has wooden wall panels, medical equipment, a sink, and purple accent lights in the ceiling.",
+      category: "Facilities",
+      tags: ["ICU", "CriticalCare", "Facilities", "Vitals"],
+      imageUrl: "/gallery/additional/facility_icu_1786513332013.jpg",
+      altText: "Intensive Care Unit (ICU)"
+    },
+    {
+      _id: "img31",
+      title: "Advanced Operating Theatre",
+      description: "This image shows a modern operating theatre featuring an adjustable surgical table in the center covered in blue sheeting. Above the table are large double surgical lights suspended from the ceiling. Around the room, there are several monitors displaying patient information, an anesthesia machine on the left, medical carts, storage cabinets, and clean steel instrumentation surfaces.",
+      category: "Facilities",
+      tags: ["Theatre", "Operation", "Surgery", "Facilities"],
+      imageUrl: "/gallery/additional/facility_operation_theatre_1786513254455.jpg",
+      altText: "Advanced Operating Theatre"
+    },
+    {
+      _id: "img32",
+      title: "Premium Private Room",
+      description: "This image shows a modern, premium private hospital patient room. In the center is an adjustable patient bed with clean white pillows and bedding. The room features a wooden wall headboard panel with purple accent lighting, an bedside table, a patient vitals monitor on an arm, a large window overlooking green gardens, a comfortable armchair for visitors with a side table, and a wall-mounted TV screen.",
+      category: "Hospital",
+      tags: ["Private", "Ward", "Premium", "Hospital"],
+      imageUrl: "/gallery/additional/facility_patient_room_1786514680022.jpg",
+      altText: "Premium Private Room"
+    },
+    {
+      _id: "img33",
+      title: "Modern Healthcare Building & Entrance",
+      description: "This image shows a modern multi-story healthcare facility building. On the left, a curved concrete access ramp with glass railings leads up to an upper level. Below, the main entrance lobby has glass doors with a driveway where a car is passing. The front area includes landscaping with trees, shrubs, and a paved walkway where two individuals in medical scrubs are walking. The building facade is marked with the sign 'Modern Healthcare Facility'.",
+      category: "Infrastructure",
+      tags: ["Building", "Entrance", "Modern", "Infrastructure"],
+      imageUrl: "/gallery/additional/hospital_exterior_1786515473707.jpg",
+      altText: "Modern Healthcare Building & Entrance"
+    },
+    {
+      _id: "img34",
+      title: "Single ICU Patient Room",
+      description: "This image shows a single-bed intensive care patient room. An adjustable hospital bed with white and blue sheets is positioned in the center. Next to the bed is a mobile IV stand with infusion pumps and bags. In the background, there is a patient monitor, a computer desk with a rolling stool, cabinets, and a glass partition looking into an adjacent room or corridor.",
+      category: "Facilities",
+      tags: ["Single", "ICU", "Patient", "Facilities"],
+      imageUrl: "/gallery/additional/icu_unit_1786516011183.jpg",
+      altText: "Single ICU Patient Room"
+    },
+    {
+      _id: "img35",
+      title: "Clinical Diagnostics Laboratory",
+      description: "This image shows a modern, bright clinical laboratory. Multiple workbenches are equipped with automated analyzers, centrifuges, computers, and diagnostic equipment. In the foreground, there are racks of blood collection test tubes with red, blue, and yellow caps, along with multi-channel pipettes and chemical bottles on a stainless-steel table. Storage cabinets, a fume hood, and laboratory refrigerators are visible in the background.",
+      category: "Technology",
+      tags: ["Laboratory", "Diagnostics", "Clinical", "Technology"],
+      imageUrl: "/gallery/additional/modern_laboratory_1786516097810.jpg",
+      altText: "Clinical Diagnostics Laboratory"
+    },
+    {
+      _id: "img36",
+      title: "State-of-the-Art Operation Theatre",
+      description: "This image shows a modern operating theatre room. In the center is an operating table covered in blue drapes, with a blue surgical gown folded on top. Above is an adjustable multi-petal overhead surgical light assembly. The room has medical monitors, a scrub sink station on the left wall with a window, mobile equipment carts with surgical instruments, computer workstations, and wall-integrated displays.",
+      category: "Facilities",
+      tags: ["Surgical", "Theater", "OT", "Facilities"],
+      imageUrl: "/gallery/additional/operating_theatre_1786515709165.jpg",
+      altText: "State-of-the-Art Operation Theatre"
+    },
+    {
+      _id: "img37",
+      title: "Cozy Patient Room with View",
+      description: "This image shows a cozy private patient room in a hospital. On the left is an adjustable patient bed with white pillows, a white bedsheet, and a blue throw blanket. Next to the bed is a wooden nightstand with a lamp. On the right, there is a blue fabric armchair with a pillow, a small round wooden table, a wooden vanity cabinet with a box of tissues, a wall-mounted television, and a window displaying green trees and a building in the distance under a blue sky.",
+      category: "Hospital",
+      tags: ["Cozy", "PatientRoom", "View", "Hospital"],
+      imageUrl: "/gallery/additional/patient_room_1786516375421.jpg",
+      altText: "Cozy Patient Room with View"
     }
   ];
 
@@ -244,6 +352,18 @@ export const GalleryPage: React.FC = () => {
     if (img._id === "img23") return t("gal_img_hosp8_title");
     if (img._id === "img24") return t("gal_img_hosp9_title");
     if (img._id === "img25") return t("gal_img_hosp10_title");
+    if (img._id === "img26") return t("gal_img_add1_title");
+    if (img._id === "img27") return t("gal_img_add2_title");
+    if (img._id === "img28") return t("gal_img_add3_title");
+    if (img._id === "img29") return t("gal_img_add4_title");
+    if (img._id === "img30") return t("gal_img_add5_title");
+    if (img._id === "img31") return t("gal_img_add6_title");
+    if (img._id === "img32") return t("gal_img_add7_title");
+    if (img._id === "img33") return t("gal_img_add8_title");
+    if (img._id === "img34") return t("gal_img_add9_title");
+    if (img._id === "img35") return t("gal_img_add10_title");
+    if (img._id === "img36") return t("gal_img_add11_title");
+    if (img._id === "img37") return t("gal_img_add12_title");
     return img.title;
   };
 
@@ -266,6 +386,18 @@ export const GalleryPage: React.FC = () => {
     if (img._id === "img23") return t("gal_img_hosp8_desc");
     if (img._id === "img24") return t("gal_img_hosp9_desc");
     if (img._id === "img25") return t("gal_img_hosp10_desc");
+    if (img._id === "img26") return t("gal_img_add1_desc");
+    if (img._id === "img27") return t("gal_img_add2_desc");
+    if (img._id === "img28") return t("gal_img_add3_desc");
+    if (img._id === "img29") return t("gal_img_add4_desc");
+    if (img._id === "img30") return t("gal_img_add5_desc");
+    if (img._id === "img31") return t("gal_img_add6_desc");
+    if (img._id === "img32") return t("gal_img_add7_desc");
+    if (img._id === "img33") return t("gal_img_add8_desc");
+    if (img._id === "img34") return t("gal_img_add9_desc");
+    if (img._id === "img35") return t("gal_img_add10_desc");
+    if (img._id === "img36") return t("gal_img_add11_desc");
+    if (img._id === "img37") return t("gal_img_add12_desc");
     return img.description;
   };
 
