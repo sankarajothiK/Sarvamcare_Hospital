@@ -28,6 +28,7 @@ export const Navbar: React.FC = () => {
     { name: t("departments"), href: "/specialities" },
     { name: t("doctors"), href: "/doctors" },
     { name: t("centers"), href: "/centers" },
+    { name: t("neuro_care"), href: "/neuro-hospital-in-salem" },
     { name: t("services"), href: "/services" },
     { name: t("facilities"), href: "/facilities" },
     { name: t("gallery"), href: "/gallery" },

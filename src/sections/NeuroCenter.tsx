@@ -1,5 +1,6 @@
 import React from "react";
-import { Check } from "lucide-react";
+import { Check, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { NeuroCenterLogo } from "../components/BrandLogos";
 import { useLanguage } from "../utils/LanguageContext";
@@ -177,6 +178,15 @@ export const NeuroCenter: React.FC = () => {
                   </span>
                 </motion.div>
               ))}
+            </div>
+            <div className="pt-6 flex justify-center lg:justify-start">
+              <Link 
+                to="/neuro-hospital-in-salem"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[#D8B35A] hover:bg-[#F3D98A] text-[#32105F] font-bold text-xs uppercase tracking-wider shadow-lg active:scale-95 transition-all duration-300 cursor-pointer"
+              >
+                <span>{language === "ta" ? "நரம்பியல் சிகிச்சைப்பிரிவு விவரங்கள்" : "Explore Neuro Care"}</span>
+                <ArrowRight className="h-4 w-4" />
+              </Link>
             </div>
           </div>
 

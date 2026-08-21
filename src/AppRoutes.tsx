@@ -24,6 +24,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsPage from "./pages/TermsPage";
 import DisclaimerPage from "./pages/DisclaimerPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import NeuroLandingPage from "./pages/NeuroLandingPage";
 
 // Admin CMS Portal
 import Login from "./admin/Login";
@@ -59,6 +60,7 @@ export const AppRoutes: React.FC = () => {
       <Route path="/smiling-monk" element={<Navigate to="/centers/craniofacial" replace />} />
 
       <Route path="/services" element={<ServicesPage />} />
+      <Route path="/neuro-hospital-in-salem" element={<NeuroLandingPage />} />
       <Route path="/facilities" element={<FacilitiesPage />} />
       <Route path="/patient-information" element={<PatientInfoPage />} />
       <Route path="/appointment" element={<AppointmentPage />} />
