@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { 
   LayoutDashboard, Users, Layers, BookOpen, Image as ImageIcon, 
-  Settings, Mail, LogOut, Trash2, Edit, Heart, Calendar, Menu, X
+  Settings, Mail, LogOut, Trash2, Edit, Heart, Calendar, Menu, X,
+  RefreshCw
 } from "lucide-react";
 
 export const AdminDashboard: React.FC = () => {
@@ -140,6 +141,83 @@ export const AdminDashboard: React.FC = () => {
 
     loadData();
   }, [token, navigate, activeTab]);
+
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const handleManualRefresh = async () => {
+    setIsRefreshing(true);
+    try {
+      const headers = { "Authorization": `Bearer ${token}` };
+      
+      const [statsRes, docRes, deptRes, blogRes, galRes, pkgRes, apptRes, enqRes, settingsRes, seoRes] = await Promise.all([
+        fetch("/api/dashboard/stats", { headers }),
+        fetch("/api/doctors"),
+        fetch("/api/departments"),
+        fetch("/api/blogs"),
+        fetch("/api/gallery"),
+        fetch("/api/packages"),
+        fetch("/api/appointments", { headers }),
+        fetch("/api/enquiries", { headers }),
+        fetch("/api/settings"),
+        fetch("/api/seo")
+      ]);
+
+      if (statsRes.ok) setStats(await statsRes.json());
+      if (docRes.ok) setDoctorsList(await docRes.json());
+      if (deptRes.ok) setDeptsList(await deptRes.json());
+      if (blogRes.ok) setBlogsList(await blogRes.json());
+      if (galRes.ok) setGalleryList(await galRes.json());
+      if (pkgRes.ok) setPackagesList(await pkgRes.json());
+      if (apptRes.ok) setAppointmentsList(await apptRes.json());
+      if (enqRes.ok) setEnquiriesList(await enqRes.json());
+      if (settingsRes.ok) {
+        const data = await settingsRes.json();
+        setSettingsForm({
+          phone: data.phone,
+          whatsapp: data.whatsapp,
+          email: data.email,
+          address: data.address,
+          emergencyNumber: data.emergencyNumber,
+          googleMapsUrl: data.googleMapsUrl
+        });
+      }
+      if (seoRes.ok) {
+        const data = await seoRes.json();
+        setSeoForm({
+          globalTitle: data.globalTitle,
+          globalDescription: data.globalDescription,
+          googleVerification: data.googleVerification,
+          gtmId: data.gtmId,
+          ga4MeasurementId: data.ga4MeasurementId
+        });
+      }
+
+      setGalleryNotification({ type: "success", message: "Data refreshed successfully!" });
+      setTimeout(() => setGalleryNotification(prev => prev && prev.message === "Data refreshed successfully!" ? { type: null, message: "" } : prev), 3500);
+    } catch (err) {
+      console.error("Refresh failed:", err);
+      setGalleryNotification({ type: "error", message: "Failed to refresh data. Please try again." });
+      setTimeout(() => setGalleryNotification(prev => prev && prev.message === "Failed to refresh data. Please try again." ? { type: null, message: "" } : prev), 3500);
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
+
+  const renderTabHeader = (title: string, subtitle?: string) => (
+    <div className="flex justify-between items-center pb-3 border-b border-slate-200">
+      <div className="flex items-center gap-3">
+        <h1 className="text-2xl font-bold text-[#32105F]">{title}</h1>
+        <button 
+          onClick={handleManualRefresh} 
+          disabled={isRefreshing} 
+          className="p-1.5 bg-white border border-slate-200 text-slate-400 hover:text-[#32105F] hover:bg-slate-50 rounded-xl transition-all shadow-sm active:scale-95 disabled:opacity-50 flex items-center justify-center cursor-pointer"
+          title="Refresh all registry data"
+        >
+          <RefreshCw className={`h-4 w-4 ${isRefreshing ? "animate-spin text-[#32105F]" : ""}`} />
+        </button>
+      </div>
+      {subtitle && <span className="text-xs text-slate-500 font-light">{subtitle}</span>}
+    </div>
+  );
 
   const handleLogout = () => {
     localStorage.removeItem("sarvamcare_admin_token");
@@ -603,10 +681,7 @@ export const AdminDashboard: React.FC = () => {
           {/* TAB 1: DASHBOARD */}
           {activeTab === "dashboard" && (
             <div className="space-y-8 animate-fade-in">
-              <div className="flex justify-between items-center">
-                <h1 className="text-2xl font-bold text-[#32105F]">Dashboard Overview</h1>
-                <span className="text-xs text-slate-500">Live statistics summary</span>
-              </div>
+              {renderTabHeader("Dashboard Overview", "Live statistics summary")}
 
               {/* Counters */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -681,7 +756,7 @@ export const AdminDashboard: React.FC = () => {
           {/* TAB 2: DOCTORS CRUD */}
           {activeTab === "doctors" && (
             <div className="space-y-8 animate-fade-in">
-              <h1 className="text-2xl font-bold text-[#32105F]">Physicians Management</h1>
+              {renderTabHeader("Physicians Management")}
               
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 {/* Form */}
@@ -790,7 +865,7 @@ export const AdminDashboard: React.FC = () => {
           {/* TAB 3: DEPARTMENTS CRUD */}
           {activeTab === "departments" && (
             <div className="space-y-8 animate-fade-in">
-              <h1 className="text-2xl font-bold text-[#32105F]">Departments Settings</h1>
+              {renderTabHeader("Departments Settings")}
 
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 <form onSubmit={saveDepartment} className="lg:col-span-5 p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
@@ -855,7 +930,7 @@ export const AdminDashboard: React.FC = () => {
           {/* TAB 4: PACKAGES */}
           {activeTab === "packages" && (
             <div className="space-y-8 animate-fade-in">
-              <h1 className="text-2xl font-bold text-[#32105F]">Health Packages Settings</h1>
+              {renderTabHeader("Health Packages Settings")}
 
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 <form onSubmit={savePackage} className="lg:col-span-5 p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
@@ -923,7 +998,7 @@ export const AdminDashboard: React.FC = () => {
           {/* TAB 5: BLOG CMS */}
           {activeTab === "blogs" && (
             <div className="space-y-8 animate-fade-in">
-              <h1 className="text-2xl font-bold text-[#32105F]">Health Blog CMS</h1>
+              {renderTabHeader("Health Blog CMS")}
 
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 <form onSubmit={saveBlog} className="lg:col-span-6 p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
@@ -994,7 +1069,7 @@ export const AdminDashboard: React.FC = () => {
           {/* TAB 6: GALLERY CMS */}
           {activeTab === "gallery" && (
             <div className="space-y-8 animate-fade-in">
-              <h1 className="text-2xl font-bold text-[#32105F]">Visual Gallery CMS</h1>
+              {renderTabHeader("Visual Gallery CMS")}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 <form onSubmit={saveGalleryImage} className="lg:col-span-5 p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
                   <h3 className="text-sm font-bold text-[#32105F]">{editingGalId ? "Edit Gallery Photo" : "Add Gallery Photo"}</h3>
@@ -1194,7 +1269,7 @@ export const AdminDashboard: React.FC = () => {
           {/* TAB 7: APPOINTMENTS */}
           {activeTab === "appointments" && (
             <div className="space-y-8 animate-fade-in">
-              <h1 className="text-2xl font-bold text-[#32105F]">Appointments Request Pipeline</h1>
+              {renderTabHeader("Appointments Request Pipeline")}
               
               <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
                 <div className="divide-y divide-slate-100">
@@ -1233,7 +1308,7 @@ export const AdminDashboard: React.FC = () => {
           {/* TAB 8: ENQUIRIES */}
           {activeTab === "enquiries" && (
             <div className="space-y-8 animate-fade-in">
-              <h1 className="text-2xl font-bold text-[#32105F]">Contact Enquiries Log</h1>
+              {renderTabHeader("Contact Enquiries Log")}
               
               <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
                 <div className="divide-y divide-slate-100">
@@ -1261,7 +1336,7 @@ export const AdminDashboard: React.FC = () => {
           {/* TAB 9: SITE SETTINGS */}
           {activeTab === "settings" && (
             <div className="space-y-8 animate-fade-in">
-              <h1 className="text-2xl font-bold text-[#32105F]">Site Configurations</h1>
+              {renderTabHeader("Site Configurations")}
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
                 

@@ -27,13 +27,22 @@ const AppContent: React.FC = () => {
           initAnalytics(data.gtmId, data.ga4MeasurementId);
           
           if (data.googleVerification) {
+            let key = data.googleVerification.trim();
+            if (key.includes("<")) {
+              const match = key.match(/content=["'](.*?)["']/i);
+              if (match && match[1]) {
+                key = match[1];
+              } else {
+                key = key.replace(/<[^>]*>/g, "").trim();
+              }
+            }
             let meta = document.querySelector('meta[name="google-site-verification"]');
             if (!meta) {
               meta = document.createElement("meta");
               meta.setAttribute("name", "google-site-verification");
               document.head.appendChild(meta);
             }
-            meta.setAttribute("content", data.googleVerification);
+            meta.setAttribute("content", key);
           }
         } else {
           initAnalytics();

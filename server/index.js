@@ -600,7 +600,16 @@ if (process.env.NODE_ENV === "production" || true) {
         if (seo) {
           let metaTags = "";
           if (seo.googleVerification) {
-            metaTags += `\n    <meta name="google-site-verification" content="${seo.googleVerification}" />`;
+            let key = seo.googleVerification.trim();
+            if (key.includes("<")) {
+              const match = key.match(/content=["'](.*?)["']/i);
+              if (match && match[1]) {
+                key = match[1];
+              } else {
+                key = key.replace(/<[^>]*>/g, "").trim();
+              }
+            }
+            metaTags += `\n    <meta name="google-site-verification" content="${key}" />`;
           }
           if (seo.globalTitle) {
             html = html.replace(/<title>.*?<\/title>/, `<title>${seo.globalTitle}</title>`);
