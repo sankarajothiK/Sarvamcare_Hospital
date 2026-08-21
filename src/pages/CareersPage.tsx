@@ -64,7 +64,7 @@ export const CareersPage: React.FC = () => {
       <Helmet>
         <title>Careers & Recruitment | SarvamCare Hospital Salem</title>
         <meta name="description" content="Join our medical staff team. Search nursing vacancies, radiology technician jobs, medical officer positions, and submit applications directly." />
-        <link rel="canonical" href="https://sarvamcare.com/careers" />
+        <link rel="canonical" href="https://sarvamcarehospital.in/careers" />
       </Helmet>
 
       {/* Hero Banner */}

@@ -30,7 +30,7 @@ app.get("/sitemap.xml", async (req, res) => {
   res.header("Content-Encoding", "gzip");
   
   try {
-    const domain = process.env.DOMAIN || "https://sarvamcare.com";
+    const domain = process.env.DOMAIN || "https://sarvamcarehospital.in";
     
     // Core routes
     const staticRoutes = [
@@ -39,6 +39,7 @@ app.get("/sitemap.xml", async (req, res) => {
       "/doctors",
       "/trauma-care",
       "/neuro-center",
+      "/neuro-hospital-in-salem",
       "/smiling-monk",
       "/health-packages",
       "/gallery",
@@ -88,7 +89,7 @@ app.get("/sitemap.xml", async (req, res) => {
 
 // Robots.txt
 app.get("/robots.txt", (req, res) => {
-  const domain = process.env.DOMAIN || "https://sarvamcare.com";
+  const domain = process.env.DOMAIN || "https://sarvamcarehospital.in";
   res.type("text/plain");
   res.send(`User-agent: *
 Allow: /

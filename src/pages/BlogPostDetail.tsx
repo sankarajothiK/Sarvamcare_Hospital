@@ -113,7 +113,7 @@ export const BlogPostDetail: React.FC = () => {
       <Helmet>
         <title>{post.seoTitle || `${post.title} | SarvamCare Hospital`}</title>
         <meta name="description" content={post.seoDescription || post.excerpt} />
-        <link rel="canonical" href={post.canonicalUrl || `https://sarvamcare.com/blog/${slug}`} />
+        <link rel="canonical" href={post.canonicalUrl || `https://sarvamcarehospital.in/blog/${slug}`} />
       </Helmet>
 
       {/* Hero Header */}

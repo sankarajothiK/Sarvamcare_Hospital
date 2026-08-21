@@ -79,8 +79,8 @@ export const NeuroLandingPage: React.FC = () => {
     "name": "SarvamCare Hospital Pvt. Ltd.",
     "alternateName": "SarvamCare Neuro Center",
     "description": "SarvamCare is a premier neuro hospital in Salem offering specialized neurology and neurosurgery care for brain, spine, stroke, epilepsy, and neurological conditions.",
-    "url": "https://sarvamcare.com/neuro-hospital-in-salem",
-    "logo": "https://sarvamcare.com/logo.png",
+    "url": "https://sarvamcarehospital.in/neuro-hospital-in-salem",
+    "logo": "https://sarvamcarehospital.in/logo.png",
     "telephone": contactInfo.phoneRaw,
     "email": contactInfo.email,
     "address": {
@@ -109,12 +109,12 @@ export const NeuroLandingPage: React.FC = () => {
             ? "SarvamCare is a neuro hospital in Salem offering specialized neurology and neurosurgery care for brain, spine, stroke, epilepsy and neurological conditions at Mamangam, Salem." 
             : "சர்வம் கேர் சேலத்தில் உள்ள ஒரு நரம்பியல் மருத்துவமனையாகும். மூளை, தண்டுவடம், பக்கவாதம், வலிப்பு மற்றும் நரம்பு மண்டல கோளாறுகளுக்கு மாமாங்கம், சேலத்தில் சிறப்பு சிகிச்சை அளிக்கிறது."} 
         />
-        <link rel="canonical" href="https://sarvamcare.com/neuro-hospital-in-salem" />
+        <link rel="canonical" href="https://sarvamcarehospital.in/neuro-hospital-in-salem" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://sarvamcare.com/neuro-hospital-in-salem" />
+        <meta property="og:url" content="https://sarvamcarehospital.in/neuro-hospital-in-salem" />
         <meta property="og:title" content={language === "en" ? "Neuro Hospital in Salem | Neurology & Neurosurgery | SarvamCare" : "நரம்பியல் மருத்துவமனை சேலம் | சர்வம் கேர்"} />
         <meta property="og:description" content={language === "en" ? "SarvamCare is a specialized neuro hospital in Salem for brain, spine, and stroke care." : "சேலத்தில் மூளை, தண்டுவடம், மற்றும் நரம்பியல் அறுவை சிகிச்சைகளுக்கான சிறப்பு நரம்பியல் மருத்துவமனை."} />
-        <meta property="og:image" content="https://sarvamcare.com/sarvam_logo.jpg" />
+        <meta property="og:image" content="https://sarvamcarehospital.in/sarvam_logo.jpg" />
         
         {/* Structured Data Scripts */}
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>

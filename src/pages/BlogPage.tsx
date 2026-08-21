@@ -83,7 +83,7 @@ export const BlogPage: React.FC = () => {
       <Helmet>
         <title>Health Advice & Clinical Blog | SarvamCare Hospital Salem</title>
         <meta name="description" content="Read expert medical articles reviewed by our consulting neurosurgeons, orthopaedicians, and trauma ICU specialists on symptoms and preventive care." />
-        <link rel="canonical" href="https://sarvamcare.com/blog" />
+        <link rel="canonical" href="https://sarvamcarehospital.in/blog" />
       </Helmet>
 
       {/* Hero Banner */}

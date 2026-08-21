@@ -8,7 +8,7 @@ export const PrivacyPolicy: React.FC = () => {
       <Helmet>
         <title>Privacy Policy | SarvamCare Hospital Salem</title>
         <meta name="description" content="Read SarvamCare privacy policy. We protect patient clinical records, medical history, contact queries, and site cookies data." />
-        <link rel="canonical" href="https://sarvamcare.com/privacy-policy" />
+        <link rel="canonical" href="https://sarvamcarehospital.in/privacy-policy" />
       </Helmet>
 
       {/* Hero Header */}

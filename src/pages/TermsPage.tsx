@@ -8,7 +8,7 @@ export const TermsPage: React.FC = () => {
       <Helmet>
         <title>Terms and Conditions | SarvamCare Hospital Salem</title>
         <meta name="description" content="Review SarvamCare website terms of use, appointment requests parameters, and clinical information guidelines." />
-        <link rel="canonical" href="https://sarvamcare.com/terms-and-conditions" />
+        <link rel="canonical" href="https://sarvamcarehospital.in/terms-and-conditions" />
       </Helmet>
 
       {/* Hero Header */}
@@ -28,7 +28,7 @@ export const TermsPage: React.FC = () => {
             <span>Usage Agreement</span>
           </div>
           <p>
-            By accessing the website at **https://sarvamcare.com**, you agree to abide by these terms of use. The clinical articles, procedures list, and physician profile details displayed on this platform are for general information and referral purposes.
+            By accessing the website at **https://sarvamcarehospital.in**, you agree to abide by these terms of use. The clinical articles, procedures list, and physician profile details displayed on this platform are for general information and referral purposes.
           </p>
           <h3 className="font-serif text-lg font-bold text-[#32105F] pt-2">1. Outpatient Consultations</h3>
           <p>

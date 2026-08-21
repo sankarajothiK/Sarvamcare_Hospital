@@ -8,7 +8,7 @@ export const DisclaimerPage: React.FC = () => {
       <Helmet>
         <title>Medical Disclaimer | SarvamCare Hospital Salem</title>
         <meta name="description" content="Important clinical notice: Website details and health blog advice do not substitute direct physician consults." />
-        <link rel="canonical" href="https://sarvamcare.com/disclaimer" />
+        <link rel="canonical" href="https://sarvamcarehospital.in/disclaimer" />
       </Helmet>
 
       {/* Hero Header */}
