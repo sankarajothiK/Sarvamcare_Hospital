@@ -53,7 +53,7 @@ export const AdminDashboard: React.FC = () => {
   const [editingPkgId, setEditingPkgId] = useState<string | null>(null);
 
   // Blog CMS Form States
-  const [blogForm, setBlogForm] = useState({ title: "", slug: "", excerpt: "", content: "", category: "Neurosurgery", tags: "", author: "Clinical Team" });
+  const [blogForm, setBlogForm] = useState({ title: "", titleTa: "", slug: "", excerpt: "", excerptTa: "", content: "", contentTa: "", category: "Neurosurgery", tags: "", author: "Clinical Team" });
   const [editingBlogId, setEditingBlogId] = useState<string | null>(null);
 
   // Gallery CMS Form States
@@ -392,7 +392,7 @@ export const AdminDashboard: React.FC = () => {
       const blogRes = await fetch("/api/blogs");
       if (blogRes.ok) setBlogsList(await blogRes.json());
 
-      setBlogForm({ title: "", slug: "", excerpt: "", content: "", category: "Neurosurgery", tags: "", author: "Clinical Team" });
+      setBlogForm({ title: "", titleTa: "", slug: "", excerpt: "", excerptTa: "", content: "", contentTa: "", category: "Neurosurgery", tags: "", author: "Clinical Team" });
       setActiveTab("blogs");
     } catch (err) {
       console.error(err);
@@ -1016,6 +1016,10 @@ export const AdminDashboard: React.FC = () => {
                     <input type="text" required value={blogForm.title} onChange={e => setBlogForm({...blogForm, title: e.target.value})} className="w-full bg-slate-50 border border-slate-200 p-2.5 text-xs rounded-lg" placeholder="Understanding Spine Problems" />
                   </div>
                   <div className="space-y-1">
+                    <label className="text-[10px] font-bold text-slate-500 uppercase">Article Title (Tamil)</label>
+                    <input type="text" value={blogForm.titleTa} onChange={e => setBlogForm({...blogForm, titleTa: e.target.value})} className="w-full bg-slate-50 border border-slate-200 p-2.5 text-xs rounded-lg" placeholder="தண்டுவடம் சார்ந்த பிரச்சனைகள்" />
+                  </div>
+                  <div className="space-y-1">
                     <label className="text-[10px] font-bold text-slate-500 uppercase">URL Slug *</label>
                     <input type="text" required value={blogForm.slug} onChange={e => setBlogForm({...blogForm, slug: e.target.value})} className="w-full bg-slate-50 border border-slate-200 p-2.5 text-xs rounded-lg" placeholder="understanding-spine-problems" />
                   </div>
@@ -1034,8 +1038,16 @@ export const AdminDashboard: React.FC = () => {
                     <textarea rows={2} required value={blogForm.excerpt} onChange={e => setBlogForm({...blogForm, excerpt: e.target.value})} className="w-full bg-slate-50 border border-slate-200 p-2.5 text-xs rounded-lg resize-none" placeholder="Excerpt for search results..." />
                   </div>
                   <div className="space-y-1">
+                    <label className="text-[10px] font-bold text-slate-500 uppercase">Excerpt / Meta Description (Tamil)</label>
+                    <textarea rows={2} value={blogForm.excerptTa} onChange={e => setBlogForm({...blogForm, excerptTa: e.target.value})} className="w-full bg-slate-50 border border-slate-200 p-2.5 text-xs rounded-lg resize-none" placeholder="தேடல் முடிவுகளுக்கான சுருக்கம்..." />
+                  </div>
+                  <div className="space-y-1">
                     <label className="text-[10px] font-bold text-slate-500 uppercase">Article Content (HTML formatting supported) *</label>
                     <textarea rows={8} required value={blogForm.content} onChange={e => setBlogForm({...blogForm, content: e.target.value})} className="w-full bg-slate-50 border border-slate-200 p-2.5 text-xs rounded-lg font-mono" placeholder="<h3>Title</h3><p>Article body...</p>" />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-bold text-slate-500 uppercase">Article Content (Tamil)</label>
+                    <textarea rows={8} value={blogForm.contentTa} onChange={e => setBlogForm({...blogForm, contentTa: e.target.value})} className="w-full bg-slate-50 border border-slate-200 p-2.5 text-xs rounded-lg font-mono" placeholder="<h3>தலைப்பு</h3><p>கட்டுரை உடல்...</p>" />
                   </div>
                   <button type="submit" className="w-full py-2.5 bg-[#32105F] hover:bg-[#3D176E] text-white text-xs font-bold uppercase rounded-lg">
                     {editingBlogId ? "Save Article" : "Publish Article"}
@@ -1056,9 +1068,12 @@ export const AdminDashboard: React.FC = () => {
                             setEditingBlogId(b._id);
                             setBlogForm({
                               title: b.title,
+                              titleTa: b.titleTa || "",
                               slug: b.slug,
                               excerpt: b.excerpt,
+                              excerptTa: b.excerptTa || "",
                               content: b.content,
+                              contentTa: b.contentTa || "",
                               category: b.category || "Neurosurgery",
                               tags: b.tags ? b.tags.join(", ") : "",
                               author: b.author || "Clinical Team"

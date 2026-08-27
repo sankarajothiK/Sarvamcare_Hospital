@@ -3,13 +3,17 @@ import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Calendar, ArrowLeft, MessageCircle, Phone } from "lucide-react";
 import { contactInfo } from "../data/contact";
+import { useLanguage } from "../utils/LanguageContext";
 
 interface BlogPostData {
   _id: string;
   title: string;
+  titleTa?: string;
   slug: string;
   excerpt: string;
+  excerptTa?: string;
   content: string; // HTML string
+  contentTa?: string;
   category: string;
   author: string;
   publishDate: string;
@@ -20,6 +24,7 @@ interface BlogPostData {
 }
 
 export const BlogPostDetail: React.FC = () => {
+  const { language } = useLanguage();
   const { slug } = useParams<{ slug: string }>();
   const [post, setPost] = useState<BlogPostData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -140,7 +145,7 @@ export const BlogPostDetail: React.FC = () => {
             className="inline-flex items-center gap-1.5 text-xs text-[#D8B35A] hover:text-white font-bold uppercase tracking-wider mb-6 transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
-            <span>Back to Health Blog</span>
+            <span>{language === "ta" ? "வலைப்பதிவிற்குத் திரும்புக" : "Back to Health Blog"}</span>
           </Link>
           <div className="flex items-center gap-3 text-[10px] text-indigo-200 font-bold uppercase tracking-wider mb-3">
             <span className="bg-white/10 border border-white/10 px-2.5 py-0.5 rounded-full">
@@ -153,7 +158,7 @@ export const BlogPostDetail: React.FC = () => {
             </span>
           </div>
           <h1 className="font-serif text-2xl sm:text-4xl font-extrabold text-white leading-tight">
-            {post.title}
+            {(language === "ta" && post.titleTa) ? post.titleTa : post.title}
           </h1>
           <div className="h-[2px] w-14 bg-[#D8B35A] mt-5" />
         </div>
@@ -170,7 +175,7 @@ export const BlogPostDetail: React.FC = () => {
               {/* Blog body text */}
               <div 
                 className="prose prose-slate max-w-none text-sm sm:text-base text-[#665A70] leading-relaxed font-light font-sans space-y-4"
-                dangerouslySetInnerHTML={{ __html: formatBlogContent(post.content) }}
+                dangerouslySetInnerHTML={{ __html: formatBlogContent((language === "ta" && post.contentTa) ? post.contentTa : post.content) }}
               />
 
               {/* Tags */}

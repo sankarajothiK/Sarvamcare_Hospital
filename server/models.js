@@ -41,10 +41,13 @@ const DepartmentSchema = new Schema({
 // 4. Blog Post Schema
 const BlogPostSchema = new Schema({
   title: { type: String, required: true },
+  titleTa: { type: String, default: "" },
   slug: { type: String, required: true, unique: true },
   featuredImage: { type: String, default: "" },
   excerpt: { type: String, required: true },
+  excerptTa: { type: String, default: "" },
   content: { type: String, required: true }, // Markdown/HTML String
+  contentTa: { type: String, default: "" },
   category: { type: String, default: "General Health" },
   tags: { type: [String], default: [] },
   author: { type: String, default: "Clinical Team" },

@@ -2,12 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { BookOpen, Search, ChevronRight, Calendar, User } from "lucide-react";
+import { useLanguage } from "../utils/LanguageContext";
 
 interface BlogPostData {
   _id: string;
   title: string;
+  titleTa?: string;
   slug: string;
   excerpt: string;
+  excerptTa?: string;
   category: string;
   author: string;
   publishDate: string;
@@ -15,6 +18,7 @@ interface BlogPostData {
 }
 
 export const BlogPage: React.FC = () => {
+  const { language } = useLanguage();
   const [posts, setPosts] = useState<BlogPostData[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
@@ -74,7 +78,9 @@ export const BlogPage: React.FC = () => {
 
   const filteredPosts = posts.filter(post => 
     post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (post.titleTa && post.titleTa.toLowerCase().includes(searchQuery.toLowerCase())) ||
     post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (post.excerptTa && post.excerptTa.toLowerCase().includes(searchQuery.toLowerCase())) ||
     post.category.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -141,11 +147,11 @@ export const BlogPage: React.FC = () => {
                       </span>
                     </div>
 
-                    <h3 className="font-serif text-lg md:text-xl font-bold text-[#32105F] hover:text-[#6D2FA0] transition-colors leading-tight">
-                      <Link to={`/blog/${post.slug}`}>{post.title}</Link>
+                     <h3 className="font-serif text-lg md:text-xl font-bold text-[#32105F] hover:text-[#6D2FA0] transition-colors leading-tight">
+                      <Link to={`/blog/${post.slug}`}>{(language === "ta" && post.titleTa) ? post.titleTa : post.title}</Link>
                     </h3>
                     <p className="text-xs sm:text-sm text-[#665A70] leading-relaxed font-light font-sans mt-3">
-                      {post.excerpt}
+                      {(language === "ta" && post.excerptTa) ? post.excerptTa : post.excerpt}
                     </p>
                   </div>
 
@@ -155,7 +161,7 @@ export const BlogPage: React.FC = () => {
                       to={`/blog/${post.slug}`}
                       className="text-xs font-bold text-[#6D2FA0] hover:text-[#32105F] flex items-center gap-0.5 transition-colors"
                     >
-                      <span>Read Full Article</span>
+                      <span>{language === "ta" ? "கட்டுரையை முழுமையாக வாசிக்க" : "Read Full Article"}</span>
                       <ChevronRight className="h-3.5 w-3.5" />
                     </Link>
                     <div className="flex items-center gap-1.5 text-[10px] text-[#665A70] font-light">
