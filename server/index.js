@@ -30,7 +30,7 @@ app.get("/sitemap.xml", async (req, res) => {
   res.header("Content-Encoding", "gzip");
   
   try {
-    const domain = process.env.DOMAIN || "https://sarvamcarehospital.in";
+    const domain = "https://sarvamcarehospital.in";
     
     // Core routes
     const staticRoutes = [
@@ -89,7 +89,7 @@ app.get("/sitemap.xml", async (req, res) => {
 
 // Robots.txt
 app.get("/robots.txt", (req, res) => {
-  const domain = process.env.DOMAIN || "https://sarvamcarehospital.in";
+  const domain = "https://sarvamcarehospital.in";
   res.type("text/plain");
   res.send(`User-agent: *
 Allow: /
