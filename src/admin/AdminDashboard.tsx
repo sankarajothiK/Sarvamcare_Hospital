@@ -388,6 +388,10 @@ export const AdminDashboard: React.FC = () => {
       } else {
         await fetch("/api/blogs", { method: "POST", headers, body: JSON.stringify(body) });
       }
+      
+      const blogRes = await fetch("/api/blogs");
+      if (blogRes.ok) setBlogsList(await blogRes.json());
+
       setBlogForm({ title: "", slug: "", excerpt: "", content: "", category: "Neurosurgery", tags: "", author: "Clinical Team" });
       setActiveTab("blogs");
     } catch (err) {
@@ -402,6 +406,10 @@ export const AdminDashboard: React.FC = () => {
         method: "DELETE", 
         headers: { "Authorization": `Bearer ${token}` } 
       });
+      
+      const blogRes = await fetch("/api/blogs");
+      if (blogRes.ok) setBlogsList(await blogRes.json());
+
       setActiveTab("blogs");
     } catch (err) {
       console.error(err);

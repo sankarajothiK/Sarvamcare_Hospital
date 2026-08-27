@@ -24,6 +24,19 @@ export const BlogPostDetail: React.FC = () => {
   const [post, setPost] = useState<BlogPostData | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const formatBlogContent = (content: string) => {
+    if (!content) return "";
+    // If it already has HTML tags, render it as-is
+    if (/<[a-z][\s\S]*>/i.test(content)) {
+      return content;
+    }
+    // If it's plain text, convert newlines to paragraph tags/breaks
+    return content
+      .split(/\n\n+/)
+      .map(para => `<p>${para.replace(/\n/g, "<br />")}</p>`)
+      .join("\n");
+  };
+
   useEffect(() => {
     const fetchBlogPost = async () => {
       try {
@@ -157,7 +170,7 @@ export const BlogPostDetail: React.FC = () => {
               {/* Blog body text */}
               <div 
                 className="prose prose-slate max-w-none text-sm sm:text-base text-[#665A70] leading-relaxed font-light font-sans space-y-4"
-                dangerouslySetInnerHTML={{ __html: post.content }}
+                dangerouslySetInnerHTML={{ __html: formatBlogContent(post.content) }}
               />
 
               {/* Tags */}
