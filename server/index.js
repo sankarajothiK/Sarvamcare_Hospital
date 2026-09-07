@@ -26,11 +26,11 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 // Dynamic XML Sitemap Generator
 app.get("/sitemap.xml", async (req, res) => {
-  res.header("Content-Type", "application/xml");
-  res.header("Content-Encoding", "gzip");
+  res.set("Content-Type", "application/xml; charset=utf-8");
   
   try {
     const domain = "https://sarvamcarehospital.in";
+    const today = new Date().toISOString().split("T")[0];
     
     // Core routes
     const staticRoutes = [
@@ -56,34 +56,66 @@ app.get("/sitemap.xml", async (req, res) => {
 
     // 1. Static Paths
     staticRoutes.forEach(route => {
-      xml += `  <url>\n    <loc>${domain}${route}</loc>\n    <changefreq>daily</changefreq>\n    <priority>${route === "" ? "1.0" : "0.8"}</priority>\n  </url>\n`;
+      xml += `  <url>\n    <loc>${domain}${route}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>daily</changefreq>\n    <priority>${route === "" ? "1.0" : "0.8"}</priority>\n  </url>\n`;
     });
 
     // 2. Dynamic Department Slugs
-    const depts = await Department.find({ status: "active" });
-    depts.forEach(d => {
-      xml += `  <url>\n    <loc>${domain}/departments/${d.slug}</loc>\n    <changefreq>weekly</changefreq>\n    <priority>0.7</priority>\n  </url>\n`;
-    });
+    try {
+      const depts = await Department.find({ status: "active" });
+      depts.forEach(d => {
+        const deptSlug = (d.slug || "").trim().toLowerCase().replace(/[^a-z0-9-]+/g, "-").replace(/^-+|-+$/g, "");
+        if (deptSlug) {
+          xml += `  <url>\n    <loc>${domain}/departments/${deptSlug}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.7</priority>\n  </url>\n`;
+        }
+      });
+    } catch (deptErr) {
+      console.error("Error querying departments for sitemap:", deptErr);
+    }
 
     // 3. Dynamic Doctor Profile Slugs
-    const docs = await Doctor.find({ status: "active" });
-    docs.forEach(doc => {
-      const docSlug = doc.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-      xml += `  <url>\n    <loc>${domain}/doctors/${docSlug}</loc>\n    <changefreq>weekly</changefreq>\n    <priority>0.6</priority>\n  </url>\n`;
-    });
+    try {
+      const docs = await Doctor.find({ status: "active" });
+      docs.forEach(doc => {
+        const docSlug = doc.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+        if (docSlug) {
+          xml += `  <url>\n    <loc>${domain}/doctors/${docSlug}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.6</priority>\n  </url>\n`;
+        }
+      });
+    } catch (docErr) {
+      console.error("Error querying doctors for sitemap:", docErr);
+    }
 
     // 4. Dynamic Blog Post Slugs
-    const posts = await BlogPost.find({ status: "published" });
-    posts.forEach(p => {
-      xml += `  <url>\n    <loc>${domain}/blog/${p.slug}</loc>\n    <changefreq>weekly</changefreq>\n    <priority>0.6</priority>\n  </url>\n`;
-    });
+    try {
+      const posts = await BlogPost.find({ status: "published" });
+      posts.forEach(p => {
+        const blogSlug = (p.slug || "").trim().toLowerCase().replace(/[^a-z0-9-]+/g, "-").replace(/^-+|-+$/g, "");
+        if (blogSlug) {
+          const modDate = p.publishDate ? new Date(p.publishDate).toISOString().split("T")[0] : today;
+          xml += `  <url>\n    <loc>${domain}/blog/${blogSlug}</loc>\n    <lastmod>${modDate}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.6</priority>\n  </url>\n`;
+        }
+      });
+    } catch (blogErr) {
+      console.error("Error querying blog posts for sitemap:", blogErr);
+    }
 
     xml += `</urlset>`;
     
-    res.header("Content-Encoding", "identity"); // Disable compression for direct text rendering
     res.send(xml);
   } catch (err) {
-    res.status(500).send("Error generating sitemap");
+    console.error("Error generating dynamic sitemap:", err);
+    // Fallback: Send valid static sitemap rather than 500 error
+    const domain = "https://sarvamcarehospital.in";
+    const today = new Date().toISOString().split("T")[0];
+    let fallbackXml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+    fallbackXml += `  <url><loc>${domain}/</loc><lastmod>${today}</lastmod><priority>1.0</priority></url>\n`;
+    fallbackXml += `  <url><loc>${domain}/neuro-hospital-in-salem</loc><lastmod>${today}</lastmod><priority>0.8</priority></url>\n`;
+    fallbackXml += `  <url><loc>${domain}/about</loc><lastmod>${today}</lastmod><priority>0.8</priority></url>\n`;
+    fallbackXml += `  <url><loc>${domain}/doctors</loc><lastmod>${today}</lastmod><priority>0.8</priority></url>\n`;
+    fallbackXml += `  <url><loc>${domain}/blog</loc><lastmod>${today}</lastmod><priority>0.8</priority></url>\n`;
+    fallbackXml += `  <url><loc>${domain}/contact</loc><lastmod>${today}</lastmod><priority>0.8</priority></url>\n`;
+    fallbackXml += `</urlset>`;
+    res.send(fallbackXml);
   }
 });
 
@@ -93,9 +125,6 @@ app.get("/robots.txt", (req, res) => {
   res.type("text/plain");
   res.send(`User-agent: *
 Allow: /
-Disallow: /admin
-Disallow: /admin/*
-Disallow: /api/private
 
 Sitemap: ${domain}/sitemap.xml`);
 });

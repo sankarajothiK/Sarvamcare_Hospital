@@ -157,6 +157,9 @@ router.get("/blogs/:slug", async (req, res) => {
 
 router.post("/blogs", authMiddleware, async (req, res) => {
   try {
+    if (req.body.slug) {
+      req.body.slug = req.body.slug.trim().toLowerCase().replace(/[^a-z0-9-]+/g, "-").replace(/^-+|-+$/g, "");
+    }
     const post = new BlogPost(req.body);
     await post.save();
     res.status(201).json(post);
@@ -167,6 +170,9 @@ router.post("/blogs", authMiddleware, async (req, res) => {
 
 router.put("/blogs/:id", authMiddleware, async (req, res) => {
   try {
+    if (req.body.slug) {
+      req.body.slug = req.body.slug.trim().toLowerCase().replace(/[^a-z0-9-]+/g, "-").replace(/^-+|-+$/g, "");
+    }
     const post = await BlogPost.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.json(post);
   } catch (err) {
