@@ -33,8 +33,8 @@ export const contactInfo: ContactInfo = {
     line1: "#157, Salem Bangalore National Highway",
     line2: "Mamangam",
     city: "Salem",
-    pin: "636 032",
-    full: "#157, Salem Bangalore National Highway, Mamangam, Salem – 636 032."
+    pin: "636 302",
+    full: "#157, Salem Bangalore National Highway, Mamangam, Salem – 636 302."
   },
   phone: "94898 78908",
   phoneRaw: "+919489878908",
@@ -46,7 +46,7 @@ export const contactInfo: ContactInfo = {
     url: "https://wa.me/919489878908?text=Hello%20SarvamCare%20Hospital%2C%20I%20would%20like%20to%20enquire%20about%20an%20appointment.%20Please%20share%20the%20available%20consultation%20details.",
     floatingUrl: "https://wa.me/919489878908?text=Hello%20SarvamCare%20Hospital%2C%20I%20would%20like%20to%20enquire%20about%20an%20appointment."
   },
-  googleMapsUrl: "https://www.google.com/maps/dir/?api=1&destination=SarvamCare+Hospital+Pvt+Ltd+Mamangam+Salem+636032",
+  googleMapsUrl: "https://www.google.com/maps/dir/?api=1&destination=SarvamCare+Hospital+Pvt+Ltd+Mamangam+Salem+636302",
   socialLinks: {
     instagram: "https://www.instagram.com/sarvam_care_hospital/",
     facebook: "https://www.facebook.com/SarvamcareHospital/",

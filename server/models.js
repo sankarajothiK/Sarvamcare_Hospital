@@ -125,7 +125,7 @@ const SiteSettingsSchema = new Schema({
   phone: { type: String, default: "+91 94898 78908" },
   whatsapp: { type: String, default: "+91 94898 78908" },
   email: { type: String, default: "sarvamcarehospital@gmail.com" },
-  address: { type: String, default: "#157, Salem Bangalore National Highway, Mamangam, Salem - 636 032" },
+  address: { type: String, default: "#157, Salem Bangalore National Highway, Mamangam, Salem - 636 302" },
   workingHours: { type: String, default: "24/7 Helpline & Emergencies" },
   emergencyNumber: { type: String, default: "+91 94898 78908" },
   googleMapsUrl: { type: String, default: "https://maps.google.com/?cid=12345" },

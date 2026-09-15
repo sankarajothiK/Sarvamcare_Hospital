@@ -29,9 +29,9 @@ export const NeuroLandingPage: React.FC = () => {
     },
     {
       qEn: "Where is SarvamCare Hospital located in Salem?",
-      aEn: "SarvamCare Hospital is located at #157, Salem Bangalore National Highway, Mamangam, Salem, Tamil Nadu - 636032, India. It is situated in a highly accessible highway location for prompt emergency trauma arrivals.",
+      aEn: "SarvamCare Hospital is located at #157, Salem Bangalore National Highway, Mamangam, Salem, Tamil Nadu - 636302, India. It is situated in a highly accessible highway location for prompt emergency trauma arrivals.",
       qTa: "சேலத்தில் சர்வம் கேர் மருத்துவமனை எங்கு அமைந்துள்ளது?",
-      aTa: "சர்வம் கேர் மருத்துவமனை எண் 157, சேலம் பெங்களூரு தேசிய நெடுஞ்சாலை, மாமாங்கம், சேலம், தமிழ்நாடு - 636032, இந்தியா என்ற முகவரியில் அமைந்துள்ளது. இது அவசர காலங்களில் நோயாளிகள் எளிதில் வந்தடையும் வகையில் தேசிய நெடுஞ்சாலையின் மிக அருகில் அமைந்துள்ளது."
+      aTa: "சர்வம் கேர் மருத்துவமனை எண் 157, சேலம் பெங்களூரு தேசிய நெடுஞ்சாலை, மாமாங்கம், சேலம், தமிழ்நாடு - 636302, இந்தியா என்ற முகவரியில் அமைந்துள்ளது. இது அவசர காலங்களில் நோயாளிகள் எளிதில் வந்தடையும் வகையில் தேசிய நெடுஞ்சாலையின் மிக அருகில் அமைந்துள்ளது."
     },
     {
       qEn: "When should I consult a neurologist?",
@@ -88,7 +88,7 @@ export const NeuroLandingPage: React.FC = () => {
       "streetAddress": "#157, Salem Bangalore National Highway, Mamangam",
       "addressLocality": "Salem",
       "addressRegion": "Tamil Nadu",
-      "postalCode": "636032",
+      "postalCode": "636302",
       "addressCountry": "IN"
     },
     "contactPoint": {
