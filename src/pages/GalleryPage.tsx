@@ -302,7 +302,11 @@ export const GalleryPage: React.FC = () => {
         const res = await fetch("/api/gallery");
         if (res.ok) {
           const data = await res.json();
-          setImages(data);
+          if (Array.isArray(data) && data.length > 0) {
+            setImages(data);
+          } else {
+            setImages(fallbackImages);
+          }
         } else {
           throw new Error("Load failed");
         }
@@ -319,7 +323,7 @@ export const GalleryPage: React.FC = () => {
 
   const filteredImages = selectedCategory === "all" 
     ? images 
-    : images.filter(img => img.category.toLowerCase() === selectedCategory.toLowerCase());
+    : images.filter(img => img.category && img.category.toLowerCase() === selectedCategory.toLowerCase());
 
   const handleNext = (e?: React.MouseEvent) => {
     if (e) e.stopPropagation();

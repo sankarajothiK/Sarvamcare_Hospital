@@ -230,9 +230,21 @@ router.delete("/packages/:id", authMiddleware, async (req, res) => {
 // --- GALLERY IMAGES ---
 router.get("/gallery", async (req, res) => {
   try {
-    const imgs = await GalleryImage.find().sort({ createdAt: -1 });
-    res.json(imgs);
+    const imgs = await GalleryImage.find()
+      .select("-image")
+      .sort({ createdAt: -1 })
+      .lean();
+
+    const formatted = imgs.map(img => ({
+      ...img,
+      imageUrl: img.imageUrl && !img.imageUrl.startsWith("data:")
+        ? img.imageUrl
+        : `/api/gallery/image/${img._id}`
+    }));
+
+    res.json(formatted);
   } catch (err) {
+    console.error("Error fetching gallery images:", err);
     res.status(500).json({ message: err.message });
   }
 });
@@ -248,20 +260,29 @@ router.get("/gallery/image/:id", async (req, res) => {
     let contentType = "image/jpeg";
     if (img.image.startsWith("data:")) {
       const match = img.image.match(/data:([^;]+);/);
-      if (match) {
+      if (match && match[1]) {
         contentType = match[1];
       }
     }
     
-    const base64Data = img.image.replace(/^data:image\/\w+;base64,/, "");
+    // Extract clean base64 data
+    let base64Data = img.image;
+    if (base64Data.includes(";base64,")) {
+      base64Data = base64Data.split(";base64,")[1];
+    } else {
+      base64Data = base64Data.replace(/^data:[^;]+;base64,/, "").replace(/^data:image\/\w+;base64,/, "");
+    }
+    
     const imgBuffer = Buffer.from(base64Data, 'base64');
     
     res.writeHead(200, {
       'Content-Type': contentType,
-      'Content-Length': imgBuffer.length
+      'Content-Length': imgBuffer.length,
+      'Cache-Control': 'public, max-age=86400, immutable'
     });
     res.end(imgBuffer);
   } catch (err) {
+    console.error("Error serving gallery image:", err);
     res.status(500).send("Error serving image");
   }
 });
@@ -287,7 +308,10 @@ router.post("/gallery", authMiddleware, async (req, res) => {
     img.imageUrl = `/api/gallery/image/${img._id}`;
     await img.save();
 
-    res.status(201).json(img);
+    const returnData = img.toObject();
+    delete returnData.image;
+
+    res.status(201).json(returnData);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -302,7 +326,7 @@ router.put("/gallery/:id", authMiddleware, async (req, res) => {
       updateData.image = image;
     }
     
-    const img = await GalleryImage.findByIdAndUpdate(req.params.id, updateData, { new: true });
+    const img = await GalleryImage.findByIdAndUpdate(req.params.id, updateData, { new: true }).select("-image");
     res.json(img);
   } catch (err) {
     res.status(400).json({ message: err.message });

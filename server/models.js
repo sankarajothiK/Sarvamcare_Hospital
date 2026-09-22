@@ -82,6 +82,8 @@ const GalleryImageSchema = new Schema({
   status: { type: String, default: "published" } // published, draft
 }, { timestamps: true });
 
+GalleryImageSchema.index({ createdAt: -1 });
+
 // 7. Appointment Schema
 const AppointmentSchema = new Schema({
   name: { type: String, required: true },
