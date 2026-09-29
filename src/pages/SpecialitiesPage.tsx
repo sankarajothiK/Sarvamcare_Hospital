@@ -69,7 +69,7 @@ export const SpecialitiesPage: React.FC = () => {
 
                   <div className="mt-6 pt-4 border-t border-[#F3EDFA] flex items-center justify-between">
                     <Link
-                      to={`/specialities/${dept.slug}`}
+                      to={`/specialities/${dept.id}`}
                       className="text-xs font-bold text-[#6D2FA0] hover:text-[#32105F] flex items-center gap-1 transition-colors"
                     >
                       <span>{language === "en" ? "Explore Services" : "மேலும் அறிய"}</span>

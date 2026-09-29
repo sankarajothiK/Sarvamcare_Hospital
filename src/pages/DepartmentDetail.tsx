@@ -149,9 +149,9 @@ export const DepartmentDetail: React.FC = () => {
         const currentDept = fallbackDepts[slug as keyof typeof fallbackDepts];
         if (currentDept) {
           setDept(currentDept);
-          // Fallback doctors from static database
+          const currentSlug = slug || "";
           const mappedDocs: DoctorData[] = staticDoctors
-            .filter((doc) => doc.specialties.includes(slug))
+            .filter((doc) => doc.specialties.includes(currentSlug))
             .map((doc) => {
               let designation = "Consultant Specialist";
               let tamilDesignation = "சிறப்பு ஆலோசகர்";
@@ -181,7 +181,7 @@ export const DepartmentDetail: React.FC = () => {
                 qualification: doc.qualification,
                 designation,
                 tamilDesignation,
-                departmentId: slug
+                departmentId: currentSlug
               };
             });
           setDoctors(mappedDocs);

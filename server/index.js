@@ -24,6 +24,18 @@ app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
+// Ensure MongoDB is connected for every request (critical for serverless / Vercel execution)
+app.use(async (req, res, next) => {
+  if (mongoose.connection.readyState < 1) {
+    try {
+      await mongoose.connect(MONGODB_URI);
+    } catch (err) {
+      console.error("MongoDB serverless connection error:", err);
+    }
+  }
+  next();
+});
+
 // Dynamic XML Sitemap Generator
 app.get("/sitemap.xml", async (req, res) => {
   res.set("Content-Type", "application/xml; charset=utf-8");
@@ -132,10 +144,11 @@ Sitemap: ${domain}/sitemap.xml`);
 // API Routing
 app.use("/api", apiRoutes);
 
-// Database Connection & Data Seeding
-mongoose
-  .connect(MONGODB_URI)
-  .then(async () => {
+// Database Connection & Data Seeding (for standalone / local server mode)
+if (!process.env.VERCEL) {
+  mongoose
+    .connect(MONGODB_URI)
+    .then(async () => {
     console.log("MongoDB connected successfully");
     
     // Seed initial admin if none exists
@@ -609,9 +622,10 @@ mongoose
   .catch(err => {
     console.error("MongoDB connection failed:", err);
   });
+}
 
-// Serve frontend static assets in production
-if (process.env.NODE_ENV === "production" || true) {
+// Serve frontend static assets in production (when run as standalone server)
+if (!process.env.VERCEL && (process.env.NODE_ENV === "production" || true)) {
   app.use(express.static(path.join(__dirname, "../dist")));
   
   app.get("*", async (req, res, next) => {
@@ -662,8 +676,10 @@ if (process.env.NODE_ENV === "production" || true) {
   });
 }
 
-// Start Server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// Start Server (only when not running in serverless Vercel environment)
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
 export default app;

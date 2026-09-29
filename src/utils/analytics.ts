@@ -76,7 +76,7 @@ export const logEvent = (eventName: string, params: object = {}): void => {
   }
 
   // Send to GA4
-  if (window.gtag && GA_MEASUREMENT_ID) {
+  if (window.gtag && activeGaId) {
     window.gtag("event", eventName, params);
   }
 
