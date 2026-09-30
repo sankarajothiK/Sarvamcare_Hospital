@@ -25,10 +25,22 @@ app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 // Ensure MongoDB is connected for every request (critical for serverless / Vercel execution)
+let cachedDbPromise = null;
+const connectDB = async () => {
+  if (mongoose.connection.readyState >= 1) return;
+  if (!cachedDbPromise) {
+    cachedDbPromise = mongoose.connect(MONGODB_URI).catch((err) => {
+      cachedDbPromise = null;
+      throw err;
+    });
+  }
+  await cachedDbPromise;
+};
+
 app.use(async (req, res, next) => {
   if (mongoose.connection.readyState < 1) {
     try {
-      await mongoose.connect(MONGODB_URI);
+      await connectDB();
     } catch (err) {
       console.error("MongoDB serverless connection error:", err);
     }

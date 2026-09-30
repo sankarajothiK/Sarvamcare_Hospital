@@ -225,26 +225,59 @@ export const AdminDashboard: React.FC = () => {
     navigate("/");
   };
 
+  // Helper to compress and optimize images before upload (prevents payload size errors)
+  const compressImageFile = (file: File, maxWidth = 1600, quality = 0.85): Promise<string> => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const result = e.target?.result as string;
+        if (!result) return resolve("");
+        const img = new Image();
+        img.onload = () => {
+          let { width, height } = img;
+          if (width > maxWidth || height > maxWidth) {
+            if (width > height) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            } else {
+              width = Math.round((width * maxWidth) / height);
+              height = maxWidth;
+            }
+          }
+          const canvas = document.createElement("canvas");
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext("2d");
+          if (!ctx) return resolve(result);
+          ctx.drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL("image/jpeg", quality));
+        };
+        img.onerror = () => resolve(result);
+        img.src = result;
+      };
+      reader.onerror = () => resolve("");
+      reader.readAsDataURL(file);
+    });
+  };
+
   // --- DOCTOR CRUD HANDLERS ---
-  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setDocForm(prev => ({ ...prev, profileImage: reader.result as string }));
-      };
-      reader.readAsDataURL(file);
+      const optimized = await compressImageFile(file, 800, 0.85);
+      if (optimized) {
+        setDocForm(prev => ({ ...prev, profileImage: optimized }));
+      }
     }
   };
 
-  const handleGalleryPhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleGalleryPhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setGalForm(prev => ({ ...prev, imageUrl: reader.result as string }));
-      };
-      reader.readAsDataURL(file);
+      const optimized = await compressImageFile(file, 1600, 0.85);
+      if (optimized) {
+        setGalForm(prev => ({ ...prev, imageUrl: optimized }));
+      }
     }
   };
 
